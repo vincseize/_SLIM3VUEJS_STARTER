@@ -47,7 +47,7 @@ This is a simple skeleton project for Slim 3 that includes Twig, Flash messages 
 * `dbname`: booking_vuejs.sql
 
 ## Usages
-* `tests`: to write ...
+* `tests`: to write...
 
 ## Todo
 
