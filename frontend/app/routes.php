@@ -23,10 +23,10 @@ $app->get('/api/test', function ($request, $response, $args) {
     // $res_test = Api::test();
 
     // as instance / object
-    $res_test = $api->testApi();
+    $res_test = $api->testConnectApi();
 
 
-    // ----- SAMPLE FOR DOUBLONS UNAUTHORIZE
+    // ----- SAMPLE FOR DOUBLONS UNAUTHORIZE, 'value' => false
     // $data = array( 
     //     'nom' => htmlspecialchars($faker->name), 
     //     'email' => 'toto' 
@@ -55,30 +55,37 @@ $app->get('/api/test', function ($request, $response, $args) {
 
 // ------------------ READ get
 
-// get all result
-$app->get('/api/clients', function ($request, $response, $args) {
-    $stmt = $this->db->prepare("SELECT * FROM clients ORDER BY id");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
+// Get all results
+// $app->get('/api/clients', function ($request, $response, $args) {
+$app->get('/api/[{table}]', function ($request, $response, $args) {
+    $sql = "SELECT * FROM ".$args['table']." ORDER BY id";
+    $sth = $this->db->prepare($sql);
+    // $sth = $this->db->prepare("SELECT * FROM clients ORDER BY id");
+    $sth->execute();
+    $result = $sth->fetchAll();
     return $this->response->withJson($result);
 });
 
-// Retrieve todo with id 
-$app->get('/api/clients/[{id}]', function ($request, $response, $args) {
-    $stmt = $this->db->prepare("SELECT * FROM clients WHERE id=:id");
-    $stmt->bindParam("id", $args['id']);
-    $stmt->execute();
-    $result = $stmt->fetchObject();
+// Get result with id
+// $app->get('/api/clients/[{id}]', function ($request, $response, $args) {
+$app->get('/api/{table}/[{id}]', function ($request, $response, $args) {
+    // $sql = "SELECT * FROM clients WHERE id=:id";
+    $sql = "SELECT * FROM ".$args['table']." WHERE id=:id";
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam("id", $args['id']);
+    $sth->execute();
+    $result = $sth->fetchObject();
     return $this->response->withJson($result);
 });
 	
-// Search with given search term
-$app->get('/api/clients/search/[{query}]', function ($request, $response, $args) {
-    $stmt = $this->db->prepare("SELECT * FROM clients WHERE nom LIKE :query ORDER BY nom");
-    $query = "%".$args['query']."%";
-    $stmt->bindParam("query", $query);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
+// Get result with given search term
+$app->get('/api/{table}/search/[{value}]', function ($request, $response, $args) {
+    $sql = "SELECT * FROM ".$args['table']." WHERE nom LIKE :value ORDER BY nom";
+    $sth = $this->db->prepare($sql);
+    $query = "%".$args['value']."%";
+    $sth->bindParam("value", $query);
+    $sth->execute();
+    $result = $sth->fetchAll();
     return $this->response->withJson($result);
 });
 
@@ -88,9 +95,9 @@ $app->get('/api/clients/search/[{query}]', function ($request, $response, $args)
 $app->post('/api/clients', function ($request, $response) {
     $input = $request->getParsedBody();
     $sql = "INSERT INTO clients (client) VALUES (:client)";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindParam("nom", $input['nom']);
-    $stmt->execute();
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam("nom", $input['nom']);
+    $sth->execute();
     $input['id'] = $this->db->lastInsertId();
     return $this->response->withJson($input);
 });
@@ -101,21 +108,23 @@ $app->post('/api/clients', function ($request, $response) {
 $app->put('/api/clients/[{id}]', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindParam("id", $args['id']);
-    $stmt->bindParam("nom", $input['nom']);
-    $stmt->execute();
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam("id", $args['id']);
+    $sth->bindParam("nom", $input['nom']);
+    $sth->execute();
     $input['id'] = $args['id'];
     return $this->response->withJson($input);
 });
 
 // ------------------ DELETE delete
 	
-// Delete
-$app->delete('/api/clients/[{id}]', function ($request, $response, $args) {
-    $stmt = $this->db->prepare("DELETE FROM clients WHERE id=:id");
-    $stmt->bindParam("id", $args['id']);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
+// Delete by id
+$app->delete('/api/{table}/[{id}]', function ($request, $response, $args) {
+    $result = "False";
+    $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam("id", $args['id']);
+    $sth->execute();
+    if($sth->rowCount()==1){$result = "True";}
     return $this->response->withJson($result);
 });

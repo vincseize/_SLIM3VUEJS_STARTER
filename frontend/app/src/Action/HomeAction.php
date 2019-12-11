@@ -23,7 +23,8 @@ final class HomeAction
 
 
         $viewData = [
-            'infos' => 'page by twig process',
+            'text1' => 'page processing : by twig',
+            'text2' => 'this text is a variable too from '. basename(__FILE__)
         ];
 
         // get all result

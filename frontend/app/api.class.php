@@ -33,10 +33,10 @@
 
         
         /*
-            To map keys values
-            nom,email,... => :nom,:email,:...
+            To map keys for values
+            nom=>,email=>,... ----> :nom=>,:email=>,:...
         */
-        public function changeKey( $array, $old_key, $new_key ) {
+        public function renameKey( $array, $old_key, $new_key ) {
             $array[$new_key] = $array[$old_key];
             unset($array[$old_key]);
             return $array;
@@ -72,8 +72,8 @@
         /*  For Tests
             The function will insert a new client in our database
         */
-        public function testApi(){
-            $result = '<br>-- api CONNECT [OK]<br>';
+        public function testConnectApi(){
+            $result = '<br>-- api CONNECT [<font color=green>OK</font>]<br>';
             echo $result;
         }
 
@@ -90,7 +90,7 @@
 
                 foreach($dataBindsList as $key => $value){
                     $new_key = ':'.$key;
-                    $dataBindsList = $this->changeKey( $dataBindsList, $key, $new_key );
+                    $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
                 }
 
                 $binds = array_keys($dataBindsList); 
@@ -107,13 +107,13 @@
                     
                     $sth = $this->db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
                     if($sth->execute($data)){
-                        $title_result = '<br>-- data INSERT [OK]<br>';
+                        $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
                         print_r($title_result);
                         print_r ($data);
                         print_r('<br><br>');
 
                     }else{
-                        $result = '-- > FAILURE';
+                        $result = '-- > <font color=red>FAILURE</font>';
                     }
 
                 }else{
@@ -125,7 +125,7 @@
     
                     if(count($doublons_result)>0){
                         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
-                        $title_result = '<br>-- data REPLACE [OK]<br><br>';
+                        $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
                         print_r($title_result);
                     }
 
@@ -134,7 +134,7 @@
                 $result = $this->populateToHtml();
 
             } catch (Exception $e) {
-                $error = '-- ERROR in ' . basename(__FILE__) . '<br>';
+                $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
                 $result = $error.$e->getMessage();
                 return $result;
             }
@@ -159,7 +159,6 @@
             print "</tr>";
             $i = 0;
             foreach ($result as $row){
-                // $i++;
                 $var = ( $i++%2 == 0 ) ? 0 : 1 ;
                 $style = "style='background-color:#B0E0E6;'";
                 if ( $var == 1 ){$style = "style='background-color:#E0FFFF;'";}
@@ -172,7 +171,9 @@
             }
             print "</table>";
             echo '[...]';
-            echo '<br>';   
+            echo '<br>';
+            echo '<br>';
+            echo "<input type='button' value='ADD Fake Entry' onClick='window.location.reload();'>";
         }
 
 
