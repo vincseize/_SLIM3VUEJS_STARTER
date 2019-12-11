@@ -69,12 +69,36 @@
 
         }
 
-        /*  For Tests
-            The function will insert a new client in our database
-        */
         public function testConnectApi(){
             $result = '<br>-- api CONNECT [<font color=green>OK</font>]<br>';
             echo $result;
+        }
+
+        public function prepareInsert($fieldsList,$bindsList){
+            $sql = "INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)";
+            $result = $this->db->prepare($sql);
+            return $result;
+        }
+
+        /*  For Tests
+            The function will bind params
+            nom=>,email=>,... ----> :nom=>,:email=>,:...
+        */
+        public function getBinds($data){
+            $result = array();
+
+            $dataBindsList = $data;
+            foreach($dataBindsList as $key => $value){
+                $new_key = ':'.$key;
+                $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
+            }
+
+            $binds = array_keys($dataBindsList); 
+            $bindsList = implode(',',$binds); 
+            $fields = array_keys($data);
+            $fieldsList = implode(',',$fields); 
+            array_push($result, $fieldsList, $bindsList);
+            return $result;
         }
 
         /*  For Tests
@@ -86,17 +110,21 @@
                 $doublons_value = $doublons['value'];
                 $doublons_col = $doublons['col'];
 
-                $dataBindsList = $data;
+                // $dataBindsList = $data;
 
-                foreach($dataBindsList as $key => $value){
-                    $new_key = ':'.$key;
-                    $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
-                }
+                // foreach($dataBindsList as $key => $value){
+                //     $new_key = ':'.$key;
+                //     $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
+                // }
 
-                $binds = array_keys($dataBindsList); 
-                $bindsList = implode(',',$binds); 
-                $fields = array_keys($data);
-                $fieldsList = implode(',',$fields); 
+                // $binds = array_keys($dataBindsList); 
+                // $bindsList = implode(',',$binds); 
+                // $fields = array_keys($data);
+                // $fieldsList = implode(',',$fields); 
+
+                $fieldsList = $this->getBinds($data)[0];
+                $bindsList = $this->getBinds($data)[1];
+
                 print_r('<br>--$fieldsList--<br>');
                 echo ($fieldsList);
                 print_r('<br>--$bindsList--<br>');
@@ -105,7 +133,8 @@
 
                 if($doublons_value==true){
                     
-                    $sth = $this->db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
+                    // $sth = $this->db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
+                    $sth = $this->prepareInsert($fieldsList,$bindsList);
                     if($sth->execute($data)){
                         $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
                         print_r($title_result);
@@ -143,7 +172,7 @@
 
 
         /*  For Tests
-            Human render
+            Human Html render
         */
         public function populateToHtml() {
             $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,10";
@@ -174,6 +203,9 @@
             echo '<br>';
             echo '<br>';
             echo "<input type='button' value='ADD Fake Entry' onClick='window.location.reload();'>";
+            echo '<br>';
+            echo '<br>';
+            echo "<input type='button' value='SEARCH Entry by default col[ID]/[your search]'  onClick=\"window.open('../api/".$this->table."/search/id/XXX','_blank');\">";
         }
 
 
