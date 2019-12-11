@@ -79,8 +79,8 @@ $app->get('/api/{table}/[{id}]', function ($request, $response, $args) {
 });
 	
 // Get result with given search term
-$app->get('/api/{table}/search/[{value}]', function ($request, $response, $args) {
-    $sql = "SELECT * FROM ".$args['table']." WHERE nom LIKE :value ORDER BY nom";
+$app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, $args) {
+    $sql = "SELECT * FROM ".$args['table']." WHERE ".$args['col']." LIKE :value ORDER BY ".$args['col']."";
     $sth = $this->db->prepare($sql);
     $query = "%".$args['value']."%";
     $sth->bindParam("value", $query);
@@ -94,7 +94,7 @@ $app->get('/api/{table}/search/[{value}]', function ($request, $response, $args)
 // Add
 $app->post('/api/clients', function ($request, $response) {
     $input = $request->getParsedBody();
-    $sql = "INSERT INTO clients (client) VALUES (:client)";
+    $sql = "INSERT INTO clients (nom) VALUES (:nom)";
     $sth = $this->db->prepare($sql);
     $sth->bindParam("nom", $input['nom']);
     $sth->execute();
