@@ -151,7 +151,7 @@
             $sth->execute(); 
             $result = $sth->fetchAll(PDO::FETCH_ASSOC);
             print "<table width='100%'>";
-            print "<tr>\n";
+            print "<tr>";
             foreach ($result[0] as $row => $v){
                 print "<th style='background-color:grey;'>$row</th>";   
             }
