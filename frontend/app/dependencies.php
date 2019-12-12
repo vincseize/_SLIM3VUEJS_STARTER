@@ -37,6 +37,34 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// Faker class for fake data
+$container['faker'] = function ($c) {
+    // $faker = Faker\Factory::create();
+    return Faker\Factory::create();
+};
+
+// -----------------------------------------------------------------------------
+// Service database
+// -----------------------------------------------------------------------------
+	
+// PDO database library 
+$container['db'] = function ($c) {
+    $settings = $c->get('settings')['db'];
+    $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
+        $settings['user'], $settings['passwd']);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    return $pdo;
+};
+
+// Api class
+$container['Api'] = function ($c) {
+    // $settings = $c->get('settings')['db'];
+    // $Api = new Api($settings,'clients');
+    // return $Api;
+    return Api::class;
+};
+
 // -----------------------------------------------------------------------------
 // Action factories twig
 // -----------------------------------------------------------------------------
@@ -53,14 +81,8 @@ $container[App\Action\HelloAction::class] = function ($c) {
     return new App\Action\HelloAction($c->get('view'), $c->get('logger'));
 };
 
-// ----------------------------------------------------
-	
-// PDO database library 
-$container['db'] = function ($c) {
-    $settings = $c->get('settings')['db'];
-    $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
-        $settings['user'], $settings['passwd']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    return $pdo;
+$container[App\Action\TestApiAction::class] = function ($c) {
+    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'));
 };
+
+

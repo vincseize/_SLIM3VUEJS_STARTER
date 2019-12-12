@@ -3,6 +3,7 @@
 // ROUTES
 
 // use Slim\Views\Twig;
+// IMPORTANT : In relation with dependencies.php
 
 $app->get('/', App\Action\HomeAction::class)
     ->setName('homepage');
@@ -12,6 +13,11 @@ $app->get('/time', App\Action\TimeAction::class)
     
 $app->get('/hello', App\Action\HelloAction::class)
     ->setName('hello');
+
+$app->get('/testApi', App\Action\TestApiAction::class)
+    ->setName('testApi');
+
+// --------------------------------
 
 $app->get('/api/test', function ($request, $response, $args) {
 
@@ -63,6 +69,7 @@ $app->get('/api/[{table}]', function ($request, $response, $args) {
     // $sth = $this->db->prepare("SELECT * FROM clients ORDER BY id");
     $sth->execute();
     $result = $sth->fetchAll();
+    // print_r($request);
     return $this->response->withJson($result);
 });
 
@@ -105,7 +112,7 @@ $app->post('/api/clients', function ($request, $response) {
 // ------------------ UPDATE put
 
 // Update
-$app->put('/api/clients/[{id}]', function ($request, $response, $args) {
+$app->put('/api/clients/update/[{id}]', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
     $sth = $this->db->prepare($sql);
@@ -119,12 +126,12 @@ $app->put('/api/clients/[{id}]', function ($request, $response, $args) {
 // ------------------ DELETE delete
 	
 // Delete by id
-$app->delete('/api/{table}/[{id}]', function ($request, $response, $args) {
-    $result = "False";
+$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
+    $result = 0;
     $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
     $sth = $this->db->prepare($sql);
     $sth->bindParam("id", $args['id']);
     $sth->execute();
-    if($sth->rowCount()==1){$result = "True";}
+    $result = $sth->rowCount();
     return $this->response->withJson($result);
 });

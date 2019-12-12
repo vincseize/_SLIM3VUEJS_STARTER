@@ -160,7 +160,8 @@
 
                 }
 
-                $result = $this->populateToHtml();
+                $n_results = 16;
+                $result = $this->populateToHtml($n_results);
 
             } catch (Exception $e) {
                 $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
@@ -174,8 +175,9 @@
         /*  For Tests
             Human Html render
         */
-        public function populateToHtml() {
-            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,10";
+        public function populateToHtml($n_results=10) {
+            $idToDelete=1;
+            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
             $sth = $this->db->prepare($sql);
             $sth->execute(); 
             $result = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -193,6 +195,7 @@
                 if ( $var == 1 ){$style = "style='background-color:#E0FFFF;'";}
                 print "<tr $style>";
                 foreach ($row as $key => $val){
+                    if($key=='id'){$idToDelete=$val;}
                     print "<td>$val</td>";
                 }
                 print "<td align='center'><font color=red><b>X</b></font></td>";
@@ -200,14 +203,54 @@
             }
             print "</table>";
             echo '[...]';
-            echo '<br>';
-            echo '<br>';
-            echo "<input type='button' value='ADD Fake Entry' onClick='window.location.reload();'>";
-            echo '<br>';
-            echo '<br>';
-            echo "<input type='button' value='SEARCH Entry by default col[ID]/[your search]'  onClick=\"window.open('../api/".$this->table."/search/id/XXX','_blank');\">";
+
+            echo "<br>";
+            echo "<br>";
+            echo "<input type='button' value='ADD Fake Entry' onClick='window.location.reload();' style='width:200px'>";
+            echo "<br>";
+            echo "<br>";
+
+            echo "<input type='button' value='SEARCH' style='width:200px'"; 
+            echo " onClick=\"";
+            echo " c = document.getElementById('search_select_col');";
+            echo " var col = c.options[c.selectedIndex].value;";
+            echo " var search = document.getElementById('search_input').value;"; 
+            echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+
+            echo "&nbsp;<select id='search_select_col'>";
+            foreach ($result[0] as $row => $v){
+                $selected = "";
+                if($row == "nom"){$selected = " selected";}
+                echo "<option $selected>$row</option>";  
+            }
+            echo "</select>";
+
+            echo "&nbsp;<input id='search_input' type='text' value='Vincseize'>";
+
+            echo "<br>";
+            echo "<br>";
+            echo "<form action='http://127.0.0.1/_SLIM3VUEJS_STARTER/frontend/public/api/clients/delete/673' target='_blank' method='DELETE' if-match='*' enctype='multipart/form-data'>";
+            echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
+            echo "onClick=\"";
+            echo " var id = document.getElementById('delete_input').value;";
+            echo " window.open('../api/".$this->table."/delete/'+id+'','_blank');\">";
+            echo "&nbsp;<input id='delete_input' type='text' value='".$idToDelete."'>";
+            echo "<input type='submit' />";
+            echo "</form>";
+
         }
 
+        // function delete_test(){
+        //     $this->$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
+        //         $result = 0;
+        //         $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
+        //         $sth = $this->db->prepare($sql);
+        //         $sth->bindParam("id", $args['id']);
+        //         $sth->execute();
+        //         $result = $sth->rowCount();
+        //         return $this->response->withJson($result);
+        //     });
+        // }
 
 
         // /*  The Create Operation 
