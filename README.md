@@ -60,3 +60,7 @@ Frontend :
 * `crud`: delete update
 * `restful`: delete update
 
+## Changelog
+
+* `npm by`: npm install -g auto-changelog / https://github.com/CookPete/auto-changelog#what-you-might-do-if-youre-clever
+
