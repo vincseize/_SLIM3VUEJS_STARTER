@@ -1,6 +1,8 @@
 # Slim 3 Skeleton
 
 This is a starter project for Slim 3 : 
+- Restful API
+- Crud API
 - includes Twig, Flash messages and Monolog
 - includes Bootstrap 3.0.2
 
