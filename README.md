@@ -1,10 +1,10 @@
-# Slim 3 Skeleton
+# Slim 3 Starter
 
-This is a starter project for Slim 3 : 
+Frontend : 
 - Restful API
 - Crud API
-- includes Twig, Flash messages and Monolog
-- includes Bootstrap 3.0.2
+- includes Twig, Flash messages Monolog, Faker libraries
+- includes Bootstrap 3.0.2, own styles.css
 
 ## Create your project:
 
@@ -56,6 +56,7 @@ This is a starter project for Slim 3 :
 
 ## Todo
 
-* `twig`: send or get data
-* `classes`: use own
+* `twig`: send data
+* `crud`: delete update
+* `restful`: delete update
 
