@@ -1,6 +1,8 @@
 # Slim 3 Skeleton
 
-This is a simple skeleton project for Slim 3 that includes Twig, Flash messages and Monolog.
+This is a starter project for Slim 3 : 
+- includes Twig, Flash messages and Monolog
+- includes Bootstrap 3.0.2
 
 ## Create your project:
 

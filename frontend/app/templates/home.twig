@@ -2,19 +2,19 @@
     <head>
         <meta charset="utf-8"/>
         <title>Slim 3</title>
-        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+
         <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <h1>Slim</h1>
+        <h1>Slim3</h1>
         <div>a microframework for PHP</div>
         <p>&nbsp;</p>
-        <div>Starter Sample : restful API, twig</div>
+        <div>Starter Sample : restful API, CRUD, twig</div>
         <p>&nbsp;</p>
         <div>{{ text1 }}</div>
         <div>{{ text2 }}</div>
         <p>&nbsp;</p>
-        <input type="button" value="Test API (in a new page from/considerating routes.php)" onClick="window.open('../public/api/test','_blank');">
+        <input type="button" value="Test API (in a new page from/considerating routes.php)" onClick="window.open('{{ base_url() }}/api/test','_blank');">
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>

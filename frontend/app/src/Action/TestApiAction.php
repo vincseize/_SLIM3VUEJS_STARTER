@@ -30,26 +30,33 @@ final class TestApiAction
     {
         $this->logger->info("Hello page action dispatched");
         
-        // $table='clients';
-        // $api = new Api($this->db,$table);
-        // $faker = Faker\Factory::create();
-
-        $Api_clients = new $this->Api($this->db,'clients');
+        $table='clients';
+        $Api_clients = new $this->Api($this->db,$table);
         $faker = $this->faker;
 
+        $testConnectApi='FALSE';
+        $testConnectApi = $Api_clients->testConnectApi();
 
-        $res_test = $Api_clients->testConnectApi();
-        // $res_test = $this->db->testConnectApi();
+        $data = array( 
+            'nom' => htmlspecialchars($faker->name), 
+            'email' => htmlspecialchars($faker->email) 
+        );
+        $doublons = array( 'col' => 'email', 'value' => true );
+    
+        // as instance / object
+        // $res_populate = $Api_clients->populate($data,$doublons);
+
+        $table_fetchAll = $Api_clients->selectTest();
 
 
         $viewData = [
             'now' => date('Y-m-d H:i:s'),
-            'hello' => 'hella'
+            'res_test'=> $testConnectApi,
+            'table' => $table,
+            'table_fetchAll' => $table_fetchAll
         ];
-    
-        // return $this->get(Twig::class)->render($response, 'time.twig', $viewData);
 
-        $this->view->render($response, 'hello.twig', $viewData);
+        $this->view->render($response, 'testApi.twig', $viewData);
         return $response;
     }
 }

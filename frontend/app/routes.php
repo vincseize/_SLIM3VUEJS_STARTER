@@ -112,16 +112,28 @@ $app->post('/api/clients', function ($request, $response) {
 // ------------------ UPDATE put
 
 // Update
-$app->put('/api/clients/update/[{id}]', function ($request, $response, $args) {
+$app->put('/api/clients/update/{id}/[{nom}]', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
     $sth = $this->db->prepare($sql);
     $sth->bindParam("id", $args['id']);
-    $sth->bindParam("nom", $input['nom']);
+    $sth->bindParam("nom", $args['nom']);
     $sth->execute();
     $input['id'] = $args['id'];
     return $this->response->withJson($input);
 });
+
+// Update by form
+// $app->put('/api/clients/update/[{id}]', function ($request, $response, $args) {
+//     $input = $request->getParsedBody();
+//     $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
+//     $sth = $this->db->prepare($sql);
+//     $sth->bindParam("id", $args['id']);
+//     $sth->bindParam("nom", $input['nom']);
+//     $sth->execute();
+//     $input['id'] = $args['id'];
+//     return $this->response->withJson($input);
+// });
 
 // ------------------ DELETE delete
 	

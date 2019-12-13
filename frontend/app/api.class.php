@@ -70,8 +70,9 @@
         }
 
         public function testConnectApi(){
-            $result = '<br>-- api CONNECT [<font color=green>OK</font>]<br>';
-            echo $result;
+            // $result = '<br>-- api CONNECT [<font color=green>OK</font>]<br>';
+            // echo $result;
+            return 'TRUE';
         }
 
         public function prepareInsert($fieldsList,$bindsList){
@@ -172,6 +173,23 @@
         }
 
 
+
+
+        public function selectTest($n_results=10) {
+            $idToDelete=1;
+            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
+            $sth = $this->db->prepare($sql);
+            $sth->execute(); 
+            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }
+
+
+
+
+
+
+
         /*  For Tests
             Human Html render
         */
@@ -186,7 +204,7 @@
             foreach ($result[0] as $row => $v){
                 print "<th style='background-color:grey;'>$row</th>";   
             }
-            print "<th style='background-color:grey;'><font color=red><b>Delete(all)</b></font></th>"; 
+            print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>"; 
             print "</tr>";
             $i = 0;
             foreach ($result as $row){
@@ -215,7 +233,8 @@
             echo " c = document.getElementById('search_select_col');";
             echo " var col = c.options[c.selectedIndex].value;";
             echo " var search = document.getElementById('search_input').value;"; 
-            echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+            // echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+            echo " window.open('api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
 
             echo "&nbsp;<select id='search_select_col'>";
             foreach ($result[0] as $row => $v){
@@ -233,7 +252,8 @@
             echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
             echo "onClick=\"";
             echo " var id = document.getElementById('delete_input').value;";
-            echo " window.open('../api/".$this->table."/delete/'+id+'','_blank');\">";
+            // echo " window.open('../api/".$this->table."/delete/'+id+'','_blank');\">";
+            echo " window.open('api/".$this->table."/delete/'+id+'','_blank');\">";
             echo "&nbsp;<input id='delete_input' type='text' value='".$idToDelete."'>";
             echo "<input type='submit' />";
             echo "</form>";
