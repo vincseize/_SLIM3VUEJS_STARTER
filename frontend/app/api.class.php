@@ -260,6 +260,17 @@
 
         }
 
+        // /*  The Delete Operation 
+        //     The function will delete by id our table
+        // */
+        public function delete($id){
+            $sql = "DELETE FROM $this->table WHERE id = '".$id."'";
+            $sth = $this->db->prepare($sql);
+            if(!$sth->execute()) {
+                return "FALSE";
+            }
+        }
+
         // function delete_test(){
         //     $this->$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
         //         $result = 0;

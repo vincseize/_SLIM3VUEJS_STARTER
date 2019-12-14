@@ -29,8 +29,9 @@ final class TestApiAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $this->logger->info("Hello page action dispatched");
-        
-        $table='clients';
+        // echo basename($_SERVER['REQUEST_URI']);
+        // $table='clients';
+        $table=basename($_SERVER['REQUEST_URI']);
         $Api = new $this->Api($this->db,$table);
         $faker = $this->faker;
 
@@ -54,10 +55,10 @@ final class TestApiAction
             'res_test'=> $testConnectApi,
 
             // to do better
-            'host' => $this->settings['db']['host'],
-            'dbname' => $this->settings['db']['dbname'],
-            'user' => $this->settings['db']['user'],
-            'passwd' => $this->settings['db']['passwd'],
+            // 'host' => $this->settings['db']['host'],
+            // 'dbname' => $this->settings['db']['dbname'],
+            // 'user' => $this->settings['db']['user'],
+            // 'passwd' => $this->settings['db']['passwd'],
             'table' => $table,
 
             'table_fetchAll' => $table_fetchAll,

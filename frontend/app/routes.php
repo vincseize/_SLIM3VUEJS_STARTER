@@ -14,7 +14,7 @@ $app->get('/time', App\Action\TimeAction::class)
 $app->get('/hello', App\Action\HelloAction::class)
     ->setName('hello');
 
-$app->get('/testApi', App\Action\TestApiAction::class)
+$app->get('/testApi/[{table}]', App\Action\TestApiAction::class)
     ->setName('testApi');
 
 // --------------------------------

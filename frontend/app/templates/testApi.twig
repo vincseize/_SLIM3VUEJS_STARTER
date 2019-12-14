@@ -127,7 +127,7 @@ function clear_delete_checkbox(){
             $('.checkbox-delete:checked').each(function(i){
                 ids[i] = $(this).val();
             });
-            if(ids.length === 0) //tell you if the array is empty
+            if(ids.length === 0)
             {
                 alert("Please Select at least one checkbox");
             } else {
@@ -137,7 +137,7 @@ function clear_delete_checkbox(){
                 $.ajax({
                 url:'../app/_crud_delete.php',
                 method:'POST',
-                data:{ids:ids,host:'{{ host }}',dbname:'{{ dbname }}',user:'{{ user }}',passwd:'{{ passwd }}',table:'{{ table }}',api:'{{ api }}'},
+                data:{table:'{{ table }}',ids:ids,crud:'delete'},
                 success:function(response)
                 {
                     console.log(response);
@@ -148,7 +148,7 @@ function clear_delete_checkbox(){
                         });
                         clear_delete_checkbox();
                         setTimeout(function(){ 
-                            location.reload();
+                            location.reload(); // optional
                         }, 1000);
                     }
                 },
@@ -172,8 +172,6 @@ function clear_delete_checkbox(){
         } else {    
             clear_delete_checkbox();
         }
-
-
 
     });
 
