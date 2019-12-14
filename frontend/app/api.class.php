@@ -234,7 +234,7 @@
             echo " var col = c.options[c.selectedIndex].value;";
             echo " var search = document.getElementById('search_input').value;"; 
             // echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
-            echo " window.open('api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+            echo " window.open('".$this->table."/search/'+col+'/'+search+'','_blank');\">";
 
             echo "&nbsp;<select id='search_select_col'>";
             foreach ($result[0] as $row => $v){
@@ -252,8 +252,8 @@
             echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
             echo "onClick=\"";
             echo " var id = document.getElementById('delete_input').value;";
-            // echo " window.open('../api/".$this->table."/delete/'+id+'','_blank');\">";
-            echo " window.open('api/".$this->table."/delete/'+id+'','_blank');\">";
+            echo " window.open('".$this->table."/delete/'+id+'','_blank');\">";
+            // echo " window.open('api/".$this->table."/delete/'+id+'','_blank');\">";
             echo "&nbsp;<input id='delete_input' type='text' value='".$idToDelete."'>";
             echo "<input type='submit' />";
             echo "</form>";
