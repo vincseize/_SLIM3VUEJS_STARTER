@@ -57,6 +57,32 @@ $container['db'] = function ($c) {
     return $pdo;
 };
 
+// PDO database library 
+$container['listTables'] = function ($c) {
+    $settings = $c->get('settings')['db'];
+    $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
+        $settings['user'], $settings['passwd']);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+ 
+//Our SQL statement, which will select a list of tables from the current MySQL database.
+$sql = "SHOW TABLES";
+ 
+//Prepare our SQL statement,
+$statement = $pdo->prepare($sql);
+ 
+//Execute the statement.
+$statement->execute();
+ 
+//Fetch the rows from our statement.
+$tables = $statement->fetchAll(PDO::FETCH_NUM);
+return $tables;
+};
+
+
+
+
+
 // Api class
 $container['Api'] = function ($c) {
     // $settings = $c->get('settings')['db'];
@@ -82,7 +108,7 @@ $container[App\Action\HelloAction::class] = function ($c) {
 };
 
 $container[App\Action\TestApiAction::class] = function ($c) {
-    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'), $c->get('settings'));
+    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'), $c->get('settings'), $c->get('listTables'));
 };
 
 
