@@ -135,9 +135,9 @@ function clear_delete_checkbox(){
             if(confirm("Are you sure you want to delete this "+ ids +" ?"))
             {
                 $.ajax({
-                url:'_crud_delete.php',
+                url:'../app/_crud_delete.php',
                 method:'POST',
-                data:{ids:ids},
+                data:{ids:ids,host:'{{ host }}',dbname:'{{ dbname }}',user:'{{ user }}',passwd:'{{ passwd }}',table:'{{ table }}',api:'{{ api }}'},
                 success:function(response)
                 {
                     console.log(response);

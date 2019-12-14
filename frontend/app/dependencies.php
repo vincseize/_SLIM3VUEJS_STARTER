@@ -82,7 +82,7 @@ $container[App\Action\HelloAction::class] = function ($c) {
 };
 
 $container[App\Action\TestApiAction::class] = function ($c) {
-    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'));
+    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'), $c->get('settings'));
 };
 
 
