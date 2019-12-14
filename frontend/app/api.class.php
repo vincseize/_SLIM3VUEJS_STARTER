@@ -1,7 +1,7 @@
 <?php 
     /*
         Author: Vincseize
-        Post: PHP Rest API Example using SLIM
+        Post: generic Php API
     */
 
     class Api{
@@ -15,6 +15,9 @@
         function __construct($db,$table){
             $this->db = $db;
             $this->table = $table;
+
+            // $faker = Faker\Factory::create();
+            // $this->faker = $faker;
         }
 
         /*
@@ -101,6 +104,84 @@
             array_push($result, $fieldsList, $bindsList);
             return $result;
         }
+
+
+
+
+        /*  For Tests
+            The function will populate table with fake values
+        */
+        public function addFake($data,$doublons){
+            try {
+
+                $doublons_value = $doublons['value'];
+                $doublons_col = $doublons['col'];
+
+                $fieldsList = $this->getBinds($data)[0];
+                $bindsList = $this->getBinds($data)[1];
+
+                print_r('<br>--$fieldsList--<br>');
+                echo ($fieldsList);
+                print_r('<br>--$bindsList--<br>');
+                print_r($bindsList);
+                print_r('<br><br>');
+
+                if($doublons_value==true){
+                    
+                    $sth = $this->prepareInsert($fieldsList,$bindsList);
+                    if($sth->execute($data)){
+                        $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
+                        print_r($title_result);
+                        print_r ($data);
+                        print_r('<br><br>');
+
+                    }else{
+                        $result = '-- > <font color=red>FAILURE</font>';
+                    }
+
+                }else{
+
+                    $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
+                    print_r('<br>--$doublons_result--<br>');
+                    print_r ($doublons_result);
+                    print_r ( count($doublons_result));
+    
+                    if(count($doublons_result)>0){
+                        $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
+                        $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
+                        print_r($title_result);
+                    }
+
+                }
+
+                $n_results = 16;
+                $result = $this->populateToHtml($n_results);
+
+            } catch (Exception $e) {
+                $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
+                $result = $error.$e->getMessage();
+                return $result;
+            }
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /*  For Tests
             The function will populate choosed table with fake values
