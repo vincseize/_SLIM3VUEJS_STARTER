@@ -103,6 +103,86 @@
             {% endfor %}
         </tbody>
     </table>
+    <!-- <input type='button' value='ADD Fake Entry' onClick='window.location.reload();' style='width:200px'> -->
+    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary">ADD Fake Entry</button>
+
+<br>
+
+<!-- 
+<div class="d-flex align-items-end">
+
+        <div class="p-2">
+            <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-primary" styleX='width:200px'
+            onClick="
+            c = document.getElementById('search_select_col_restful');
+            var col = c.options[c.selectedIndex].value;
+            var search = document.getElementById('search_input_restful').value;
+            window.open('api/{{ table }}/search/'+col+'/'+search+'','_blank');
+            ">
+            RESTFUL SEARCH by
+            </button>
+        </div>
+
+
+        <div class="p-2">
+            &nbsp;<select name='search_select_col_restful' id='search_select_col_restful' class="form-control">
+                {% for key, value in table_fetchAll[0] %}
+                    <option>{{ key }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="p-2">
+            &nbsp;<input name='search_input_restful' id='search_input_restful' class="form-control" type='text' value='Vincseize'>
+        </div>
+
+</div>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">     -->
+        <div class="input-group"> 
+            <span class="input-group-btn">
+                <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-default" styleX='width:200px'>
+                <i class="fa fa-search"></i>&nbsp;&nbsp;RESTFUL Filter by</span>
+                </button>      
+
+                <select name='search_select_col_restful' id='search_select_col_restful' class="form-control" style="width:auto;">
+                    {% for key, value in table_fetchAll[0] %}
+                        <option>{{ key }}</option>
+                    {% endfor %}
+                </select>
+                <input name='search_input_restful' id='search_input_restful' class="form-control" type='text' value='Miss' style="width:auto;">    
+            </span>
+        </div>
+<!-- </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </div>
 </main>  
@@ -115,12 +195,23 @@
 <script>
 $(document).ready(function(){
 
-function clear_delete_checkbox(){
-    $('.checkbox-delete').each(function(){
-        $('.checkbox-delete').prop('checked', false);
+    function clear_delete_checkbox(){
+        $('.checkbox-delete').each(function(){
+            $('.checkbox-delete').prop('checked', false);
+        });
+        $('#btn_delete_all').prop('checked', false);
+    }
+
+    $('#btn_search_by').click(function(){
+        // console.log('click');
+
+        c = document.getElementById('search_select_col_restful');
+                var col = c.options[c.selectedIndex].value;
+                var search = document.getElementById('search_input_restful').value;
+                window.open('api/{{ table }}/search/'+col+'/'+search+'','_blank');
+
     });
-    $('#btn_delete_all').prop('checked', false);
-}
+
 
     $('#btn_delete').click(function(){
             var ids = [];
@@ -135,7 +226,7 @@ function clear_delete_checkbox(){
             if(confirm("Are you sure you want to delete this "+ ids +" ?"))
             {
                 $.ajax({
-                url:'../app/_crud_delete.php',
+                url:'../app/_crud.php',
                 method:'POST',
                 data:{table:'{{ table }}',ids:ids,crud:'delete'},
                 success:function(response)
