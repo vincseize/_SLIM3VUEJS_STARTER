@@ -2,21 +2,21 @@
 
         <link href='{{ base_url() }}/css/styles_home.css' rel='stylesheet' type='text/css'>
 
-        <title>Slim3 Backend Login</title>
+        <title>Slim3 {{ text0 }} Sample</title>
 
     </head>
     <body>
         <h1>Slim3</h1>
         <div>a microframework for PHP</div>
         <p>&nbsp;</p>
-        <div><b>Backend</b> Starter Sample : restful API, CRUD, twig, Bootstrap</div>
+        <div><b>{{ text0 }}</b> Starter Sample : restful API, CRUD, twig, Bootstrap, VueJs</div>
         <p>&nbsp;</p>
         <div>{{ text1 }}</div>
         <div>{{ text2 }}</div>
         <p>&nbsp;</p>
         <input type="button" id="go" name="go"  
             class="btn btn-primary" 
-            value="GO Test backend API (from/considerating routes.php)"
+            value="GO Test {{ text0 }} API (from/considerating routes.php)"
         >
         <p>&nbsp;</p>
         <p>&nbsp;</p>
@@ -29,7 +29,7 @@
 
 <script>
     $(document).ready(function(){
-            $('#go').click(function(){
+        $('#go').click(function(){
             url = '{{ base_url() }}/api/test';
             window.open(''+url+'','_blank');
         });

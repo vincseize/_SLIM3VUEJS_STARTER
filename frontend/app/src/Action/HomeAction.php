@@ -21,20 +21,14 @@ final class HomeAction
     {
         $this->logger->info("Home page action dispatched");
 
+        $path = explode('/',$_SERVER['REQUEST_URI']);
+        $dir = $path[count($path)-3];
 
         $viewData = [
+            'text0' => $dir,
             'text1' => 'page processing : by twig',
-            'text2' => 'this text is a variable too from '. basename(__FILE__)
+            'text2' => 'this text is a variable too from /'.$dir.'/app/src/action/'. basename(__FILE__)
         ];
-
-        // get all result
-        // $this->get('/api/clients2', function ($request, $response, $args) {
-        //     $sth = $this->db->prepare("SELECT * FROM clients ORDER BY id");
-        // $sth->execute();
-        // $result = $sth->fetchAll();
-        // return $this->response->withJson($result);
-        // });
-
 
         $this->view->render($response, 'home.twig', $viewData);
         return $response;
