@@ -1,4 +1,3 @@
-
 {% include 'head.twig' %}
     <title>Slim3 backend</title>
 </head>
@@ -47,8 +46,14 @@
 
         <div style="vertical-align:top;margin:0;padding:0;">
             <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
-                <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary">ADD Fake Entry</button>
+                {% if fake == 'TRUE' %}
+                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary">ADD Fake Entry</button>
+                {% else %}
+                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary" disabled>ADD Fake Entry</button>
+                {% endif %} 
+                &nbsp;<font color=silver><i>( name | email ) see TestApiAction.php, _crud.php</i></font>
             </div>
+
             <br><br>
 
             <div class="input-group"> 
@@ -56,7 +61,6 @@
                     <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-default">
                     <i class="fa fa-search"></i>&nbsp;&nbsp;RESTFUL Search by</span>
                     </button>      
-
                     <select name='search_select_col_restful' id='search_select_col_restful' class="form-control" style="width:auto;">
                         {% for key, value in table_fetchAll[0] %}
                             <option>{{ key }}</option>
@@ -65,7 +69,6 @@
                     <input name='search_input_restful' id='search_input_restful' class="form-control" type='text' value='Miss' style="width:auto;">    
                 </span>
             </div>
-
         </div>
 
         <br>
@@ -78,7 +81,6 @@
                     {% endfor %}
                     <th class="text-center">
                         <div align="center">
-                            <button type="button" name="btn_delete_random" id="btn_delete_random" class="btn btn-xs btn-danger">Delete Random</button>
                             <button type="button" name="btn_delete" id="btn_delete" class="btn btn-xs btn-danger">Delete</button>
                             &nbsp;&nbsp;<input type="checkbox" id="btn_delete_all" name="btn_delete_all">
                         </div>
@@ -115,6 +117,7 @@
 </html>
 
 <script>
+
 $(document).ready(function(){
 
     function url_baseDirname(path){
@@ -130,33 +133,25 @@ $(document).ready(function(){
     }
 
     $('#btn_add_fake').click(function(){
-        console.log('btn_add_fake');
-
 
         $.ajax({
-                url:'../public/_crud.php',
-                method:'POST',
-                data:{table:'{{ table }}',crud:'add',fake:'true'},
-                success:function(response)
-                {
-                    console.log(response);
-                    if (response == 'TRUE'){
-                        clear_delete_checkbox();
-                        setTimeout(function(){ 
-                            location.reload(); // optional
-                        }, 1000);
-                    }
-                },
-                error: function(err){
-                    console.log(err);
+            url:'../public/_crud.php',
+            method:'POST',
+            data:{table:'{{ table }}',crud:'add',fake:'true'},
+            success:function(response)
+            {
+                console.log(response);
+                if (response == 'TRUE'){
+                    clear_delete_checkbox();
+                    setTimeout(function(){ 
+                        location.reload(); // optional
+                    }, 1000);
                 }
-                });
-
-
-
-
-
-
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
     });
 
 
@@ -182,7 +177,7 @@ $(document).ready(function(){
                 alert("Please Select at least one checkbox");
             } else {
 
-            if(confirm("Are you sure you want to delete this "+ ids +" ?"))
+            if(confirm("Are you sure you want to delete array ID ["+ ids +"] ?"))
             {
                 $.ajax({
                 url:'../public/_crud.php',
@@ -207,7 +202,10 @@ $(document).ready(function(){
                 }
                 });
 
-            }else{return false;}
+            }else{
+                location.reload(); // optional
+                return false;
+            }
 
         }
     });
@@ -227,4 +225,5 @@ $(document).ready(function(){
 
 
 });
+
 </script>

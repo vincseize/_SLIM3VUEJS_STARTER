@@ -67,21 +67,11 @@ $container['listTables'] = function ($c) {
  
 //Our SQL statement, which will select a list of tables from the current MySQL database.
 $sql = "SHOW TABLES";
- 
-//Prepare our SQL statement,
 $statement = $pdo->prepare($sql);
- 
-//Execute the statement.
 $statement->execute();
- 
-//Fetch the rows from our statement.
 $tables = $statement->fetchAll(PDO::FETCH_NUM);
 return $tables;
 };
-
-
-
-
 
 // Api class
 $container['Api'] = function ($c) {

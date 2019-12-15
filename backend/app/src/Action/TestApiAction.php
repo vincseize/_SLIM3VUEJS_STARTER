@@ -32,20 +32,31 @@ final class TestApiAction
         
         $table=basename($_SERVER['REQUEST_URI']);
         $Api = new $this->Api($this->db,$table);
-        $faker = $this->faker;
 
         $testConnectApi='FALSE';
         $testConnectApi = $Api->testConnectApi();
 
-        // $data = array( 
-        //     'nom' => htmlspecialchars($faker->name), 
-        //     'email' => htmlspecialchars($faker->email) 
-        // );
-        // $doublons = array( 'col' => 'email', 'value' => true );
-
         $table_fetchAll = $Api->selectTest();
 
+        $array_fake = array('nom','email');
+        $array_cols = array();
+        $array_check = array();
+        $check_fake = 'FALSE';
+  
+        foreach ($table_fetchAll[0] as $key => $value){
+            array_push($array_cols, $key);
+        }
 
+        foreach ($array_fake as $value){
+            if (!in_array($value, $array_cols)) {
+                array_push($array_check, 'FALSE');
+            }
+        }
+
+        if(count($array_check)==0){
+            $check_fake = 'TRUE';
+        }
+            
         $viewData = [
             'now' => date('Y-m-d H:i:s'),
             'res_test'=> $testConnectApi,
@@ -53,7 +64,8 @@ final class TestApiAction
             'table' => $table,
             'tables' => $this->tables,
 
-            'table_fetchAll' => $table_fetchAll
+            'table_fetchAll' => $table_fetchAll,
+            'fake' => $check_fake
 
 
             // 'Api' => $this->db
