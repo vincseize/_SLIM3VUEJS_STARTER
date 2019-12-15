@@ -45,7 +45,7 @@ $(document).ready(function(){
         window.open(''+url+'','_blank');
     });
     $('#go_backend').click(function(){
-        url = 'backend/public/';
+        url = 'backend/public';
         window.open(''+url+'','_blank');
     });
 });
