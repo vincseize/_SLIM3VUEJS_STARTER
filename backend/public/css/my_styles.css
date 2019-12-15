@@ -1,0 +1,15 @@
+.checkbox-delete {
+    margin-right:0px;
+}
+a, a:hover, a:focus {
+    text-decoration: none !important;
+}
+.listTables-topNav{
+    margin-top:9px;
+}
+.my_container{
+    width:99% !important;
+    margin-left:5px !important;
+    margin-right:5px !important;
+    /* padding-right:5px !important; */
+}

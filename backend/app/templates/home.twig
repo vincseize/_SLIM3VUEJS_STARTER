@@ -1,0 +1,28 @@
+{% include 'head.twig' %}
+
+        <link href='{{ base_url() }}/css/styles_home.css' rel='stylesheet' type='text/css'>
+
+        <title>Slim 3</title>
+
+    </head>
+    <body>
+        <h1>Slim3</h1>
+        <div>a microframework for PHP</div>
+        <p>&nbsp;</p>
+        <div>Starter Sample : restful API, CRUD, twig, Bootstrap</div>
+        <p>&nbsp;</p>
+        <div>{{ text1 }}</div>
+        <div>{{ text2 }}</div>
+        <p>&nbsp;</p>
+        <input type="button"  
+            class="btn btn-primary" value="Test backend API (from/considerating routes.php)" 
+            onClick="window.open('{{ base_url() }}/api/test','_blank');">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div>Author: Vincseize 2019</div>
+        <div>based: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
+    </body>
+</html>
+        

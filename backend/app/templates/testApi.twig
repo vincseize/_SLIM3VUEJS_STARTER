@@ -131,25 +131,34 @@ $(document).ready(function(){
 
     $('#btn_add_fake').click(function(){
         console.log('btn_add_fake');
+
+
         $.ajax({
-            url:'../public/_crud.php',
-            method:'POST',
-            data:{table:'{{ table }}',crud:'add',fake:'true'},
-            success:function(response)
-            {
-                console.log(response);
-                if (response == 'TRUE'){
-                    clear_delete_checkbox();
-                    setTimeout(function(){ 
-                        location.reload(); // optional
-                    }, 1000);
+                url:'../public/_crud.php',
+                method:'POST',
+                data:{table:'{{ table }}',crud:'add',fake:'true'},
+                success:function(response)
+                {
+                    console.log(response);
+                    if (response == 'TRUE'){
+                        clear_delete_checkbox();
+                        setTimeout(function(){ 
+                            location.reload(); // optional
+                        }, 1000);
+                    }
+                },
+                error: function(err){
+                    console.log(err);
                 }
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
+                });
+
+
+
+
+
+
     });
+
 
     $('.listTables-topNav').click(function(){
         url_baseDirname = url_baseDirname(window.location.href);

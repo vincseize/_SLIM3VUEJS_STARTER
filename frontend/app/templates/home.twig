@@ -1,24 +1,38 @@
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Slim 3</title>
+{% include 'head.twig' %}
 
-        <link href='{{ base_url() }}/css/style.css' rel='stylesheet' type='text/css'>
+        <link href='{{ base_url() }}/css/styles_home.css' rel='stylesheet' type='text/css'>
+
+        <title>Slim3 Backend Login</title>
+
     </head>
     <body>
         <h1>Slim3</h1>
         <div>a microframework for PHP</div>
         <p>&nbsp;</p>
-        <div>Starter Sample : restful API, CRUD, twig</div>
+        <div><b>Backend</b> Starter Sample : restful API, CRUD, twig, Bootstrap</div>
         <p>&nbsp;</p>
         <div>{{ text1 }}</div>
         <div>{{ text2 }}</div>
         <p>&nbsp;</p>
-        <input type="button" value="Test API (in a new page from/considerating routes.php)" onClick="window.open('{{ base_url() }}/api/test','_blank');">
+        <input type="button" id="go" name="go"  
+            class="btn btn-primary" 
+            value="GO Test backend API (from/considerating routes.php)"
+        >
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-        <div>Author: Vincseize</div>
+        <p>&nbsp;</p>
+        <div>Author: Vincseize 2019</div>
+        <div>Based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
     </body>
 </html>
+
+<script>
+    $(document).ready(function(){
+            $('#go').click(function(){
+            url = '{{ base_url() }}/api/test';
+            window.open(''+url+'','_blank');
+        });
+    });
+</script>
         
