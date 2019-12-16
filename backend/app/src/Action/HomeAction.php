@@ -23,7 +23,7 @@ final class HomeAction
 
         $path = explode('/',$_SERVER['REQUEST_URI']);
         $dir = $path[count($path)-3];
-
+        
         $viewData = [
             'text0' => $dir,
             'text1' => 'page processing : by twig',

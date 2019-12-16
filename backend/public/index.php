@@ -11,9 +11,12 @@ require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // Instantiate the app
+
+// $app = new \Slim\App();
+// $paramValue = $app->request()->getQueryParams();
+
 $settings = require __DIR__ . '/../app/settings.php';
 $app = new \Slim\App($settings);
-
 
 // Set up dependencies
 require __DIR__ . '/../app/dependencies.php';

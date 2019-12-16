@@ -256,7 +256,7 @@
 
 
 
-        public function selectTest($n_results=10) {
+        public function select($n_results=100) {
             $idToDelete=1;
             $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
             $sth = $this->db->prepare($sql);

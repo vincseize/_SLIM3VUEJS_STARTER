@@ -2,6 +2,8 @@
 // DIC configuration
 
 $container = $app->getContainer();
+// $app->request()->params('n_results');
+// $app->request()->params('n_results');
 
 // -----------------------------------------------------------------------------
 // Service providers
@@ -98,7 +100,13 @@ $container[App\Action\HelloAction::class] = function ($c) {
 };
 
 $container[App\Action\TestApiAction::class] = function ($c) {
-    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), $c->get('db'), $c->get('Api'), $c->get('faker'), $c->get('settings'), $c->get('listTables'));
+    return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), 
+    $c->get('db'), 
+    $c->get('Api'), $c->get('faker'), 
+    $c->get('settings'), 
+    $c->get('listTables')
+    // $app->request()->params('n_results')
+    );
 };
 
 

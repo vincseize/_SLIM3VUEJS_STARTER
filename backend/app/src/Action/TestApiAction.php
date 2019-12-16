@@ -30,13 +30,15 @@ final class TestApiAction
     {
         $this->logger->info("Hello page action dispatched");
         
-        $table=basename($_SERVER['REQUEST_URI']);
-        $Api = new $this->Api($this->db,$table);
+        $table = explode('?', basename($_SERVER['REQUEST_URI']))[0];
 
+        $Api = new $this->Api($this->db,$table);
         $testConnectApi='FALSE';
         $testConnectApi = $Api->testConnectApi();
 
-        $table_fetchAll = $Api->selectTest();
+        $gets = $request->getQueryParams();
+        $n_results = $gets['n_results'];
+        $table_fetchAll = $Api->select($n_results);
 
         $array_fake = array('nom','email');
         $array_cols = array();
@@ -63,12 +65,11 @@ final class TestApiAction
 
             'table' => $table,
             'tables' => $this->tables,
+            'n_results' => $n_results,
 
             'table_fetchAll' => $table_fetchAll,
             'fake' => $check_fake
 
-
-            // 'Api' => $this->db
         ];
 
         $this->view->render($response, 'testApi.twig', $viewData);
