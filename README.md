@@ -1,10 +1,17 @@
-# Slim 3 Starter
+# Slim 3 Starter WIP
 
-Frontend : 
 - Restful API
 - Crud API
+- Dynamics Routes
 - includes Twig, Flash messages Monolog, Faker libraries
 - includes Bootstrap 3.0.2, own styles.css
+
+Backend : 
+- Auto-tables
+-  pagination
+
+Frontend : 
+- VueJs
 
 ## Create your project:
 

@@ -14,7 +14,7 @@ final class TestApiAction
     private $view;
     private $logger;
 
-    public function __construct(Twig $view, LoggerInterface $logger, $db, $Api, $faker, $settings, $tables)
+    public function __construct(Twig $view, LoggerInterface $logger, $db, $Api, $faker, $settings, $tables, $n_results)
     {
         $this->view = $view;
         $this->logger = $logger;
@@ -23,7 +23,8 @@ final class TestApiAction
         $this->faker = $faker;
         $this->settings = $settings;
         $this->tables = $tables;
-
+        $this->n_results_array = $n_results['n_results_array'];
+        $this->n_results_default = $n_results['n_results_default'];
     }
 
     public function __invoke(Request $request, Response $response, $args)
@@ -36,9 +37,13 @@ final class TestApiAction
         $testConnectApi='FALSE';
         $testConnectApi = $Api->testConnectApi();
 
-        $gets = $request->getQueryParams();
-        $n_results = $gets['n_results'];
-        $table_fetchAll = $Api->select($n_results);
+        $n_results_get = $this->n_results_default;
+        if($request->getQueryParams()){
+            $gets = $request->getQueryParams();
+            $n_results_get = $gets['n_results'];
+        }
+
+        $table_fetchAll = $Api->select($n_results_get);
 
         $array_fake = array('nom','email');
         $array_cols = array();
@@ -65,11 +70,13 @@ final class TestApiAction
 
             'table' => $table,
             'tables' => $this->tables,
-            'n_results' => $n_results,
+
+            'n_results' => $n_results_get,
+            'n_results_default' => $this->n_results_default,
+            'n_results_array' => $this->n_results_array,
 
             'table_fetchAll' => $table_fetchAll,
             'fake' => $check_fake
-
         ];
 
         $this->view->render($response, 'testApi.twig', $viewData);

@@ -2,8 +2,6 @@
 // DIC configuration
 
 $container = $app->getContainer();
-// $app->request()->params('n_results');
-// $app->request()->params('n_results');
 
 // -----------------------------------------------------------------------------
 // Service providers
@@ -41,7 +39,6 @@ $container['logger'] = function ($c) {
 
 // Faker class for fake data
 $container['faker'] = function ($c) {
-    // $faker = Faker\Factory::create();
     return Faker\Factory::create();
 };
 
@@ -49,7 +46,7 @@ $container['faker'] = function ($c) {
 // Service database
 // -----------------------------------------------------------------------------
 	
-// PDO database library 
+// PDO database 
 $container['db'] = function ($c) {
     $settings = $c->get('settings')['db'];
     $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
@@ -59,7 +56,7 @@ $container['db'] = function ($c) {
     return $pdo;
 };
 
-// PDO database library 
+// PDO database actions 
 $container['listTables'] = function ($c) {
     $settings = $c->get('settings')['db'];
     $pdo = new PDO("mysql:host=" . $settings['host'] . ";dbname=" . $settings['dbname'],
@@ -67,19 +64,20 @@ $container['listTables'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
  
-//Our SQL statement, which will select a list of tables from the current MySQL database.
-$sql = "SHOW TABLES";
-$statement = $pdo->prepare($sql);
-$statement->execute();
-$tables = $statement->fetchAll(PDO::FETCH_NUM);
-return $tables;
+    $sql = "SHOW TABLES";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    $tables = $statement->fetchAll(PDO::FETCH_NUM);
+    return $tables;
+};
+
+// PDO database actions 
+$container['n_results'] = function ($c) {
+    return $c->get('settings')['n_results'];
 };
 
 // Api class
 $container['Api'] = function ($c) {
-    // $settings = $c->get('settings')['db'];
-    // $Api = new Api($settings,'clients');
-    // return $Api;
     return Api::class;
 };
 
@@ -104,8 +102,8 @@ $container[App\Action\TestApiAction::class] = function ($c) {
     $c->get('db'), 
     $c->get('Api'), $c->get('faker'), 
     $c->get('settings'), 
-    $c->get('listTables')
-    // $app->request()->params('n_results')
+    $c->get('listTables'),
+    $c->get('n_results')
     );
 };
 
