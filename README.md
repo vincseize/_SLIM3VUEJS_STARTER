@@ -8,7 +8,7 @@
 
 Backend : 
 - Auto-tables
--  pagination
+- Pagination
 
 Frontend : 
 - VueJs
