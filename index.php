@@ -18,7 +18,7 @@
     <h1>Slim3</h1>
     <div>a microframework for PHP</div>
     <p>&nbsp;</p>
-    <div><b>Starter Sample</b>  : restful API, CRUD, twig, Bootstrap, Vuejs</div>
+    <div><b>Starter Sample</b>  : restful API, CRUD, twig, Bootstrap3, Vuejs</div>
     <p>&nbsp;</p>
     <input type="button" id="go_frontend" name="go_frontend"  
         class="btn btn-primary" 

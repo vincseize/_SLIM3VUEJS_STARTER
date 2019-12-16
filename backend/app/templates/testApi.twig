@@ -5,34 +5,44 @@
 
 <!--Header-->
 <header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-            </button>
-            <a class="navbar-brand">
-                <img style="max-width:32px; margin-top: -7px;"
-                     src="{{ base_url() }}/img/favicon.png">
-            </a>
-            <a class="navbar-brand">SLIM3 TEST API | table <b>{{ table }}</b></a>
-
-            {% for key, table in tables %}
-                <button type="button" name="btn_apiClient_{{ table[0] }}" id="btn_apiClient_{{ table[0] }}" data-table="{{ table[0] }}" class="btn btn-default listTables-topNav">test&nbsp;&nbsp;{{ table[0] }}</button>
-            {% endfor %}
-
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid"><!--.container-fluid -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                </button>
+                <a class="navbar-brand">
+                    <img style="max-width:32px; margin-top: -7px;"
+                            src="{{ base_url() }}/img/favicon.png">
+                </a>
+                <a class="navbar-brand">SLIM3 TEST API | table <b>{{ table }}</b></a>
           </div>
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9"><!-- .navbar-collapse -->
+            <div class="navbar-form navbar-right">
+                {% for key, table in tables %}
+                    <button type="button" name="btn_apiClient_{{ table[0] }}" id="btn_apiClient_{{ table[0] }}" data-table="{{ table[0] }}" class="btn btn-default btTables">test&nbsp;&nbsp;{{ table[0] }}</button>
+                {% endfor %}
+                <button type="button" class="btn btn-default" styleX="margin-top:9px;" onClick="window.location.reload();">
+                    <i class="fa fa-refresh"></i>
+                    Refresh
+                </button>
+            </div>
+          </div><!-- /.navbar-collapse -->
+
         </div><!-- /.container-fluid -->
-      </nav>
+    </nav>
 </header>
 
 <main>
     <div class="container my_container">
-        
-        <button type="button" class="btn btn-default" style="margin-top:9px;" onClick="window.location.reload();">
-            <i class="fa fa-refresh"></i>
-            Refresh</button>
-        <br><br>
+        <br>
         Current time: <font color=silver><i>{{ now }}</i></font>
         <br>
 
@@ -155,7 +165,7 @@ $(document).ready(function(){
     });
 
 
-    $('.listTables-topNav').click(function(){
+    $('.btTables').click(function(){
         url_baseDirname = url_baseDirname(window.location.href);
         window.location.replace(''+url_baseDirname+'/'+$(this).data("table")+'');
     });
