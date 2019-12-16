@@ -5,21 +5,24 @@
 - Dynamics Routes
 - includes Twig, Flash messages Monolog, Faker libraries
 - includes Bootstrap 3.0.2, own styles.css
+- Own classes.php
 
 Backend : 
+
 - Auto-tables
 - Pagination
 
 Frontend : 
+
 - VueJs
 
 ## Create your project:
 
-    $ composer create-project --no-interaction --stability=dev akrabat/slim3-skeleton my-app
+$ composer create-project --no-interaction --stability=dev akrabat/slim3-skeleton my-app
 
-    composer dump-autoload
+composer dump-autoload
 
-    https://getcomposer.org/doc/04-schema.md#psr-4
+https://getcomposer.org/doc/04-schema.md#psr-4
 
 ### Run it:
 
@@ -64,7 +67,7 @@ Frontend :
 ## Todo
 
 * `twig`: send data
-* `crud`: delete update
+* `crud`: update
 * `restful`: delete update
 
 ## Changelog
