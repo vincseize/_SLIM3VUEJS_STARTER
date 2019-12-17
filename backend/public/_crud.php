@@ -81,6 +81,23 @@ if(isset($_POST["table"])){
         // Add
         // -----------------------------------------------------------------------------
 
+
+        if(isset($_POST["crud"]) && $_POST["crud"]=="add" && isset($_POST["fake"])=="true" && $_POST["fake"]=="false")
+        {
+            $data = array( 
+                'nom' => htmlspecialchars($_POST["nom"]), 
+                'email' => htmlspecialchars($_POST["email"]) 
+            );
+            $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
+
+            // as class
+            // $res_populate = Api::addFake($data,$doublons);
+
+            // as instance / object
+            $res_populate = $Api->addFake($data,$doublons);
+
+        }
+
         // -----------------------------------------------------------------------------
         // Delete
         // -----------------------------------------------------------------------------

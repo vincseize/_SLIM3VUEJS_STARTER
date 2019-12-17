@@ -57,14 +57,47 @@
         <div style="vertical-align:top;margin:0;padding:0;">
             <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
                 {% if fake == 'TRUE' %}
-                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary">ADD Fake Entry</button>
+                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add">ADD Fake Entry</button>
                 {% else %}
-                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary" disabled>ADD Fake Entry</button>
+                    <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add" disabled>ADD Fake Entry</button>
                 {% endif %} 
-                &nbsp;<font color=silver><i>( name | email ) see TestApiAction.php, _crud.php</i></font>
+                &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
             </div>
 
             <br><br>
+
+            <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
+                {% if fake == 'TRUE' %}
+                <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD Real Entry</button>
+                {% else %}
+                <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD Real Entry</button>
+                {% endif %} 
+                &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
+            </div>
+
+            <br><br>
+            
+            <div id="div_form_add" name="div_form_add" class="row" style="display:none;">
+                <div class="col-sm-8 col-sm-offset-2 well">
+
+                    <div class="col-sm-12 form-column">
+                        <form id="form_add">
+
+                            <div class="form-group">
+                                <label for="country">Nom</label>
+                                <input type="text" id="nom" name="nom" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class="form-control">
+                            </div>
+
+                            <button type="button" name="btn_add_form" id="btn_add_form" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div class="input-group"> 
                 <span class="input-group-btn">
@@ -156,6 +189,10 @@ $(document).ready(function(){
         $('#btn_delete_all').prop('checked', false);
     }
 
+    $("#btn_add_form_open").click(function(){
+        $("#div_form_add").toggle();
+    });
+
     $('#nResult_select').on('change', function() {
         var url_baseDirname_select = url_baseDirname(window.location.href);
         var url = url_baseDirname_select+'/{{ table }}?n_results='+this.value+'';
@@ -166,7 +203,11 @@ $(document).ready(function(){
         $.ajax({
             url:'../public/_crud.php',
             method:'POST',
-            data:{table:'{{ table }}',crud:'add',fake:'true'},
+            data:{
+                table:'{{ table }}',
+            crud:'add',
+            fake:'true'
+            },
             success:function(response)
             {
                 console.log(response);
@@ -182,6 +223,44 @@ $(document).ready(function(){
             }
         });
     });
+
+
+
+
+
+
+
+    $('#btn_add_form').click(function(){
+        $.ajax({
+            url:'../public/_crud.php',
+            method:'POST',
+            data:{
+                table:'{{ table }}',
+                nom:'name',
+                email:'email@zozo.fr',
+                crud:'add',
+                fake:'false'
+                },
+            success:function(response)
+            {
+                console.log(response);
+                if (response == 'TRUE'){
+                    clear_delete_checkbox();
+                    setTimeout(function(){ 
+                        location.reload(); // optional
+                    }, 1000);
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+
+
+
+
+
 
     $('.btTables').click(function(){
         var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?n_results={{ n_results }}';
