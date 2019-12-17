@@ -22,14 +22,15 @@
     <p>&nbsp;</p>
     <input type="button" id="go_frontend" name="go_frontend"  
         class="btn btn-primary" 
-        value="Slim3 VueJs[frontend]"
+        value="Slim3 VueJs[frontend]" 
+        style="width:180px;" 
     >
     <p>&nbsp;</p>
     <input type="button" id="go_backend" name="go_backend"  
         class="btn btn-primary" 
-        value="Slim3 [backend]"
+        value="Slim3 [backend]" 
+        style="width:180px;" 
     >
-    <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>

@@ -2,8 +2,8 @@
 
 - Restful API
 - Crud API
-- Dynamics Routes
-- includes Twig, Flash messages Monolog, Faker libraries
+- Dynamic Routes
+- includes Twig, Flash messages, Monolog, Faker, Libraries
 - includes Bootstrap 3.0.2, own styles.css
 - Own classes.php
 
@@ -11,6 +11,7 @@ Backend :
 
 - Auto-tables
 - Pagination
+- Search by filters
 
 Frontend : 
 
