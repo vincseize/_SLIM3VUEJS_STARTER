@@ -1,0 +1,92 @@
+<button id="btn_toggle_menu_leftSideB"  class="btn btn-default">
+  <i class="fa fa-arrows-h" aria-hidden="true"></i> 
+  </button>
+
+    
+<div class="panel-group" id="accordionMenu" role="tablist" aria-multiselectable="true">
+
+
+
+
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingTwo">
+  <h4 class="panel-title">
+  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionMenu" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    <span class="fa fa-list" aria-hidden="true"></span><span class="span_menu_title">Tables</span>
+  </a>
+</h4>
+</div>
+<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+  <div class="panel-body">
+    <ul class="nav">
+      {% for key, table in tables %}
+          <li><a type="button" name="btn_apiClient_{{ table[0] }}" id="btn_apiClient_{{ table[0] }}" data-table="{{ table[0] }}" class="a_btTables">{{ table[0] }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingThree">
+  <h4 class="panel-title">
+  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionMenu" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+    <span class="fa fa-globe" aria-hidden="true"></span><span class="span_menu_title">Nothing 1</span>
+  </a>
+</h4>
+</div>
+<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+  <div class="panel-body">
+    <ul class="nav">
+      <li><a>item 1</a></li>
+      <li><a>item 2</a></li>
+      <li><a>item 3</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingFour">
+  <h4 class="panel-title">
+  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionMenu" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+    <span class="fa fa-user" aria-hidden="true"></span><span class="span_menu_title">Nothing 2</span>
+  </a>
+</h4>
+</div>
+<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+  <div class="panel-body">
+    <ul class="nav">
+      <li><a>item 1</a></li>
+      <li><a>item 2</a></li>
+      <li><a>item 3</a></li>
+      <li><a>item 4</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+</div>
+
+
+<script>
+$('#btn_toggle_menu_leftSideB').on('click', function() {
+  var maxWidth = $("#sidebar").attr("data-maxWidth");
+  var minWidth = $("#sidebar").attr("data-minWidth");
+  if ($("#sidebar").width() > minWidth) {
+    $('.span_menu_title').toggle();
+    $("#sidebar").width(minWidth+"px");
+  } else {
+    $("#sidebar").width(maxWidth+"px");
+    setTimeout(function() { 
+        $('.span_menu_title').toggle();
+    }, 100);
+  }
+});
+</script>
+
+
