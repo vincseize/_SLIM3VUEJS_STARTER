@@ -81,6 +81,11 @@ $container['Api'] = function ($c) {
     return Api::class;
 };
 
+// Pagination class
+$container['Pagination'] = function ($c) {
+    return Pagination::class;
+};
+
 // -----------------------------------------------------------------------------
 // Action factories twig
 // -----------------------------------------------------------------------------
@@ -100,7 +105,9 @@ $container[App\Action\HelloAction::class] = function ($c) {
 $container[App\Action\TestApiAction::class] = function ($c) {
     return new App\Action\TestApiAction($c->get('view'), $c->get('logger'), 
     $c->get('db'), 
-    $c->get('Api'), $c->get('faker'), 
+    $c->get('Api'),
+    $c->get('Pagination'), 
+    $c->get('faker'), 
     $c->get('settings'), 
     $c->get('listTables'),
     $c->get('n_results')

@@ -30,6 +30,9 @@ require __DIR__ . '/../app/routes.php';
 // Register api
 require __DIR__ . '/../app/api.class.php';
 
+// Register pagination
+require __DIR__ . '/../app/pagination.class.php';
+
 
 // -----------
 $container = $app->getContainer();

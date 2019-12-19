@@ -256,15 +256,22 @@
 
 
 
-        public function select($n_results=100) {
-            $idToDelete=1;
-            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
+        public function select($start,$end=100) {
+            // $idToDelete=1;
+            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT $start,$end";
             $sth = $this->db->prepare($sql);
             $sth->execute(); 
             $result = $sth->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
 
+        public function select_all() {
+            $sql = "SELECT * FROM $this->table";
+            $sth = $this->db->prepare($sql);
+            $sth->execute(); 
+            $result = $sth->fetchAll(PDO::FETCH_NUM); 
+            return $result;
+        }
 
 
 
