@@ -106,7 +106,6 @@ final class TestApiAction
         $pgn_page      = (isset($_GET[$pgn_getPage])) ? $_GET[$pgn_getPage] : 1;
         // if(isset($_GET[$pgn_getResult])){$pgn_limit = $_GET[$pgn_getResult]; }
 
-
         // echo $pgn_url;
         echo "<br><br><br><br><br><br><br>";
         // print_r($pgn_rowsCount) ;
