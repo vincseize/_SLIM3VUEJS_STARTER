@@ -24,7 +24,7 @@ require __DIR__ . '/../app/middleware.php';
 require __DIR__ . '/../app/routes.php';
 
 // Register api
-require __DIR__ . '/../app/api.class.php';
+require __DIR__ . '/../app/src/Classes/api.class.php';
 
 // -----------------------------------------------------------------------------
 // Service database

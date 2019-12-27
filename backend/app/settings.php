@@ -48,7 +48,7 @@ return [
         // db results
         'n_results' => [
             'n_results_default' => '10',
-            'n_results_array' => ['5','10','25','50','100',],
+            'n_results_array' => ['5','10','25','50','100'],
         ],
 
     ],

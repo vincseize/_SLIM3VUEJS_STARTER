@@ -1,0 +1,13 @@
+<div class="input-group"> 
+    <select data-pgn="{{pgn_paramRes}}" name='nResult_select' id='nResult_select' class="{{pgn_paramRes}}" style="width:auto;" data-table="{{ table[0] }}">
+        {% for value in n_results_array %}
+            <option>{{ value }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div>
+    {{pagination|raw}}
+</div>
+<script src="js/pgn.js"></script>
+

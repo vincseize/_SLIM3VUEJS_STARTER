@@ -1,3 +1,10 @@
+[![GitHub version](https://img.shields.io/badge/version-dev-green)](version-dev-green)
+[![GitHub releases](https://img.shields.io/badge/release-v0.5.1-blue)](https://img.shields.io/badge/release-v0.5.1-blue)
+[![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues)
+[![GitHub forks](https://img.shields.io/github/forks/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/network)
+[![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
+
 # Slim 3 Starter WIP
 
 - Restful API

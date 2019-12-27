@@ -11,10 +11,6 @@ require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // Instantiate the app
-
-// $app = new \Slim\App();
-// $paramValue = $app->request()->getQueryParams();
-
 $settings = require __DIR__ . '/../app/settings.php';
 $app = new \Slim\App($settings);
 
@@ -28,10 +24,10 @@ require __DIR__ . '/../app/middleware.php';
 require __DIR__ . '/../app/routes.php';
 
 // Register api
-require __DIR__ . '/../app/api.class.php';
+require __DIR__ . '/../app/src/Classes/api.class.php';
 
 // Register pagination
-require __DIR__ . '/../app/pagination.class.php';
+require __DIR__ . '/../app/src/Classes/pgn.class.php';
 
 
 // -----------
