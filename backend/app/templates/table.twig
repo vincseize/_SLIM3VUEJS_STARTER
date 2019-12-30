@@ -11,6 +11,9 @@
 
     <br><br>
 
+    {% include 'table_form.twig' %}
+    
+
     <div style="vertical-align:top;margin:0;padding:0;">
         <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
             {% if fake == 'TRUE' %}
@@ -76,6 +79,7 @@
     <table id="table_results" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
+                <th width="1%">#</th>
                 {% for key, value in table_fetchAll[0] %}
                     <th>{{ key }}</th>
                 {% endfor %}
@@ -88,94 +92,38 @@
             </tr>
         </thead>
         <tbody> 
+
+            {% set s = (n_results-1)*pgn_dfltLimit %}
+
             {% for key,values in table_fetchAll %}
-            <tr id="{{ values.id }}">
-                {% for field, value in values %}
-                    <td styleX="background-color: red !important;">
-                        <a data-name="{{ field }}" data-type="text" data-pk="{{ values.id }}" data-url="path">
-                            {{ value }}
-                        </a>
+
+                {% set s = s+1 %}
+
+                <tr id="{{ values.id }}">
+                    <td width="1%">{{s}}</td>
+                    {% for field, value in values %}
+                        <td>
+                            <a data-name="{{ field }}" data-type="text" data-pk="{{ values.id }}" data-url="path">
+                                {{ value }}
+                            </a>
+                        </td>
+                    {% endfor %}
+                    <td class="text-center delete-tr">
+                        <input type="checkbox" name="checkbox-delete_{{ values.id }}" class="checkbox-delete" value="{{ values.id }}">
                     </td>
-                {% endfor %}
-                <td class="text-center delete-tr">
-                    <input type="checkbox" name="checkbox-delete_{{ values.id }}" class="checkbox-delete" value="{{ values.id }}">
-                </td>
-            </tr>
+                </tr>
+
             {% endfor %}
         </tbody>
     </table>
-
-
-        {% include 'table_pgn.twig' %}
+    {% include 'table_pgn.twig' %}
 
 </div>
-
-
-<script>
-
-
-</script>
-
-
-
-
-
-
 
 <script>
 $(document).ready(function(){
 
-
-
-//     $('#nResult_select').on('change', function() {
-//     // document.getElementById('nResult_select').addEventListener('change', function() {
-
-// function removeParam(key, url) {
-//     var rtn = url.split("?")[0],
-//         param,
-//         params_arr = [],
-//         queryString = (url.indexOf("?") !== -1) ? url.split("?")[1] : "";
-//     if (queryString !== "") {
-//         params_arr = queryString.split("&");
-//         for (var i = params_arr.length - 1; i >= 0; i -= 1) {
-//             param = params_arr[i].split("=")[0];
-//             if (param === key) {
-//                 params_arr.splice(i, 1);
-//             }
-//         }
-//         rtn = rtn + "?" + params_arr.join("&");
-//     }
-//     rtn = rtn.replace("??", "?");
-//     rtn = rtn.replace("?&", "?");
-//     return rtn;
-// }
-
-// var url = window.location.href;
-// var sep = '?';
-// var params = url.split('?')[1];
-// try {
-//     count = params.length;
-//     sep = '&';
-// }
-// catch(err) {
-//     var count = 0;
-//     sep = '?';
-// }
-// // var key = document.getElementById('select_n_result').getAttribute("data-pgnParamRes");
-// var key = $('#nResult_select').attr("data-pgnParamRes");
-// var url = removeParam(key, url) ;
-// url = url+sep+key+'='+this.value;
-// window.location.href = url;
-// });
-
-
-
-
-
-
-
-
-    $("#nResult_select").val("{{ n_results }}");
+    $("#nResult_select").val("{{ n_result }}");
 
     function url_baseDirname(path){
         var spliPath = path.split('/');
@@ -197,12 +145,6 @@ $(document).ready(function(){
     $("#btn_add_form_open").click(function(){
         $("#div_form_add").toggle();
     });
-
-    // $('#nResult_select').on('change', function() {
-    //     var url_baseDirname_select = url_baseDirname(window.location.href);
-    //     var url = url_baseDirname_select+'/{{ table }}?n_results='+this.value+'';
-    //     // window.location.replace(url);
-    // });
 
     $('#btn_add_fake').click(function(){
         $.ajax({
@@ -246,7 +188,8 @@ $(document).ready(function(){
                 if (response == 'TRUE'){
                     clear_delete_checkbox();
                     setTimeout(function(){ 
-                        location.reload(); // optional
+                        // optional
+                        // location.reload(); 
                     }, 1000);
                 }
             },
@@ -256,16 +199,15 @@ $(document).ready(function(){
         });
     });
 
-
-
-
     $('.a_btTables').click(function(){
-        var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?n_results={{ n_results }}';
+        var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?{{ pgn_paramPage }}=1&{{ pgn_paramRes }}={{ n_results_default }}';
+        // console.log(url);
         window.location.replace(url);
     });
 
     $('.btTables').click(function(){
-        var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?n_results={{ n_results }}';
+        var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?{{ pgn_paramPage }}=1&{{ pgn_paramRes }}={{ n_results_default }}';
+        // console.log(url);
         window.location.replace(url);
     });
 

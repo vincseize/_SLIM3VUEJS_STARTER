@@ -1,5 +1,3 @@
-var classname = document.getElementsByClassName("n_result");
-
 var myFunction = function() {
 
     function removeParam(key, url) {
@@ -33,9 +31,11 @@ var myFunction = function() {
         var count = 0;
         sep = '?';
     }
-    var key = this.getAttribute("data-pgn");
-    var url = removeParam(key, url) ;
-    url = url+sep+'page=1'+'&'+key+'='+this.value;
+    var key_pgnRes = this.getAttribute("data-pgnRes");
+    var url = removeParam(key_pgnRes, url) ;
+    var key_pgnPage = this.getAttribute("data-pgnPage");
+    var url = removeParam(key_pgnPage, url) ;
+    url = url+sep+key_pgnPage+'=1'+'&'+key_pgnRes+'='+this.value;
 
     window.location.href = url;
     

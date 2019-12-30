@@ -99,15 +99,52 @@ $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, 
 // ------------------ CREATE post
 
 // Add
-$app->post('/api/clients', function ($request, $response) {
-    $input = $request->getParsedBody();
-    $sql = "INSERT INTO clients (nom) VALUES (:nom)";
+// $app->post('/api/clients', function ($request, $response) {
+//     $input = $request->getParsedBody();
+//     $sql = "INSERT INTO clients (nom) VALUES (:nom)";
+//     $sth = $this->db->prepare($sql);
+//     $sth->bindParam("nom", $input['nom']);
+//     $sth->execute();
+//     $input['id'] = $this->db->lastInsertId();
+//     return $this->response->withJson($input);
+// });
+
+// Add
+$app->post('/api/[{table}]', function ($request, $response, $args) {
+
+    $data = json_decode($request->getBody(),true);
+    $sql = "INSERT INTO ".$args['table']." (".$data['bindsList'].") VALUES (".$data['fieldsList'].")";
     $sth = $this->db->prepare($sql);
-    $sth->bindParam("nom", $input['nom']);
-    $sth->execute();
-    $input['id'] = $this->db->lastInsertId();
-    return $this->response->withJson($input);
+    if($sth->execute($data["post_data"])){
+        $array['message'] = 'true';
+    }else{
+        $array['message'] = 'false';
+    }
+
+    // $array['fieldsList'] = $data["fieldsList"];
+    // $array['bindsList'] = $data["bindsList"];
+    return $response->withStatus(200)
+    ->withHeader("Content-Type","application/json")
+    ->write(json_encode($array));  
 });
+
+// Add create json sample 
+// $app->post('/api/clients', function($request, $response){
+//     $datajson = array();
+//     $data = json_decode($request->getBody(),true);
+//     $datajson[] = $data;
+//     $fp = fopen('data.json', 'w');
+//     fwrite($fp, json_encode($datajson));
+//     fclose($fp);
+    
+//     $array['status'] = '200';
+//     $array['message'] = 'register success';
+//     $array['data']= array("islogin"=>false);
+//     return $response->withStatus(200)
+//     ->withHeader("Content-Type","application/json")
+//     ->write(json_encode($array));
+//    });
+    
 
 // ------------------ UPDATE put
 

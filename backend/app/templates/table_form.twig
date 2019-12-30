@@ -1,0 +1,11 @@
+<form name="form_add" method="get" action="{{url_form}}" >
+
+    <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
+    <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
+
+    {% for key, value in tableColsNames %}
+    {{ key }}&nbsp;:&nbsp;<input name="{{ key }}"" value="">&nbsp;{{ value }}
+    <br>
+    {% endfor %}
+    <input type="submit" name="submit_add" value="ADD">
+</form>

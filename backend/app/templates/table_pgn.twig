@@ -1,13 +1,19 @@
 <div class="input-group"> 
-    <select data-pgn="{{pgn_paramRes}}" name='nResult_select' id='nResult_select' class="{{pgn_paramRes}}" style="width:auto;" data-table="{{ table[0] }}">
+    <select data-pgnPage="{{pgn_paramPage}}" data-pgnRes="{{pgn_paramRes}}" name='nResult_select' id='nResult_select' class="{{pgn_paramRes}}" style="width:auto;" data-table="{{ table[0] }}">
         {% for value in n_results_array %}
             <option>{{ value }}</option>
         {% endfor %}
     </select>
+    &nbsp;<font color='grey'><i>total : {{rowsCount}}</i></font>
 </div>
 
 <div>
     {{pagination|raw}}
 </div>
+
+<script>
+var classname = document.getElementsByClassName("{{pgn_paramRes}}");
+</script>
+
 <script src="js/pgn.js"></script>
 

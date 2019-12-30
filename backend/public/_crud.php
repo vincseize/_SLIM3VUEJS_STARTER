@@ -14,6 +14,19 @@ session_start();
 $settings = require __DIR__ . '/../app/settings.php';
 $app = new \Slim\App($settings);
 
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
+
+
 // Set up dependencies
 require __DIR__ . '/../app/dependencies.php';
 
@@ -82,21 +95,87 @@ if(isset($_POST["table"])){
         // -----------------------------------------------------------------------------
 
 
-        if(isset($_POST["crud"]) && $_POST["crud"]=="add" && isset($_POST["fake"])=="true" && $_POST["fake"]=="false")
-        {
-            $data = array( 
-                'nom' => htmlspecialchars($_POST["nom"]), 
-                'email' => htmlspecialchars($_POST["email"]) 
-            );
-            $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
+//         if(isset($_POST["crud"]) && $_POST["crud"]=="add" && isset($_POST["fake"])=="true" && $_POST["fake"]=="false")
+//         {
 
-            // as class
-            // $res_populate = Api::addFake($data,$doublons);
+//             echo 'add_rest';
+//             // return;
+//             $data = array( 
+//                 'nom' => htmlspecialchars($_POST["nom"]), 
+//                 'email' => htmlspecialchars($_POST["email"]) 
+//             );
+//             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
 
-            // as instance / object
-            $res_populate = $Api->addFake($data,$doublons);
+//             // as class
+//             // $res_populate = Api::addFake($data,$doublons);
 
-        }
+//             // as instance / object
+
+//             $pdo = new PDO("mysql:host=127.0.0.1;dbname=booking_vuejs","root", "");
+//         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+
+
+
+//             echo '$doublons_value';
+
+//             $app->post('/api/clients', function ($request, $response) {
+
+
+//                 $data = $request->getParsedBody();
+//                 print_r($data);
+
+
+//                 $pdo = new PDO("mysql:host=127.0.0.1;dbname=booking_vuejs","root", "");
+//                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//                 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+//                 // $input = $request->getParsedBody();
+
+//                 // try{
+
+//                 // $sql = "INSERT INTO clients (nom) VALUES (:nom)";
+//                 // $sth = $pdo->prepare($sql);
+//                 // $nom = 'fellini2';
+//                 // $sth->bindValue('nom', 'fellini');
+//                 // // $sth->bindParam('nom', $nom);
+//                 // $sth->execute();
+
+//                 // // $input['id'] = $db->lastInsertId();
+//                 // // return $this->response->withJson($input);
+
+
+//                 // echo '{"notice": {"text": "Customer Added"}';
+                
+
+//                 // } catch(PDOException $e){
+//                 //     echo '{"error": {"text": '.$e->getMessage().'}';
+//                 // }
+
+
+
+//             });
+
+
+
+
+// return;
+
+
+
+
+
+
+
+
+//             $result = $Api->add_rest($data, $doublons, $app);
+//             if($result=="FALSE"){
+//                 array_push($result_array,$result);
+//             }
+//             echo $result;
+
+//         }
 
         // -----------------------------------------------------------------------------
         // Delete

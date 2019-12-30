@@ -20,6 +20,26 @@
             // $this->faker = $faker;
         }
 
+
+        public function tableColsName() {
+            $tableColsNames = array();
+            $tableColsNames_false = ["id", "created", "created_by", "updated", "updated_by"];
+            $tableToDescribe = $this->table;
+            $statement = $this->db->query('DESCRIBE ' . $tableToDescribe);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            // var_dump($result);
+            foreach($result as $col){
+                if(!in_array($col['Field'],$tableColsNames_false)){
+                    $tableColsNames[$col['Field']] = $col['Type'];
+                }
+                
+            }
+            return $tableColsNames;
+        }
+
+
+
+
         /*
             Search by column name, and value
         */
@@ -84,10 +104,10 @@
             return $result;
         }
 
-        /*  For Tests
-            The function will bind params
-            nom=>,email=>,... ----> :nom=>,:email=>,:...
-        */
+        /**  
+         * The function will bind params
+         * nom=>,email=>,... ----> :nom=>,:email=>,:...
+         */
         public function getBinds($data){
             $result = array();
 
@@ -155,7 +175,7 @@
                 }
 
                 $n_results = 16;
-                $result = $this->populateToHtml($n_results);
+                $result = $this->populateToHtml2($n_results);
 
             } catch (Exception $e) {
                 $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
@@ -168,8 +188,71 @@
 
 
 
+        public function add_restful($url,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
+            // try {
 
+                $doublons_value = $doublons['value'];
+                $doublons_col = $doublons['col'];
 
+                if($doublons_value==true){
+                    
+                    $post = array();
+                    foreach ( $get as $key => $value ) 
+                    {
+                        if(!in_array($key,$get_false)){
+                            $post[$key] = $get[$key];
+                        }
+                    }
+            
+                    $fieldsList = $this->getBinds($post)[0];
+                    $bindsList = $this->getBinds($post)[1];
+        
+                    // Order Important, post_data at least
+                    $post["post_data"] = $post;
+                    $post["bindsList"] = $fieldsList;
+                    $post["fieldsList"] = $bindsList;
+            
+        
+                    // $url = $url."/api/".$this->table;
+                    $data = json_encode($post);
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                    $response = curl_exec($ch);
+                    curl_close($ch);          
+                    $data = json_decode($response,true);
+                    $location = $url_form."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
+                    header("Location: $location"); 
+                    exit();
+
+                }
+                
+                // else{
+
+                //     $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
+                //     print_r('<br>--$doublons_result--<br>');
+                //     print_r ($doublons_result);
+                //     print_r ( count($doublons_result));
+    
+                //     if(count($doublons_result)>0){
+                //         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
+                //         $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
+                //         print_r($title_result);
+                //     }
+
+                // }
+
+                // $n_results = 16;
+                // $result = $this->populateToHtml($n_results);
+
+            // } catch (Exception $e) {
+            //     // $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
+            //     $result = $error.$e->getMessage();
+            //     return $result;
+            // }
+            
+            return;
+        }
 
 
 
@@ -266,12 +349,99 @@
         }
 
         public function select_all() {
-            $sql = "SELECT * FROM $this->table";
+            $sql = "SELECT * FROM $this->table ORDER by id DESC";
             $sth = $this->db->prepare($sql);
             $sth->execute(); 
             $result = $sth->fetchAll(PDO::FETCH_NUM); 
             return $result;
         }
+
+
+
+
+
+
+
+
+        /*  For Tests
+            Human Html render
+        */
+        public function populateToHtml2($n_results=10) {
+            $idToDelete=1;
+            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
+            $sth = $this->db->prepare($sql);
+            $sth->execute(); 
+            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            print "<table width='100%'>";
+            print "<tr>";
+            foreach ($result[0] as $row => $v){
+                print "<th style='background-color:grey;'>$row</th>";   
+            }
+            print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>"; 
+            print "</tr>";
+            $i = 0;
+            foreach ($result as $row){
+                $var = ( $i++%2 == 0 ) ? 0 : 1 ;
+                $style = "style='background-color:#B0E0E6;'";
+                if ( $var == 1 ){$style = "style='background-color:#E0FFFF;'";}
+                print "<tr $style>";
+                foreach ($row as $key => $val){
+                    if($key=='id'){$idToDelete=$val;}
+                    print "<td>$val</td>";
+                }
+                print "<td align='center'><font color=red><b>X</b></font></td>";
+                print "</tr>";
+            }
+            print "</table>";
+            echo '[...]';
+
+            echo "<br>";
+            echo "<br>";
+            echo "<input type='button' value='ADD Fake Entry' onClick='window.location.reload();' style='width:200px'>";
+            echo "<br>";
+            echo "<br>";
+
+            echo "<input type='button' value='SEARCH' style='width:200px'"; 
+            echo " onClick=\"";
+            echo " c = document.getElementById('search_select_col');";
+            echo " var col = c.options[c.selectedIndex].value;";
+            echo " var search = document.getElementById('search_input').value;"; 
+            // echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+            echo " window.open('".$this->table."/search/'+col+'/'+search+'','_blank');\">";
+
+            echo "&nbsp;<select id='search_select_col'>";
+            foreach ($result[0] as $row => $v){
+                $selected = "";
+                if($row == "nom"){$selected = " selected";}
+                echo "<option $selected>$row</option>";  
+            }
+            echo "</select>";
+
+            echo "&nbsp;<input id='search_input' type='text' value='Vincseize'>";
+
+            echo "<br>";
+            echo "<br>";
+            echo "<form action='http://127.0.0.1/_SLIM3VUEJS_STARTER/frontend/public/api/clients/delete/673' target='_blank' method='DELETE' if-match='*' enctype='multipart/form-data'>";
+            echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
+            echo "onClick=\"";
+            echo " var id = document.getElementById('delete_input').value;";
+            echo " window.open('".$this->table."/delete/'+id+'','_blank');\">";
+            // echo " window.open('api/".$this->table."/delete/'+id+'','_blank');\">";
+            echo "&nbsp;<input id='delete_input' type='text' value='".$idToDelete."'>";
+            echo "<input type='submit' />";
+            echo "</form>";
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 
