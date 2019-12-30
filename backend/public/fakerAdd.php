@@ -8,29 +8,16 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// session_start();
-
-// // Instantiate the app
-// $settings = require __DIR__ . '/../app/settings.php';
-
-// $app = new \Slim\App($settings);
-
-// // Set up dependencies
-// require __DIR__ . '/../app/dependencies.php';
-
-// // Register middleware
-// require __DIR__ . '/../app/middleware.php';
-
-// // Register routes
-// require __DIR__ . '/../app/routes.php';
-
 // -----------
+// https://github.com/fzaninotto/Faker
 
 $faker = Faker\Factory::create();
 $entries = array();
-// echo $faker->name;
+// it's just your fields name, add infinite ...
 $entries["nom"] = $faker->name;
 $entries["email"] = $faker->email;
+$entries["id_hotel"] = $faker->randomDigitNotNull(5);
+$entries["numero"] = $faker->randomDigitNotNull(10);
 
 $data = json_encode($entries);
 echo $data;

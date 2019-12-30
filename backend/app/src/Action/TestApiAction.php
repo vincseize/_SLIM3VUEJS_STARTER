@@ -43,12 +43,13 @@ final class TestApiAction
             $n_results_get = $gets[$url_getResult];
         }
 
-        $file = pathinfo(basename(__FILE__));
-        $filename = lcfirst($file['filename']);
-        $dirname =  basename(dirname(__FILE__));
-        $trimmed = str_replace($dirname, '', $filename) ;
+        // $file = pathinfo(basename(__FILE__));
+        // $filename = lcfirst($file['filename']);
+        // $dirname =  basename(dirname(__FILE__));
+        // $trimmed = str_replace($dirname, '', $filename) ;
         // $url_form = $this->url."/".$trimmed."/".$this->table."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."";
-        $url_form = $this->url."/".$trimmed."/".$this->table."";
+        // $url_form = $this->url."/".$trimmed."/".$this->table."";
+        $url_form_update = $this->url."/api/".$this->table."/search/id/";
         $Api = new $this->Api($this->db, $this->table);
         $tableColsNames = $Api->tableColsName();
         
@@ -198,7 +199,8 @@ final class TestApiAction
             'pgn_paramPage'=> $pgn_paramPage,
             'pgn_paramRes'=> $pgn_paramRes,
             'pgn_dfltLimit' => $pgn_dfltLimit,
-            'url_form' => $url_form,
+            // 'url_form' => $url_form,
+            'url_form_update' => $url_form_update,
             'rowsCount' => $rowsCount,
             // pagination
             'pagination' => $pagination,

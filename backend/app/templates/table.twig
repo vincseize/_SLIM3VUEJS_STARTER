@@ -20,20 +20,27 @@
         <br><br> #}
 
         <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
-            {% if fake == 'TRUE' %}
+            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
+
+            {# <button type="button" name="btn_update_form_open" id="btn_update_form_open" class="btn btn-primary btn_add">UPDATE</button> #}
+
+            {# {% if fake == 'TRUE' %}
             <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
             {% else %}
             <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD</button>
-            {% endif %} 
+            {% endif %}  #}
         </div>
 
         <br><br>
         
-        <div id="div_form_add" name="div_form_add" class="row" style="display:none;">
-            <div class="col-sm-8 col-sm-offset-2 well">
+        <div>
+            <div class="col-sm-8 col-sm-offset-2">
 
                 <div class="col-sm-12 form-column">
                     {% include 'table_form.twig' %}
+
+
+                    
                     {# <form id="form_add">
 
                         <div class="form-group">
@@ -102,6 +109,9 @@
                         </td>
                     {% endfor %}
                     <td class="text-center delete-tr">
+                        {# <input type="button" name="bt-update_{{ values.id }}" class="bt-update"> #}
+                        <button class="btn-small  btn_update_form_open" id="{{ values.id }}" name="{{ values.id }}"><i class="fa fa-pencil"></i></button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="checkbox" name="checkbox-delete_{{ values.id }}" class="checkbox-delete" value="{{ values.id }}">
                     </td>
                 </tr>
@@ -138,32 +148,67 @@ $(document).ready(function(){
 
     $("#btn_add_form_open").click(function(){
         $("#div_form_add").toggle();
+        $("#div_form_update").hide();
     });
 
-    $('#btn_add_fake').click(function(){
+    // $("#btn_update_form_open").click(function(){
+    //     $("#div_form_update").toggle();
+    //     $("#div_form_add").hide();
+    // });
+
+    // bt-update
+    $(".btn_update_form_open").click(function(){
+        $("#div_form_update").show();
+        $("#div_form_add").hide();
+
+        // populate update fields todo to do
+        // alert(this.id);
+
         $.ajax({
-            url:'../public/_crud.php',
-            method:'POST',
-            data:{
-                table:'{{ table }}',
-            crud:'add',
-            fake:'true'
-            },
+            url:'{{url_form_update}}'+this.id,
+            method:'GET',
             success:function(response)
             {
-                console.log(response);
-                if (response == 'TRUE'){
-                    clear_delete_checkbox();
-                    setTimeout(function(){ 
-                        location.reload(); // optional
-                    }, 1000);
-                }
+                // console.log(response[0]);
+                var obj = response[0];
+                Object.keys(obj).forEach(function(k){
+                        var id = "#"+k;
+                        var sel = $('#div_form_update').find(id);
+                        $(sel).val(obj[k]);
+                    });
             },
             error: function(err){
                 console.log(err);
             }
         });
     });
+
+
+
+    // $('#btn_add_fake').click(function(){
+    //     $.ajax({
+    //         url:'../public/_crud.php',
+    //         method:'POST',
+    //         data:{
+    //             table:'{{ table }}',
+    //         crud:'add',
+    //         fake:'true'
+    //         },
+    //         success:function(response)
+    //         {
+    //             console.log(response);
+    //             if (response == 'TRUE'){
+    //                 clear_delete_checkbox();
+    //                 setTimeout(function(){ 
+    //                     location.reload(); // optional
+    //                 }, 1000);
+    //             }
+    //         },
+    //         error: function(err){
+    //             console.log(err);
+    //         }
+    //     });
+    // });
 
     $('#btn_add_form').click(function(){
         $.ajax({

@@ -1,28 +1,52 @@
-<form id="form_add" name="form_add">
-{# <form name="form_add" method="get" action="{{url_form}}" > #}
+{# ------------ ADD #}
+<div id="div_form_add" name="div_form_add" style="display:none;" class="col-sm-12 well">
+    <form id="form_add" name="form_add" method="GET">
+    {# <form name="form_add" method="get" action="{{url_form}}" > #}
 
-    <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
-    <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
+        <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
+        <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
 
-    {% for key, value in tableColsNames %}
-    <div class="form-group">
-        <input id="{{ key }}" name="{{ key }}" class="input_form_add" value="" size="30">
-        <label for="{{ key }}">{{ key }}</label> | {{ value }}
-    </div>
-    {% endfor %}
-    <div class="form-group">
-        <input type="checkbox" id="chck_fake" name="chck_fake">
-        <label for="chck_fake">Fake Entries </label>
-    </div>
-    <input type="button" id="submit_add_clear" name="submit_add_clear" value="Clear" class="btn btn-default">
-    <input type="submit" id="submit_add" name="submit_add" value="Submit" class="btn btn-primary">
+        {% for key, value in tableColsNames %}
+        <div class="form-group">
+            <input id="{{ key }}" name="{{ key }}" class="input_form_add" value="" size="30">
+            <label for="{{ key }}">{{ key }}</label> | {{ value }}
+        </div>
+        {% endfor %}
+        <div class="form-group">
+            <input type="checkbox" id="chck_fake" name="chck_fake">
+            <label for="chck_fake">Fake Entries </label>
+        </div>
+        <input type="button" id="submit_add_clear" name="submit_add_clear" value="Clear" class="btn btn-default">
+        <input type="submit" id="submit_add" name="submit_add" value="Submit" class="btn btn-primary">
+    </form>
+</div>
+
+{# ------------ UPDATE #}
+
+<div id="div_form_update" name="div_form_update" style="display:none;" class="col-sm-12 well">
+    <form id="form_update" name="form_update">
+        <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
+        <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
     
+        {% for key, value in tableColsNames %}
+        <div class="form-group">
+            <input id="{{ key }}" name="{{ key }}" class="input_form_add" value="" size="30">
+            <label for="{{ key }}">{{ key }}</label> | {{ value }}
+        </div>
+        {% endfor %}
 
-</form>
+        <input type="button" id="submit_update_cancel" name="submit_update_cancel" value="Cancel" class="btn btn-default">
+        <input type="submit" id="submit_update" name="submit_update" value="Update" class="btn btn-primary">
+    </form>
+</div>
 
+{# {{url_form_update}} #}
 <script scoped>
 
     $(document).ready(function(){
+
+        // $("#div_form_add>nom").val("toto");
+        
 
         $("#chck_fake").click(function(){
             if( $(this).is(':checked') ){
@@ -30,6 +54,11 @@
             }else{
                 clear_all_fields();
             }
+        });
+
+        $("#submit_update_cancel").click(function(){
+            $("#div_form_add").hide();
+            $("#div_form_update").hide();
         });
 
         $("#submit_add_clear").click(function(){
@@ -53,7 +82,9 @@
                     Object.keys(obj).forEach(function(k){
                         // console.log(k + ' - ' + obj[k]);
                         var id = "#"+k;
-                        $(id).val(obj[k]);
+                        var sel = $('#div_form_add').find(id);
+                        // $('#div_form_add').find('#nom').val("toto");
+                        $(sel).val(obj[k]);
                     });
                 },
                 error: function(err){
