@@ -1,21 +1,14 @@
 <div class="container my_container">
 
-    Current time: <font color=silver><i>{{ now }}</i></font>
-    <br>
-
-    {% if res_test == 'TRUE' %}
-        Connect to API : <font color=green>{{ res_test }}</font>
-    {% else %}
-        Connect to API : <font color=red>{{ res_test }}</font>
-    {% endif %} 
+    <font color=grey>Current time: </font><font color=silver><i>{{ now }}</i></font>
 
     <br><br>
 
-    {% include 'table_form.twig' %}
+    {# {% include 'table_form.twig' %} #}
     
-
     <div style="vertical-align:top;margin:0;padding:0;">
-        <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
+        
+        {# <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
             {% if fake == 'TRUE' %}
                 <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add">ADD Fake Entry</button>
             {% else %}
@@ -24,15 +17,14 @@
             &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
         </div>
 
-        <br><br>
+        <br><br> #}
 
         <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
             {% if fake == 'TRUE' %}
-            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD Real Entry</button>
+            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
             {% else %}
-            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD Real Entry</button>
+            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD</button>
             {% endif %} 
-            &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
         </div>
 
         <br><br>
@@ -41,7 +33,8 @@
             <div class="col-sm-8 col-sm-offset-2 well">
 
                 <div class="col-sm-12 form-column">
-                    <form id="form_add">
+                    {% include 'table_form.twig' %}
+                    {# <form id="form_add">
 
                         <div class="form-group">
                             <label for="country">Nom</label>
@@ -54,7 +47,7 @@
                         </div>
 
                         <button type="button" name="btn_add_form" id="btn_add_form" class="btn btn-primary">Submit</button>
-                    </form>
+                    </form> #}
                 </div>
             </div>
         </div>
@@ -120,7 +113,8 @@
 
 </div>
 
-<script>
+<script scoped>
+
 $(document).ready(function(){
 
     $("#nResult_select").val("{{ n_result }}");

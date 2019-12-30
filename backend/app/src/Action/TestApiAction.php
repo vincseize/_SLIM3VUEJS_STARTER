@@ -56,7 +56,7 @@ final class TestApiAction
         if(isset($_GET['submit_add'])) { 
             // return;
             $url = $this->url."/api/".$this->table;
-            $get_false = [$url_getPage, $url_getResult, "submit_add"];
+            $get_false = [$url_getPage, $url_getResult, "submit_add", "chck_fake"];
             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
             $Api->add_restful($url, $doublons, $_GET, $url_getPage, $url_getResult, $n_results_get, $get_false);
             // $url,$doublons,$get,$url_getPage,$n_results_get

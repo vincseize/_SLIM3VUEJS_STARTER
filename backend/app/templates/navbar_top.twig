@@ -14,14 +14,18 @@
                 <img style="max-width:32px; margin-top: -7px;"
                         src="{{ base_url() }}/img/favicon.png">
             </a>
-            <a class="navbar-brand">SLIM3 TEST API | table <b>{{ table }}</b></a>
+            <a class="navbar-brand">SLIM3 BACKEND | table <b>{{ table }}</b></a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9"><!-- .navbar-collapse -->
         <div class="navbar-form navbar-right">
-            {# {% for key, table in tables %}
-                <button type="button" name="btn_apiClient_{{ table[0] }}" id="btn_apiClient_{{ table[0] }}" data-table="{{ table[0] }}" class="btn btn-default btTables">test&nbsp;&nbsp;{{ table[0] }}</button>
-            {% endfor %} #}
+            
+            {% if res_test == 'TRUE' %}
+                {% set color_res_api = "lightGreen" %}
+            {% else %}
+                {% set color_res_api = "red" %}
+            {% endif %}
+            <font color=silver>Connect to API : </font><font color={{color_res_api}}>{{ res_test }}</font>&nbsp; 
             <button type="button" class="btn btn-default" onClick="window.location.reload();">
                 <i class="fa fa-refresh"></i>
                 Refresh

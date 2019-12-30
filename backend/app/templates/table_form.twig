@@ -1,11 +1,82 @@
-<form name="form_add" method="get" action="{{url_form}}" >
+<form id="form_add" name="form_add">
+{# <form name="form_add" method="get" action="{{url_form}}" > #}
 
     <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
     <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
 
     {% for key, value in tableColsNames %}
-    {{ key }}&nbsp;:&nbsp;<input name="{{ key }}"" value="">&nbsp;{{ value }}
-    <br>
+    <div class="form-group">
+        <input id="{{ key }}" name="{{ key }}" class="input_form_add" value="" size="30">
+        <label for="{{ key }}">{{ key }}</label> | {{ value }}
+    </div>
     {% endfor %}
-    <input type="submit" name="submit_add" value="ADD">
+    <div class="form-group">
+        <input type="checkbox" id="chck_fake" name="chck_fake">
+        <label for="chck_fake">Fake Entries </label>
+    </div>
+    <input type="button" id="submit_add_clear" name="submit_add_clear" value="Clear" class="btn btn-default">
+    <input type="submit" id="submit_add" name="submit_add" value="Submit" class="btn btn-primary">
+    
+
 </form>
+
+<script scoped>
+
+    $(document).ready(function(){
+
+        $("#chck_fake").click(function(){
+            if( $(this).is(':checked') ){
+                add_fake(1);
+            }else{
+                clear_all_fields();
+            }
+        });
+
+        $("#submit_add_clear").click(function(){
+            clear_all_fields();
+        });
+        
+        function clear_all_fields(){
+            $('#chck_fake').prop('checked', false);
+            $(".input_form_add").val('');
+        }
+
+        function add_fake(n){
+
+            $.ajax({
+                url:'../public/fakerAdd.php',
+                method:'GET',
+                success:function(response)
+                {
+                    // console.log(response);
+                    var obj = JSON.parse(response);
+                    Object.keys(obj).forEach(function(k){
+                        // console.log(k + ' - ' + obj[k]);
+                        var id = "#"+k;
+                        $(id).val(obj[k]);
+                    });
+                },
+                error: function(err){
+                    console.log(err);
+                }
+                });
+        }
+
+        // $url = $this->url."/api/".$this->table;
+        //         $('#submit_add').click( function() {
+        // alert($('#form_add').serialize());
+
+        //     // $.ajax({
+        //     //     url: '{{url_form}}',
+        //     //     type: 'get',
+        //     //     dataType: 'json',
+        //     //     data: $('form#form_add').serialize(),
+        //     //     // success: function(data) {
+        //     //     //            // ... do something with the data...
+        //     //     //          }
+        //     // });
+        // });
+
+    });
+
+</script>
