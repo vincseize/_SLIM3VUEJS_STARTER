@@ -81,7 +81,7 @@
             <tr>
                 <th width="1%">#</th>
                 {% for key, value in tableColsNames_all %}
-                    <th>{{ key }}</th>
+                    <th class="th_sort" data-col="{{ key }}"><i class="fa fa-fw fa-sort"></i>{{ key }}</th>
                 {% endfor %}  
                 <th class="text-center">
                     <div align="center">
@@ -170,17 +170,15 @@ $(document).ready(function(){
         $('#btn_delete_all').prop('checked', false);
     }
 
+    $(".th_sort").click(function(){
+        console.log(this.getAttribute('data-col'));
+    });
+    
     $("#btn_add_form_open").click(function(){
         $("#div_form_add").toggle();
         $("#div_form_update").hide();
     });
 
-    // $("#btn_update_form_open").click(function(){
-    //     $("#div_form_update").toggle();
-    //     $("#div_form_add").hide();
-    // });
-
-    // bt-update
     $(".btn_update_form_open").click(function(){
         $("#div_form_update").show();
         $("#div_form_add").hide();
