@@ -128,62 +128,62 @@
 
 
 
-        /*  For Tests
-            The function will populate table with fake values
-        */
-        public function addFake($data,$doublons){
-            try {
+        // /*  For Tests
+        //     The function will populate table with fake values
+        // */
+        // public function addFake($data,$doublons){
+        //     try {
 
-                $doublons_value = $doublons['value'];
-                $doublons_col = $doublons['col'];
+        //         $doublons_value = $doublons['value'];
+        //         $doublons_col = $doublons['col'];
 
-                $fieldsList = $this->getBinds($data)[0];
-                $bindsList = $this->getBinds($data)[1];
+        //         $fieldsList = $this->getBinds($data)[0];
+        //         $bindsList = $this->getBinds($data)[1];
 
-                print_r('<br>--$fieldsList--<br>');
-                echo ($fieldsList);
-                print_r('<br>--$bindsList--<br>');
-                print_r($bindsList);
-                print_r('<br><br>');
+        //         print_r('<br>--$fieldsList--<br>');
+        //         echo ($fieldsList);
+        //         print_r('<br>--$bindsList--<br>');
+        //         print_r($bindsList);
+        //         print_r('<br><br>');
 
-                if($doublons_value==true){
+        //         if($doublons_value==true){
                     
-                    $sth = $this->prepareInsert($fieldsList,$bindsList);
-                    if($sth->execute($data)){
-                        $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
-                        print_r($title_result);
-                        print_r ($data);
-                        print_r('<br><br>');
+        //             $sth = $this->prepareInsert($fieldsList,$bindsList);
+        //             if($sth->execute($data)){
+        //                 $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
+        //                 print_r($title_result);
+        //                 print_r ($data);
+        //                 print_r('<br><br>');
 
-                    }else{
-                        $result = '-- > <font color=red>FAILURE</font>';
-                    }
+        //             }else{
+        //                 $result = '-- > <font color=red>FAILURE</font>';
+        //             }
 
-                }else{
+        //         }else{
 
-                    $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
-                    print_r('<br>--$doublons_result--<br>');
-                    print_r ($doublons_result);
-                    print_r ( count($doublons_result));
+        //             $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
+        //             print_r('<br>--$doublons_result--<br>');
+        //             print_r ($doublons_result);
+        //             print_r ( count($doublons_result));
     
-                    if(count($doublons_result)>0){
-                        $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
-                        $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
-                        print_r($title_result);
-                    }
+        //             if(count($doublons_result)>0){
+        //                 $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
+        //                 $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
+        //                 print_r($title_result);
+        //             }
 
-                }
+        //         }
 
-                $n_results = 16;
-                $result = $this->populateToHtml2($n_results);
+        //         $n_results = 16;
+        //         $result = $this->populateToHtml2($n_results);
 
-            } catch (Exception $e) {
-                $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
-                $result = $error.$e->getMessage();
-                return $result;
-            }
+        //     } catch (Exception $e) {
+        //         $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
+        //         $result = $error.$e->getMessage();
+        //         return $result;
+        //     }
             
-        }
+        // }
 
 
 
@@ -254,6 +254,11 @@
             
             return;
         }
+
+        
+        // -----------------------------------------------------------------------------
+        // Update
+        // -----------------------------------------------------------------------------
 
 
         public function update_restful($url,$curPage,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
@@ -346,7 +351,34 @@
             return;
         }
 
+        // /*  The Delete Operation 
+        //     The function will delete by id our table
+        // */
 
+
+        // -----------------------------------------------------------------------------
+        // Delete
+        // -----------------------------------------------------------------------------
+
+        public function delete($id){
+            $sql = "DELETE FROM $this->table WHERE id = '".$id."'";
+            $sth = $this->db->prepare($sql);
+            if(!$sth->execute()) {
+                return "FALSE";
+            }
+        }
+
+        // function delete_restful(){
+        //     $this->$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
+        //         $result = 0;
+        //         $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
+        //         $sth = $this->db->prepare($sql);
+        //         $sth->bindParam("id", $args['id']);
+        //         $sth->execute();
+        //         $result = $sth->rowCount();
+        //         return $this->response->withJson($result);
+        //     });
+        // }
 
 
 
@@ -617,28 +649,7 @@
 
         }
 
-        // /*  The Delete Operation 
-        //     The function will delete by id our table
-        // */
-        public function delete($id){
-            $sql = "DELETE FROM $this->table WHERE id = '".$id."'";
-            $sth = $this->db->prepare($sql);
-            if(!$sth->execute()) {
-                return "FALSE";
-            }
-        }
 
-        // function delete_test(){
-        //     $this->$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
-        //         $result = 0;
-        //         $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
-        //         $sth = $this->db->prepare($sql);
-        //         $sth->bindParam("id", $args['id']);
-        //         $sth->execute();
-        //         $result = $sth->rowCount();
-        //         return $this->response->withJson($result);
-        //     });
-        // }
 
 
         // /*  The Create Operation 

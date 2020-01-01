@@ -116,7 +116,18 @@ final class TestApiAction
 
 
 
-
+        if(isset($_GET["delete_ids"])){
+            // print_r($_GET["delete_ids"]);
+            // return;
+            foreach($_GET["delete_ids"] as $id)
+            {
+                $result = $Api->delete($id);
+                if($result=="FALSE"){
+                    array_push($result_array,$result);
+                }
+            }
+            echo json_encode($array); 
+        }
 
 
 

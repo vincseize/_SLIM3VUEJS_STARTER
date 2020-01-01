@@ -157,28 +157,31 @@ $app->put('/api/{table}/update/[{id}]', function ($request, $response, $args) {
     ->write(json_encode($array)); 
 });
 
+
+
+// ------------------------------------ Others Samples
+
 // ------------------ DELETE delete
 	
 // Delete restful basic by id
-$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
-    $result = 0;
-    $sql = "DELETE FROM ".$args['table']." WHERE id=".$args['id']."";
-    $sth = $this->db->prepare($sql);
-    $sth->bindParam("id", $args['id']);
-    // $sth->execute();
-    // $result = $sth->rowCount();
-    if($sth->execute()){
-        $array['message'] = 'true';
-    }else{
-        $array['message'] = 'false';
-    }
-    return $response->withStatus(200)
-    ->withHeader("Content-Type","application/json")
-    ->write(json_encode($array)); 
-});
+// $app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
+//     $result = 0;
+//     $sql = "DELETE FROM ".$args['table']." WHERE id=".$args['id']."";
+//     $sth = $this->db->prepare($sql);
+//     $sth->bindParam("id", $args['id']);
+//     // $sth->execute();
+//     if($sth->execute()){
+//         $array['message'] = 'true';
+//     }else{
+//         $array['message'] = 'false';
+//     }
+//     return $response->withStatus(200)
+//     ->withHeader("Content-Type","application/json")
+//     ->write(json_encode($array)); 
+// });
 
-// ------------------ Others Samples
-// Add create json sample 
+// ------------------ Add create json file 
+
 // $app->post('/api/clients', function($request, $response){
 //     $datajson = array();
 //     $data = json_decode($request->getBody(),true);

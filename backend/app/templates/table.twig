@@ -280,22 +280,36 @@ $(document).ready(function(){
             if(confirm("Are you sure you want to delete array ID ["+ ids +"] ?"))
             {
                 $.ajax({
-                url:'../public/_crud.php',
-                method:'POST',
-                data:{table:'{{ table }}',ids:ids,crud:'delete'},
+                // url:'../public/_crud.php',
+                // method:'POST',
+                // data:{table:'{{ table }}',ids:ids,crud:'delete'},
+                // url:'Classes/api.class.php',
+                type:'GET',
+                data:{table:'{{ table }}',delete_ids:ids},
                 success:function(response)
                 {
-                    console.log(response);
-                    if (response == 'TRUE'){
-                        ids.forEach(function(id) {
+
+                    // console.log(response);
+                    ids.forEach(function(id) {
                             $(this).closest('.delete-tr').css({'background-color': 'red'});
                             $('tr#'+id+'').fadeOut('slow');
                         });
                         clear_delete_checkbox();
                         setTimeout(function(){ 
-                            location.reload(); // optional
+                            // location.reload(); // optional 
                         }, 1000);
-                    }
+
+                    // console.log(response);
+                    // if (response == 'TRUE'){
+                    //     ids.forEach(function(id) {
+                    //         $(this).closest('.delete-tr').css({'background-color': 'red'});
+                    //         $('tr#'+id+'').fadeOut('slow');
+                    //     });
+                    //     clear_delete_checkbox();
+                    //     setTimeout(function(){ 
+                    //         location.reload(); // optional
+                    //     }, 1000);
+                    // }
                 },
                 error: function(err){
                     console.log(err);
