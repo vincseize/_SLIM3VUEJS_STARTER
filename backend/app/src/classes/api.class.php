@@ -188,7 +188,7 @@
 
 
 
-        public function add_restful($url,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
+        public function add_restful($url,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
             // try {
 
                 $doublons_value = $doublons['value'];
@@ -215,13 +215,14 @@
         
                     // $url = $url."/api/".$this->table;
                     $data = json_encode($post);
-                    $ch = curl_init($url);
+                    $ch = curl_init($url_form);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
                     $response = curl_exec($ch);
                     curl_close($ch);          
                     $data = json_decode($response,true);
-                    $location = $url_form."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
+                    $location = $url."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
                     header("Location: $location"); 
                     exit();
 
@@ -253,6 +254,104 @@
             
             return;
         }
+
+
+        public function update_restful($url,$curPage,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
+            // try {
+
+                $doublons_value = $doublons['value'];
+                $doublons_col = $doublons['col'];
+
+                if($doublons_value==true){
+                    
+                    $post = array();
+                    foreach ( $get as $key => $value ) 
+                    {
+                        if(!in_array($key,$get_false)){
+                            $post[$key] = $get[$key];
+                        }
+                    }
+            
+                    $fieldsList = $this->getBinds($post)[0];
+                    $bindsList = $this->getBinds($post)[1];
+        
+                    // Order Important, post_data at least
+                    $post["post_data"] = $post;
+                    $post["bindsList"] = $fieldsList;
+                    $post["fieldsList"] = $bindsList;
+            
+        
+                    // $url = $url."/api/".$this->table;
+                    $data = json_encode($post);
+
+                    print_r($data);
+                    print_r($url_form);
+
+
+                    $ch = curl_init($url_form);
+                    
+
+                    // $ch = curl_init();
+                    // curl_setopt($ch, CURLOPT_URL, $url_form);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                    // curl_setopt($ch, CURLOPT_PUT, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                    // curl_setopt($ch, CURLOPT_PUT, true);
+                    // curl_setopt($handle, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT', 'Content-Length: ' . strlen($fields)));
+                    // or
+                    // curl_setopt($handle, CURLOPT_PUT, true);
+                    // or
+                    // curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "PUT);
+                    
+                    $response = curl_exec($ch);
+                    curl_close($ch);   
+
+                    $data = json_decode($response, true);
+                    print_r($data);
+
+
+
+                    $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
+                    header("Location: $location"); 
+                    // header("Refresh:0");
+                    exit();
+
+                }
+                
+                // else{
+
+                //     $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
+                //     print_r('<br>--$doublons_result--<br>');
+                //     print_r ($doublons_result);
+                //     print_r ( count($doublons_result));
+    
+                //     if(count($doublons_result)>0){
+                //         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
+                //         $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
+                //         print_r($title_result);
+                //     }
+
+                // }
+
+                // $n_results = 16;
+                // $result = $this->populateToHtml($n_results);
+
+            // } catch (Exception $e) {
+            //     // $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
+            //     $result = $error.$e->getMessage();
+            //     return $result;
+            // }
+            
+            return;
+        }
+
+
+
+
+
+
+
 
 
 

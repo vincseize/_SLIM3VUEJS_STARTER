@@ -29,6 +29,9 @@ final class TestApiAction
         $this->n_results_default = $n_results['n_results_default'];
         $this->url = dirname(dirname(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)));
         $this->url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$this->url;
+        $this->url_getPage   = 'page'; // url var
+        $this->url_getResult = 'n_result'; // url var
+        $this->get_false = [$this->url_getPage, $this->url_getResult, "submit_add", "submit_update", "get_id", "get_page", "chck_fake"];
     }
 
     public function __invoke(Request $request, Response $response, $args)
@@ -53,13 +56,17 @@ final class TestApiAction
         $Api = new $this->Api($this->db, $this->table);
         $tableColsNames = $Api->tableColsName();
         
-
+        // ADD
         if(isset($_GET['submit_add'])) { 
             // return;
-            $url = $this->url."/api/".$this->table;
-            $get_false = [$url_getPage, $url_getResult, "submit_add", "chck_fake"];
+            $url_form = $this->url."/api/".$this->table;
+            $url = $this->url."/testApi/".$this->table;
+            // $get_false = [$url_getPage, $url_getResult, "submit_add", "chck_fake"];
             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
-            $Api->add_restful($url, $doublons, $_GET, $url_getPage, $url_getResult, $n_results_get, $get_false);
+            $Api->add_restful($url,$url_form, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
+
+
+            
             // $url,$doublons,$get,$url_getPage,$n_results_get
 
             // $post = array();
@@ -95,6 +102,51 @@ final class TestApiAction
         }
         
     
+        // UPDATE
+        if(isset($_GET['submit_update'])) { 
+            $id = $_GET['get_id'];
+            $curPage = $_GET['get_page'];
+            $url_form = $this->url."/api/".$this->table."/update/".$id."";
+            $url = $this->url."/testApi/".$this->table;
+            // $get_false = [$url_getPage, $url_getResult, "submit_update", "chck_fake"];
+            $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
+            $Api->update_restful($url,$curPage,$url_form, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // --------------------------------------------------
 
 

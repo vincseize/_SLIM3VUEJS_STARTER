@@ -27,6 +27,8 @@
     <form id="form_update" name="form_update">
         <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
         <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
+        <input type="text" id="id" name="get_id" value="" style="display:none">
+        <input type="text" id="get_page" name="get_page" value="{{n_results}}" style="display:none">
     
         {% for key, value in tableColsNames %}
         <div class="form-group">

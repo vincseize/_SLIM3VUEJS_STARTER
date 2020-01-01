@@ -72,6 +72,10 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 ## Usages
 * `tests`: to write...
 
+## Restful
+update
+http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto
+
 ## Todo
 
 * `twig`: send data

@@ -62,21 +62,16 @@ $app->get('/api/test', function ($request, $response, $args) {
 // ------------------ READ get
 
 // Get all results
-// $app->get('/api/clients', function ($request, $response, $args) {
 $app->get('/api/[{table}]', function ($request, $response, $args) {
     $sql = "SELECT * FROM ".$args['table']." ORDER BY id";
     $sth = $this->db->prepare($sql);
-    // $sth = $this->db->prepare("SELECT * FROM clients ORDER BY id");
     $sth->execute();
     $result = $sth->fetchAll();
-    // print_r($request);
     return $this->response->withJson($result);
 });
 
-// Get result with id
-// $app->get('/api/clients/[{id}]', function ($request, $response, $args) {
+// Get with id
 $app->get('/api/{table}/[{id}]', function ($request, $response, $args) {
-    // $sql = "SELECT * FROM clients WHERE id=:id";
     $sql = "SELECT * FROM ".$args['table']." WHERE id=:id";
     $sth = $this->db->prepare($sql);
     $sth->bindParam("id", $args['id']);
@@ -85,7 +80,7 @@ $app->get('/api/{table}/[{id}]', function ($request, $response, $args) {
     return $this->response->withJson($result);
 });
 	
-// Get result with given search term
+// Get with given search term
 $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, $args) {
     $sql = "SELECT * FROM ".$args['table']." WHERE ".$args['col']." LIKE :value ORDER BY ".$args['col']."";
     $sth = $this->db->prepare($sql);
@@ -98,8 +93,8 @@ $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, 
 
 // ------------------ CREATE post
 
-// Add
-// $app->post('/api/clients', function ($request, $response) {
+// Add restful basic
+// $app->post('/api/restful/clients', function ($request, $response) {
 //     $input = $request->getParsedBody();
 //     $sql = "INSERT INTO clients (nom) VALUES (:nom)";
 //     $sth = $this->db->prepare($sql);
@@ -111,7 +106,6 @@ $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, 
 
 // Add
 $app->post('/api/[{table}]', function ($request, $response, $args) {
-
     $data = json_decode($request->getBody(),true);
     $sql = "INSERT INTO ".$args['table']." (".$data['bindsList'].") VALUES (".$data['fieldsList'].")";
     $sth = $this->db->prepare($sql);
@@ -120,14 +114,70 @@ $app->post('/api/[{table}]', function ($request, $response, $args) {
     }else{
         $array['message'] = 'false';
     }
-
-    // $array['fieldsList'] = $data["fieldsList"];
-    // $array['bindsList'] = $data["bindsList"];
     return $response->withStatus(200)
     ->withHeader("Content-Type","application/json")
     ->write(json_encode($array));  
 });
+    
 
+// ------------------ UPDATE put
+// Update restful basic
+// $app->put('/api/restful/{table}/update/[{id}]', function ($request, $response, $args) {
+//     $input = $request->getParsedBody();
+//     $sql = "UPDATE ".$args['table']." SET nom=:nom WHERE id=:id";
+//     $sth = $this->db->prepare($sql);
+//     $nom = $input['nom'];
+//     $sth->bindParam("id", $args['id']);
+//     $sth->bindParam("nom", $nom);
+//     $sth->execute();
+//     $input['id'] = $args['id'];
+//     return $this->response->withJson($input);
+// });
+
+// Update by form
+$app->put('/api/{table}/update/[{id}]', function ($request, $response, $args) {
+    $data = json_decode($request->getBody(), true);
+    $set_values = "";
+    $exec_array = array();
+    foreach ( $data["post_data"] as $key => $value ) {
+        $set_values .= $set_values." ".$key."=".":".$key.", ";
+        $exec_array[":".$key] = $value;   
+    }
+    $set_values = rtrim($set_values, ", ");
+    $exec_array[":id"] = $args['id'];
+    $sql = "UPDATE ".$args['table']." SET $set_values WHERE id= :id";
+    $sth = $this->db->prepare($sql);
+    if($sth->execute($exec_array)){
+        $array['message'] = 'true';
+    }else{
+        $array['message'] = 'false';
+    }
+    return $response->withStatus(200)
+    ->withHeader("Content-Type","application/json")
+    ->write(json_encode($array)); 
+});
+
+// ------------------ DELETE delete
+	
+// Delete restful basic by id
+$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
+    $result = 0;
+    $sql = "DELETE FROM ".$args['table']." WHERE id=".$args['id']."";
+    $sth = $this->db->prepare($sql);
+    $sth->bindParam("id", $args['id']);
+    // $sth->execute();
+    // $result = $sth->rowCount();
+    if($sth->execute()){
+        $array['message'] = 'true';
+    }else{
+        $array['message'] = 'false';
+    }
+    return $response->withStatus(200)
+    ->withHeader("Content-Type","application/json")
+    ->write(json_encode($array)); 
+});
+
+// ------------------ Others Samples
 // Add create json sample 
 // $app->post('/api/clients', function($request, $response){
 //     $datajson = array();
@@ -144,43 +194,3 @@ $app->post('/api/[{table}]', function ($request, $response, $args) {
 //     ->withHeader("Content-Type","application/json")
 //     ->write(json_encode($array));
 //    });
-    
-
-// ------------------ UPDATE put
-
-// Update
-$app->put('/api/clients/update/{id}/[{nom}]', function ($request, $response, $args) {
-    $input = $request->getParsedBody();
-    $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
-    $sth = $this->db->prepare($sql);
-    $sth->bindParam("id", $args['id']);
-    $sth->bindParam("nom", $args['nom']);
-    $sth->execute();
-    $input['id'] = $args['id'];
-    return $this->response->withJson($input);
-});
-
-// Update by form
-// $app->put('/api/clients/update/[{id}]', function ($request, $response, $args) {
-//     $input = $request->getParsedBody();
-//     $sql = "UPDATE clients SET nom=:nom WHERE id=:id";
-//     $sth = $this->db->prepare($sql);
-//     $sth->bindParam("id", $args['id']);
-//     $sth->bindParam("nom", $input['nom']);
-//     $sth->execute();
-//     $input['id'] = $args['id'];
-//     return $this->response->withJson($input);
-// });
-
-// ------------------ DELETE delete
-	
-// Delete by id
-$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
-    $result = 0;
-    $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
-    $sth = $this->db->prepare($sql);
-    $sth->bindParam("id", $args['id']);
-    $sth->execute();
-    $result = $sth->rowCount();
-    return $this->response->withJson($result);
-});
