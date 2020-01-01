@@ -1,13 +1,7 @@
 <div class="container my_container">
-
     <font color=grey>Current time: </font><font color=silver><i>{{ now }}</i></font>
-
     <br><br>
-
-    {# {% include 'table_form.twig' %} #}
-    
     <div style="vertical-align:top;margin:0;padding:0;">
-        
         {# <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
             {% if fake == 'TRUE' %}
                 <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add">ADD Fake Entry</button>
@@ -16,49 +10,36 @@
             {% endif %} 
             &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
         </div>
-
         <br><br> #}
-
         <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
             <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
-
             {# <button type="button" name="btn_update_form_open" id="btn_update_form_open" class="btn btn-primary btn_add">UPDATE</button> #}
-
             {# {% if fake == 'TRUE' %}
             <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
             {% else %}
             <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD</button>
             {% endif %}  #}
         </div>
-
         <br><br>
-        
         <div>
             <div class="col-sm-8 col-sm-offset-2">
-
                 <div class="col-sm-12 form-column">
                     {% include 'table_form.twig' %}
-
-
-                    
                     {# <form id="form_add">
-
                         <div class="form-group">
                             <label for="country">Nom</label>
                             <input type="text" id="nom" name="nom" class="form-control">
                         </div>
-
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-control">
                         </div>
-
                         <button type="button" name="btn_add_form" id="btn_add_form" class="btn btn-primary">Submit</button>
                     </form> #}
                 </div>
             </div>
         </div>
-
+        {# ------------ SEARCH #}
         {# <div class="input-group"> 
             <span class="input-group-btn">
                 <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-default">
@@ -75,33 +56,33 @@
         <div class="input-group"> 
             <span class="input-group-btn">
                 {# <form> #}
-                    <button type='submit' name="btn_search_by" id="btn_search_by" class="btn btn-default">
-                    <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
-                    </button>      
                     <select name='search_select_col' id='search_select_col' class="form-control" style="width:auto;">
-                        {% for key, value in table_fetchAll[0] %}
+                        {% for key, value in tableColsNames_all %}
                             <option>{{ key }}</option>
                         {% endfor %}
                     </select>
-                    <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;"> 
+                    <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;">
+                    <button type='submit' name="btn_search_by" id="btn_search_by" class="btn btn-default">
+                        <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
+                    </button>   
+                    &nbsp;&nbsp;
                     <button type='button' name="btn_search_by_json" id="btn_search_by_json" class="btn btn-default">
-                        <i class="fa fa-search"></i>&nbsp;&nbsp;Json</span>
-                        </button>    
+                        Json</span>
+                    </button>    
+                    &nbsp;&nbsp;
                     <button type='submit' name="btn_filter_clear" id="btn_filter_clear" class="btn btn-default">Clear</button>
                 {# </form>   #}
             </span>
         </div>
     </div>
-
     <br>
-
     <table id="table_results" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th width="1%">#</th>
-                {% for key, value in table_fetchAll[0] %}
+                {% for key, value in tableColsNames_all %}
                     <th>{{ key }}</th>
-                {% endfor %}
+                {% endfor %}  
                 <th class="text-center">
                     <div align="center">
                         <button type="button" name="btn_delete" id="btn_delete" class="btn btn-xs btn-danger">Delete</button>
@@ -111,13 +92,9 @@
             </tr>
         </thead>
         <tbody> 
-
             {% set s = (n_results-1)*pgn_dfltLimit %}
-
             {% for key,values in table_fetchAll %}
-
                 {% set s = s+1 %}
-
                 <tr id="{{ values.id }}">
                     <td width="1%">{{s}}</td>
                     {% for field, value in values %}
@@ -134,19 +111,27 @@
                         <input type="checkbox" name="checkbox-delete_{{ values.id }}" class="checkbox-delete" value="{{ values.id }}">
                     </td>
                 </tr>
-
             {% endfor %}
         </tbody>
     </table>
     {% include 'table_pgn.twig' %}
-
 </div>
 
 <script scoped>
-
 $(document).ready(function(){
 
-    $("#nResult_select").val("{{ n_result }}");
+    conform_ui();
+
+    function conform_ui() {
+        $("#nResult_select").val("{{ n_result }}");
+        let searchParams = new URLSearchParams(window.location.search);
+        if(searchParams.has('{{filter}}') == true){
+            $("#search_select_col").val(searchParams.get('{{filter}}'));
+        }
+        if(searchParams.has('{{filter_value}}') == true){
+            $("#search_input").val(searchParams.get('{{filter_value}}'));
+        }
+    }
 
     function removeParam(key, url) {
         var rtn = url.split("?")[0],
@@ -290,31 +275,39 @@ $(document).ready(function(){
         c = document.getElementById('search_select_col');
         var col = c.options[c.selectedIndex].value;
         var search = document.getElementById('search_input').value;
-        url = 'api/{{ table }}/search/'+col+'/'+search+'';
-        window.open(url,'_blank');
+        if(search.length==0){
+            alert('Enter value');
+        }else{
+            url = 'api/{{ table }}/search/'+col+'/'+search+'';
+            window.open(url,'_blank');
+        }
     });
 
     $('#btn_search_by').click(function(){
         url = window.location.href;
-        var sep = '?';
-        var params = url.split('?')[1];
-        try {
-            count = params.length;
-            sep = '&';
-        }
-        catch(err) {
-            var count = 0;
-            sep = '?';
-        }
-        var url = removeParam("message", url) ;
-        var url = removeParam("filter", url) ;
-        var url = removeParam("filter_value", url) ;
         c = document.getElementById('search_select_col');
         var col = c.options[c.selectedIndex].value;
         var search = document.getElementById('search_input').value;
-        url = url+sep+'filter='+col+'&filter_value='+search+'';
-        window.location.href = url;
-        // console.log(url);
+        if(search.length==0){
+            alert('Enter value');
+        }else{
+            var sep = '?';
+            var params = url.split('?')[1];
+            try {
+                count = params.length;
+                sep = '&';
+            }
+            catch(err) {
+                var count = 0;
+                sep = '?';
+            }
+            var url = removeParam("{{message}}", url) ;
+            var url = removeParam("{{filter}}", url) ;
+            var url = removeParam("{{filter_value}}", url) ;
+            url = url+sep+'{{filter}}='+col+'&{{filter_value}}='+search+'';
+            window.location.href = url;
+            // console.log(url);
+        }
     });
 
     $('#btn_filter_clear').click(function(){
@@ -329,9 +322,9 @@ $(document).ready(function(){
             var count = 0;
             sep = '?';
         }
-        var url = removeParam("message", url) ;
-        var url = removeParam("filter", url) ;
-        var url = removeParam("filter_value", url) ;
+        var url = removeParam("{{message}}", url) ;
+        var url = removeParam("{{filter}}", url) ;
+        var url = removeParam("{{filter_value}}", url) ;
         var url = removeParam("{{pgn_paramPage}}", url) ;
         var url = removeParam("{{pgn_paramRes}}", url) ;
         // var key_pgnRes = this.getAttribute("data-pgnRes");
@@ -424,5 +417,4 @@ $(document).ready(function(){
     });
 
 });
-
 </script>

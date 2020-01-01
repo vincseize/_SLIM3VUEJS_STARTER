@@ -39,6 +39,9 @@ final class TestApiAction
         // table vars
         $url_getPage   = 'page'; // url var
         $url_getResult = 'n_result'; // url var
+        $message= 'message'; // url var
+        $filter = 'filter'; // url var
+        $filter_value = 'filter_value'; // url var
 
         $n_results_get = $this->n_results_default;
         if ($request->getQueryParams() ) {
@@ -52,9 +55,10 @@ final class TestApiAction
         // $trimmed = str_replace($dirname, '', $filename) ;
         // $url_form = $this->url."/".$trimmed."/".$this->table."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."";
         // $url_form = $this->url."/".$trimmed."/".$this->table."";
-        $url_form_update = $this->url."/api/".$this->table."/search/id/";
+        // $url_form_update = $this->url."/api/".$this->table."/search/id/";
         $Api = new $this->Api($this->db, $this->table);
         $tableColsNames = $Api->tableColsName();
+        $tableColsNames_all = $Api->tableColsName_all();
         
         // ADD
         if(isset($_GET['submit_add'])) { 
@@ -197,39 +201,39 @@ final class TestApiAction
         $table_fetchAll = $Api->select($limit_start, $n_results_get);
 
         // return;
-        
+
         // print_r("<br><br>");
-        if(isset($_GET["filter"]) && isset($_GET["filter_value"])){
-            $filter = $_GET["filter"];
-            $filter_value = $_GET["filter_value"];
-            // $url_form = $this->url."/api/".$this->table."/update/".$id."";
-            $url_form = $this->url."/api/".$this->table."/search/".$filter."/".$filter_value."";
-            $url = $this->url."/testApi/".$this->table;
-            $table_fetchAll = $Api->select_filter_restful($url_form, $url, $limit_start, $n_results_get);
-            $rowsCount = count($table_fetchAll); 
-
-            // return;
-        }
-
-
-        $array_fake = array('nom','email');
-        $array_cols = array();
-        $array_check = array();
-        $check_fake = 'FALSE'; // check if cols in table
-  
-        foreach ($table_fetchAll as $key => $value) {
-            array_push($array_cols, $key);
-        }
-
-        foreach ($array_fake as $value) {
-            if (!in_array($value, $array_cols)) {
-                array_push($array_check, 'FALSE');
+        if (isset($_GET[$filter]) !== '' && isset($_GET[$filter_value]) !== '' ) { 
+            if (!empty($_GET[$filter]) && !empty($_GET[$filter_value]) ) {
+                $col = $_GET[$filter];
+                $value = $_GET[$filter_value];
+                // $url_form = $this->url."/api/".$this->table."/search/".$f."/".$f_value."";
+                // $url = $this->url."/testApi/".$this->table;
+                // $table_fetchAll = $Api->select_filter_restful($url_form, $url, $limit_start, $n_results_get);
+                $table_fetchAll = $Api->select_filter($col, $value, $limit_start, $n_results_get);
+                $rowsCount = count($Api->select_filter_all($col, $value)); 
             }
         }
 
-        if (count($array_check)==0) {
-            $check_fake = 'TRUE'; // check if cols in table
-        }
+
+        // $array_fake = array('nom','email');
+        // $array_cols = array();
+        // $array_check = array();
+        // $check_fake = 'FALSE'; // check if cols in table
+  
+        // foreach ($table_fetchAll as $key => $value) {
+        //     array_push($array_cols, $key);
+        // }
+
+        // foreach ($array_fake as $value) {
+        //     if (!in_array($value, $array_cols)) {
+        //         array_push($array_check, 'FALSE');
+        //     }
+        // }
+
+        // if (count($array_check)==0) {
+        //     $check_fake = 'TRUE'; // check if cols in table
+        // }
 
         // return;
 
@@ -267,9 +271,10 @@ final class TestApiAction
             'now' => date('Y-m-d H:i:s'),
             'res_test'=> $testConnectApi,
             // table vars
-            'fake' => $check_fake,
+            // 'fake' => $check_fake,
             'table_fetchAll' => $table_fetchAll,
             'tableColsNames' => $tableColsNames,
+            'tableColsNames_all' => $tableColsNames_all,
             'table' => $this->table,
             'tables' => $this->tables,
             'n_results' => $pgn_page,
@@ -280,8 +285,11 @@ final class TestApiAction
             'pgn_paramPage'=> $pgn_paramPage,
             'pgn_paramRes'=> $pgn_paramRes,
             'pgn_dfltLimit' => $pgn_dfltLimit,
+            'filter' => $filter,
+            'filter_value' => $filter_value,
+            'message' => $message,
             // 'url_form' => $url_form,
-            'url_form_update' => $url_form_update,
+            // 'url_form_update' => $url_form_update,
             'rowsCount' => $rowsCount,
             // pagination
             'pagination' => $pagination,
