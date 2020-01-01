@@ -194,14 +194,30 @@ final class TestApiAction
         // return;
         $page = (isset($_GET[$url_getPage])) ? $_GET[$url_getPage] : 1;
         $limit_start = ($page - 1) * $limit;
-        $table_fetchAll = $Api -> select($limit_start, $n_results_get);
+        $table_fetchAll = $Api->select($limit_start, $n_results_get);
+
+        // return;
+        
+        // print_r("<br><br>");
+        if(isset($_GET["filter"]) && isset($_GET["filter_value"])){
+            $filter = $_GET["filter"];
+            $filter_value = $_GET["filter_value"];
+            // $url_form = $this->url."/api/".$this->table."/update/".$id."";
+            $url_form = $this->url."/api/".$this->table."/search/".$filter."/".$filter_value."";
+            $url = $this->url."/testApi/".$this->table;
+            $table_fetchAll = $Api->select_filter_restful($url_form, $url, $limit_start, $n_results_get);
+            $rowsCount = count($table_fetchAll); 
+
+            // return;
+        }
+
 
         $array_fake = array('nom','email');
         $array_cols = array();
         $array_check = array();
         $check_fake = 'FALSE'; // check if cols in table
   
-        foreach ($table_fetchAll[0] as $key => $value) {
+        foreach ($table_fetchAll as $key => $value) {
             array_push($array_cols, $key);
         }
 
@@ -214,6 +230,8 @@ final class TestApiAction
         if (count($array_check)==0) {
             $check_fake = 'TRUE'; // check if cols in table
         }
+
+        // return;
 
         // table pagination vars
         $pgn_dfltLimit  = $limit; 

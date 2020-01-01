@@ -380,8 +380,75 @@
         //     });
         // }
 
+        // -----------------------------------------------------------------------------
+        // Read
+        // -----------------------------------------------------------------------------
+
+        public function select($start,$end=100) {
+            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT $start,$end";
+            $sth = $this->db->prepare($sql);
+            $sth->execute(); 
+            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            // var_dump($result);
+            return $result;
+        }
+
+        public function select_all() {
+            $sql = "SELECT * FROM $this->table ORDER by id DESC";
+            $sth = $this->db->prepare($sql);
+            $sth->execute(); 
+            $result = $sth->fetchAll(PDO::FETCH_NUM); 
+            return $result;
+        }
+
+        // public function select_all_filter_restful() {
+        //     // $sql = "SELECT * FROM $this->table ORDER by id DESC";
+        //     $sql = "SELECT * FROM ".$args['table']." WHERE ".$args['col']." LIKE :value ORDER BY ".$args['col']."";
+        //     $sth = $this->db->prepare($sql);
+        //     $sth->execute(); 
+        //     $result = $sth->fetchAll(PDO::FETCH_NUM); 
+        //     return $result;
+        // }
+
+        // -----------------------------------------------------------------------------
+        // Filters
+        // -----------------------------------------------------------------------------
+
+        public function select_filter_restful($url_form, $url, $start, $end=100) {
+            // $url_form = "api/".$this->table."/search/".$filter."/".$value."";
+            // print_r($url_form);
+            // $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT $start,$end";
+            // $sth = $this->db->prepare($sql);
+            // $sth->execute(); 
+            // $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            // return $result;
+
+            $ch = curl_init($url_form);
+            // $data
+                    
+
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL, $url_form);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            // curl_setopt($ch, CURLOPT_PUT, true);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($ch, CURLOPT_PUT, true);
+            // curl_setopt($handle, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT', 'Content-Length: ' . strlen($fields)));
+            // or
+            // curl_setopt($handle, CURLOPT_PUT, true);
+            // or
+            // curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "PUT);
+            
+            $response = curl_exec($ch);
+            curl_close($ch);   
+
+            $data = json_decode($response, true);
+            // var_dump($data);
+            return $data;
 
 
+        }
 
 
 
@@ -470,22 +537,7 @@
 
 
 
-        public function select($start,$end=100) {
-            // $idToDelete=1;
-            $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT $start,$end";
-            $sth = $this->db->prepare($sql);
-            $sth->execute(); 
-            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        }
 
-        public function select_all() {
-            $sql = "SELECT * FROM $this->table ORDER by id DESC";
-            $sth = $this->db->prepare($sql);
-            $sth->execute(); 
-            $result = $sth->fetchAll(PDO::FETCH_NUM); 
-            return $result;
-        }
 
 
 

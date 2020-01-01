@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="input-group"> 
+        {# <div class="input-group"> 
             <span class="input-group-btn">
                 <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-default">
                 <i class="fa fa-search"></i>&nbsp;&nbsp;RESTFUL Search by</span>
@@ -70,6 +70,25 @@
                     {% endfor %}
                 </select>
                 <input name='search_input_restful' id='search_input_restful' class="form-control" type='text' value='Miss' style="width:auto;">    
+            </span>
+        </div> #}
+        <div class="input-group"> 
+            <span class="input-group-btn">
+                {# <form> #}
+                    <button type='submit' name="btn_search_by" id="btn_search_by" class="btn btn-default">
+                    <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
+                    </button>      
+                    <select name='search_select_col' id='search_select_col' class="form-control" style="width:auto;">
+                        {% for key, value in table_fetchAll[0] %}
+                            <option>{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                    <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;"> 
+                    <button type='button' name="btn_search_by_json" id="btn_search_by_json" class="btn btn-default">
+                        <i class="fa fa-search"></i>&nbsp;&nbsp;Json</span>
+                        </button>    
+                    <button type='submit' name="btn_filter_clear" id="btn_filter_clear" class="btn btn-default">Clear</button>
+                {# </form>   #}
             </span>
         </div>
     </div>
@@ -129,6 +148,26 @@ $(document).ready(function(){
 
     $("#nResult_select").val("{{ n_result }}");
 
+    function removeParam(key, url) {
+        var rtn = url.split("?")[0],
+            param,
+            params_arr = [],
+            queryString = (url.indexOf("?") !== -1) ? url.split("?")[1] : "";
+        if (queryString !== "") {
+            params_arr = queryString.split("&");
+            for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+                param = params_arr[i].split("=")[0];
+                if (param === key) {
+                    params_arr.splice(i, 1);
+                }
+            }
+            rtn = rtn + "?" + params_arr.join("&");
+        }
+        rtn = rtn.replace("??", "?");
+        rtn = rtn.replace("?&", "?");
+        return rtn;
+    }
+
     function url_baseDirname(path){
         var spliPath = path.split('/');
         return spliPath[spliPath.length - 2];
@@ -160,9 +199,6 @@ $(document).ready(function(){
     $(".btn_update_form_open").click(function(){
         $("#div_form_update").show();
         $("#div_form_add").hide();
-
-        // populate update fields todo to do
-        // alert(this.id);
 
         $.ajax({
             url:'{{url_form_update}}'+this.id,
@@ -210,33 +246,33 @@ $(document).ready(function(){
     //     });
     // });
 
-    $('#btn_add_form').click(function(){
-        $.ajax({
-            url:'../public/_crud.php',
-            method:'POST',
-            data:{
-                table:'{{ table }}',
-                nom:'name',
-                email:'email@zozo.fr',
-                crud:'add',
-                fake:'false'
-                },
-            success:function(response)
-            {
-                console.log(response);
-                if (response == 'TRUE'){
-                    clear_delete_checkbox();
-                    setTimeout(function(){ 
-                        // optional
-                        // location.reload(); 
-                    }, 1000);
-                }
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-    });
+    // $('#btn_add_form').click(function(){
+    //     $.ajax({
+    //         url:'../public/_crud.php',
+    //         method:'POST',
+    //         data:{
+    //             table:'{{ table }}',
+    //             nom:'name',
+    //             email:'email@zozo.fr',
+    //             crud:'add',
+    //             fake:'false'
+    //             },
+    //         success:function(response)
+    //         {
+    //             console.log(response);
+    //             if (response == 'TRUE'){
+    //                 clear_delete_checkbox();
+    //                 setTimeout(function(){ 
+    //                     // optional
+    //                     // location.reload(); 
+    //                 }, 1000);
+    //             }
+    //         },
+    //         error: function(err){
+    //             console.log(err);
+    //         }
+    //     });
+    // });
 
     $('.a_btTables').click(function(){
         var url = url_baseDirname(window.location.href)+'/'+$(this).data("table")+'?{{ pgn_paramPage }}=1&{{ pgn_paramRes }}={{ n_results_default }}';
@@ -250,11 +286,61 @@ $(document).ready(function(){
         window.location.replace(url);
     });
 
-    $('#btn_search_by').click(function(){
-        c = document.getElementById('search_select_col_restful');
+    $('#btn_search_by_json').click(function(){
+        c = document.getElementById('search_select_col');
         var col = c.options[c.selectedIndex].value;
-        var search = document.getElementById('search_input_restful').value;
-        window.open('api/{{ table }}/search/'+col+'/'+search+'','_blank');
+        var search = document.getElementById('search_input').value;
+        url = 'api/{{ table }}/search/'+col+'/'+search+'';
+        window.open(url,'_blank');
+    });
+
+    $('#btn_search_by').click(function(){
+        url = window.location.href;
+        var sep = '?';
+        var params = url.split('?')[1];
+        try {
+            count = params.length;
+            sep = '&';
+        }
+        catch(err) {
+            var count = 0;
+            sep = '?';
+        }
+        var url = removeParam("message", url) ;
+        var url = removeParam("filter", url) ;
+        var url = removeParam("filter_value", url) ;
+        c = document.getElementById('search_select_col');
+        var col = c.options[c.selectedIndex].value;
+        var search = document.getElementById('search_input').value;
+        url = url+sep+'filter='+col+'&filter_value='+search+'';
+        window.location.href = url;
+        // console.log(url);
+    });
+
+    $('#btn_filter_clear').click(function(){
+        url = window.location.href;
+        var sep = '?';
+        var params = url.split('?')[1];
+        try {
+            count = params.length;
+            sep = '&';
+        }
+        catch(err) {
+            var count = 0;
+            sep = '?';
+        }
+        var url = removeParam("message", url) ;
+        var url = removeParam("filter", url) ;
+        var url = removeParam("filter_value", url) ;
+        var url = removeParam("{{pgn_paramPage}}", url) ;
+        var url = removeParam("{{pgn_paramRes}}", url) ;
+        // var key_pgnRes = this.getAttribute("data-pgnRes");
+        // var url = removeParam(key_pgnRes, url) ;
+        // var key_pgnPage = this.getAttribute("data-pgnPage");
+        // var url = removeParam(key_pgnPage, url) ;
+        url = url+sep+'{{pgn_paramPage}}=1'+'&{{pgn_paramRes}}={{pgn_dfltLimit}}';
+        window.location.href = url;
+        // console.log(url);
     });
 
     $('.checkbox-delete').click(function(){

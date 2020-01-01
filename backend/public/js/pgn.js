@@ -31,6 +31,8 @@ var myFunction = function() {
         var count = 0;
         sep = '?';
     }
+
+    var url = removeParam("message", url) ;
     var key_pgnRes = this.getAttribute("data-pgnRes");
     var url = removeParam(key_pgnRes, url) ;
     var key_pgnPage = this.getAttribute("data-pgnPage");
