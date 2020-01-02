@@ -206,7 +206,7 @@ class Api{
     // Update
     // -----------------------------------------------------------------------------
 
-    public function update_restful($url,$curPage,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
+    public function update_restful($url_reload,$url,$curPage,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
         // try {
 
             $doublons_value = $doublons['value'];
@@ -262,8 +262,10 @@ class Api{
 
                 // http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/testApi/clients?n_result=10&page=1&n_result=10&filter=nom&filter_value=titiz
 
-                $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
-                header("Location: $location"); 
+                // $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."";     
+                // $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."&message=".$data['message']."";   
+                header("Location: $url_reload"); 
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
                 // header("Refresh:0");
                 exit();
 

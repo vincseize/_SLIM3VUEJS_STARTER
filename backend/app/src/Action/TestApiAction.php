@@ -69,6 +69,7 @@ final class TestApiAction
         $tableColsNames = $Api->tableColsName();
         $tableColsNames_all = $Api->tableColsName_all();
         $first_col = array_keys($tableColsNames_all)[0];
+        $dflt_col_search = array_keys($tableColsNames_all)[1];
 
         $this->logger->info("Api ".$this->table." action dispatched");
         $testConnectApi='FALSE';
@@ -136,20 +137,100 @@ final class TestApiAction
             return;
         }
         
-    
+   
+        
+/**
+ * Remove a query string parameter from an URL.
+ *
+ * @param string $url
+ * @param string $varname
+ *
+ * @return string
+ */
+function removeQueryStringParameter($url, $varname)
+{
+    $parsedUrl = parse_url($url);
+    $query = array();
+
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $query);
+        unset($query[$varname]);
+    }
+
+    $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+    $query = !empty($query) ? '?'. http_build_query($query) : '';
+
+    return $parsedUrl['scheme']. '://'. $parsedUrl['host']. $path. $query;
+}
+
+function change_url_parameter($url,$parameter,$parameterValue)
+{
+    $url=parse_url($url);
+    parse_str($url["query"],$parameters);
+    unset($parameters[$parameter]);
+    $parameters[$parameter]=$parameterValue;
+    return  $url["path"]."?".http_build_query($parameters);
+}
+
+
+
+
+
+
+
         // UPDATE
         if(isset($_GET['submit_update'])) { 
             $id = $_GET['get_id'];
             $curPage = $_GET['page'];
+            $cur_getPage = $_GET['get_page'];
+            // $n_result = $_GET['n_result'];
+            $dflt_col_search_value = $_GET[$dflt_col_search];
             // echo $_GET['page'];
             // echo $id;
 // return;
+
+
+// &filter=nom&filter_value=charles
+// print_r($dflt_col_search_value);
+// print_r('<br>');
+$url_reload = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+// print_r($url_reload);
+// print_r('<br>-----------------<br>');
+// $parameter=$curPage;
+$url_changed = change_url_parameter($url_reload,$url_getPage,$cur_getPage);
+$url_reload = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].$url_changed."&filter=$dflt_col_search&filter_value=$dflt_col_search_value";
+// print_r($url_reload);
+
+// print_r('<br>-----------------<br>');
+
+$url_reload = removeQueryStringParameter($url_reload, 'submit_update');
+$url_reload = removeQueryStringParameter($url_reload, 'get_id');
+$url_reload = removeQueryStringParameter($url_reload, 'get_page');
+// print_r("<br><br>");
+// print_r($url_reload);
+
+
+// return;
+
+
             $url_form_update = $this->url."/api/".$this->table."/update/".$id."";
             $url = $this->url."/testApi/".$this->table;
+            // $url_reload = $this->url."/testApi/".$this->table."&";
             // $get_false = [$url_getPage, $url_getResult, "submit_update", "chck_fake"];
             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
-            // return;
-            $Api->update_restful($url,$curPage, $url_form_update, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
+
+
+                // $ref ="http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/testApi/clients?n_result=10&page=1&n_result=10&filter=nom&filter_value=titiz";
+                // echo $ref;
+                // echo "<br>";
+                // // $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."&message=".$data['message'].""; 
+                // $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."";    
+                // echo $location;
+                // echo "<br>";
+
+
+            //  return;
+            $Api->update_restful($url_reload,$url,$curPage, $url_form_update, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
             return;
         }
 
