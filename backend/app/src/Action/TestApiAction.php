@@ -53,6 +53,11 @@ final class TestApiAction
             $n_results_get = $gets[$url_getResult];
         }
 
+        $url_form = $this->url."/api/".$this->table;
+        $url_form_add = $this->url."/api/".$this->table;
+        $url_form_update = "";
+        $url = $this->url."/testApi/".$this->table;
+
         // $file = pathinfo(basename(__FILE__));
         // $filename = lcfirst($file['filename']);
         // $dirname =  basename(dirname(__FILE__));
@@ -89,11 +94,11 @@ final class TestApiAction
         // ADD
         if(isset($_GET['submit_add'])) { 
             // return;
-            $url_form = $this->url."/api/".$this->table;
-            $url = $this->url."/testApi/".$this->table;
+            // $url_form_add = $this->url."/api/".$this->table;
+            // $url = $this->url."/testApi/".$this->table;
             // $get_false = [$url_getPage, $url_getResult, "submit_add", "chck_fake"];
             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
-            $Api->add_restful($url,$url_form, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
+            $Api->add_restful($url,$url_form_add, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
 
 
             
@@ -135,16 +140,21 @@ final class TestApiAction
         // UPDATE
         if(isset($_GET['submit_update'])) { 
             $id = $_GET['get_id'];
-            $curPage = $_GET['get_page'];
-            $url_form = $this->url."/api/".$this->table."/update/".$id."";
+            $curPage = $_GET['page'];
+            // echo $_GET['page'];
+            // echo $id;
+// return;
+            $url_form_update = $this->url."/api/".$this->table."/update/".$id."";
             $url = $this->url."/testApi/".$this->table;
             // $get_false = [$url_getPage, $url_getResult, "submit_update", "chck_fake"];
             $doublons = array( 'col' => 'email', 'value' => true ); // true -> is accept doublons on col choosed
-            $Api->update_restful($url,$curPage,$url_form, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
+            // return;
+            $Api->update_restful($url,$curPage, $url_form_update, $doublons, $_GET, $this->url_getPage, $this->url_getResult, $n_results_get, $this->get_false);
             return;
         }
 
-
+// echo $url_form_update;
+// return;
 
         if (isset($_GET["delete_ids"])) {
             // print_r($_GET["delete_ids"]);
@@ -250,9 +260,9 @@ final class TestApiAction
             'order_value' => $order_value,
             'order_by' => $order_by,
             'order_by_value' => $order_by_value,
-
-            // 'url_form' => $url_form,
-            // 'url_form_update' => $url_form_update,
+            'url_form' => $url_form,
+            'url_form_add' => $url_form_add,
+            'url_form_update' => $url_form_update,
             'rowsCount' => $rowsCount,
             // vars pagination
             'pagination' => $pagination,

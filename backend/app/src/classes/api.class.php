@@ -50,10 +50,10 @@ class Api{
      * Search by column name, and value
      */
     public function searchValue( $col, $value ) {
-        print_r('<br>--$searchValue--<br>');
-        print_r($col);
-        print_r('<br>--$value--<br>');
-        print_r($value);
+        // print_r('<br>--$searchValue--<br>');
+        // print_r($col);
+        // print_r('<br>--$value--<br>');
+        // print_r($value);
         $sth = $this->db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -76,11 +76,11 @@ class Api{
         from the database 
     */
     public function update($col, $value, $key_default='id'){
-        print_r('<br>--$update--');
-        print_r('<br>--$col--<br>');
-        print_r($col);
-        print_r('<br>--$value--<br>');
-        print_r($value);
+        // print_r('<br>--$update--');
+        // print_r('<br>--$col--<br>');
+        // print_r($col);
+        // print_r('<br>--$value--<br>');
+        // print_r($value);
         $sth = $this->db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -234,8 +234,8 @@ class Api{
                 // $url = $url."/api/".$this->table;
                 $data = json_encode($post);
 
-                print_r($data);
-                print_r($url_form);
+                // print_r($data);
+                // print_r($url_form);
 
 
                 $ch = curl_init($url_form);
@@ -258,9 +258,9 @@ class Api{
                 curl_close($ch);   
 
                 $data = json_decode($response, true);
-                print_r($data);
+                // print_r($data);
 
-
+                // http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/testApi/clients?n_result=10&page=1&n_result=10&filter=nom&filter_value=titiz
 
                 $location = $url."?".$url_getPage."=".$curPage."&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
                 header("Location: $location"); 
@@ -326,7 +326,7 @@ class Api{
 
     public function select($start, $end, $order_value, $order_by_value) {
         $sql = "SELECT * FROM $this->table ORDER by $order_by_value $order_value LIMIT $start, $end";
-        print_r($sql);
+        // print_r($sql);
         // return;
         $sth = $this->db->prepare($sql);
         $sth->execute(); 
@@ -488,11 +488,11 @@ class Api{
             $fieldsList = $this->getBinds($data)[0];
             $bindsList = $this->getBinds($data)[1];
 
-            print_r('<br>--$fieldsList--<br>');
-            echo ($fieldsList);
-            print_r('<br>--$bindsList--<br>');
-            print_r($bindsList);
-            print_r('<br><br>');
+            // print_r('<br>--$fieldsList--<br>');
+            // echo ($fieldsList);
+            // print_r('<br>--$bindsList--<br>');
+            // print_r($bindsList);
+            // print_r('<br><br>');
 
             if($doublons_value==true){
                 
@@ -500,9 +500,9 @@ class Api{
                 $sth = $this->prepareInsert($fieldsList,$bindsList);
                 if($sth->execute($data)){
                     $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
-                    print_r($title_result);
-                    print_r ($data);
-                    print_r('<br><br>');
+                    // print_r($title_result);
+                    // print_r ($data);
+                    // print_r('<br><br>');
 
                 }else{
                     $result = '-- > <font color=red>FAILURE</font>';
@@ -511,9 +511,9 @@ class Api{
             }else{
 
                 $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
-                print_r('<br>--$doublons_result--<br>');
-                print_r ($doublons_result);
-                print_r ( count($doublons_result));
+                // print_r('<br>--$doublons_result--<br>');
+                // print_r ($doublons_result);
+                // print_r ( count($doublons_result));
 
                 if(count($doublons_result)>0){
                     $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');

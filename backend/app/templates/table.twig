@@ -42,7 +42,7 @@
         {# ------------ SEARCH #}
         {# <div class="input-group"> 
             <span class="input-group-btn">
-                <button type='button' name="btn_search_by" id="btn_search_by" class="btn btn-default">
+                <button type='button' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
                 <i class="fa fa-search"></i>&nbsp;&nbsp;RESTFUL Search by</span>
                 </button>      
                 <select name='search_select_col_restful' id='search_select_col_restful' class="form-control" style="width:auto;">
@@ -62,11 +62,11 @@
                         {% endfor %}
                     </select>
                     <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;">
-                    <button type='submit' name="btn_search_by" id="btn_search_by" class="btn btn-default">
+                    <button type='submit' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
                         <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
                     </button>   
                     &nbsp;&nbsp;
-                    <button type='button' name="btn_search_by_json" id="btn_search_by_json" class="btn btn-default">
+                    <button type='button' name="btn_filter_by_json" id="btn_filter_by_json" class="btn btn-default">
                         Json</span>
                     </button>    
                     &nbsp;&nbsp;
@@ -201,16 +201,16 @@ $(document).ready(function(){
             var order_value = "ASC";
         }
 
-        console.log("----");
-        console.log("{{order_value}}");
-        console.log("----");
-        console.log("{{order_by_value}}");
-        console.log(order_value);
+        // console.log("----");
+        // console.log("{{order_value}}");
+        // console.log("----");
+        // console.log("{{order_by_value}}");
+        // console.log(order_value);
 
         // url = url+sep+'{{order}}={{order_value}}&{{order_by}}='+col+'';
         url = url+sep+'{{order}}='+order_value+'&{{order_by}}='+col+'';
         window.location.href = url;
-        console.log(url);
+        // console.log(url);
         
     });
     
@@ -222,14 +222,20 @@ $(document).ready(function(){
     $(".btn_update_form_open").click(function(){
         $("#div_form_update").show();
         $("#div_form_add").hide();
-
+        // console.log("{{url_form}}");
+        // console.log(this.id);
+        url = '{{url_form}}/'+this.id;
+        // console.log(url);
+        // url = window.location.href;
+        // url = url+'&get_id='+this.id+'';
         $.ajax({
-            url:'{{url_form_update}}'+this.id,
+            
+            url:url,
             method:'GET',
             success:function(response)
             {
-                // console.log(response[0]);
-                var obj = response[0];
+                // console.log(response);
+                var obj = response;
                 Object.keys(obj).forEach(function(k){
                         var id = "#"+k;
                         var sel = $('#div_form_update').find(id);
@@ -309,7 +315,7 @@ $(document).ready(function(){
         window.location.replace(url);
     });
 
-    $('#btn_search_by_json').click(function(){
+    $('#btn_filter_by_json').click(function(){
         c = document.getElementById('search_select_col');
         var col = c.options[c.selectedIndex].value;
         var search = document.getElementById('search_input').value;
@@ -321,7 +327,7 @@ $(document).ready(function(){
         }
     });
 
-    $('#btn_search_by').click(function(){
+    $('#btn_filter_by').click(function(){
         url = window.location.href;
         c = document.getElementById('search_select_col');
         var col = c.options[c.selectedIndex].value;
@@ -342,7 +348,9 @@ $(document).ready(function(){
             var url = removeParam("{{message}}", url) ;
             var url = removeParam("{{filter}}", url) ;
             var url = removeParam("{{filter_value}}", url) ;
-            url = url+sep+'{{filter}}='+col+'&{{filter_value}}='+search+'';
+            var url = removeParam("{{pgn_paramPage}}", url) ;
+            var url = removeParam("{{n_results_default}}", url) ;
+            url = url+sep+'{{pgn_paramPage}}=1&'+'{{pgn_paramRes}}={{ n_results_default }}&'+'{{filter}}='+col+'&{{filter_value}}='+search+'';
             window.location.href = url;
             // console.log(url);
         }
