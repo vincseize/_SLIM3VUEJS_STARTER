@@ -42,7 +42,11 @@ final class TestApiAction
         $message= 'message'; // url var
         $filter = 'filter'; // url var
         $filter_value = 'filter_value'; // url var
+        $order = 'order'; // url var
+        $order_by = 'order_by'; // url var
+        $date_now = date('Y-m-d H:i:s');
 
+        $order_value = "DESC";
         $n_results_get = $this->n_results_default;
         if ($request->getQueryParams() ) {
             $gets = $request->getQueryParams();
@@ -59,7 +63,29 @@ final class TestApiAction
         $Api = new $this->Api($this->db, $this->table);
         $tableColsNames = $Api->tableColsName();
         $tableColsNames_all = $Api->tableColsName_all();
-        
+        $first_col = array_keys($tableColsNames_all)[0];
+
+        $this->logger->info("Api ".$this->table." action dispatched");
+        $testConnectApi='FALSE';
+        $testConnectApi = $Api->testConnectApi();
+       
+        // ORDER  
+        if(isset($_GET[$order])) { 
+            $order_value = $_GET[$order];   
+        }
+        // else { 
+        //     $order_value = "DESC";   
+        // }
+        $order_by_value = $first_col;
+        if(isset($_GET[$order_by])) { 
+            $order_by_value = $_GET[$order_by];   
+        }  
+
+        // print_r($order_value);
+        // print_r($order_by_value);
+        // return;
+
+
         // ADD
         if(isset($_GET['submit_add'])) { 
             // return;
@@ -120,124 +146,57 @@ final class TestApiAction
 
 
 
-        if(isset($_GET["delete_ids"])){
+        if (isset($_GET["delete_ids"])) {
             // print_r($_GET["delete_ids"]);
             // return;
-            foreach($_GET["delete_ids"] as $id)
+            foreach ($_GET["delete_ids"] as $id)
             {
                 $result = $Api->delete($id);
-                if($result=="FALSE"){
+                if ($result=="FALSE"){
                     array_push($result_array,$result);
                 }
             }
             echo json_encode($array); 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // --------------------------------------------------
-
-
-        $this->logger->info("Hello page action dispatched");
-
-        // $n_results_get = $this->n_results_default;
-        // if ($request -> getQueryParams() ) {
-        //     $gets = $request->getQueryParams();
-        //     $n_results_get = $gets[$url_getResult];
-        // }
-
-        
-
-        // $Api = new $this -> Api($this -> db, $this->table);
-        $testConnectApi='FALSE';
-        $testConnectApi = $Api->testConnectApi();
-
-        // $url_getPage   = 'page'; // url var
-        // $url_getResult = 'n_result'; // url var
+        // READ
         $n_results_get = $this->n_results_default;
         if ($request -> getQueryParams() ) {
             $gets = $request->getQueryParams();
             $n_results_get = $gets[$url_getResult];
         }
 
-        $rowsCount = count($Api->select_all()); 
         $limit_deflt = $this->n_results_default; 
         $limit = $limit_deflt; 
         if (isset($_GET[$url_getResult]) ) {
             $limit = $_GET[$url_getResult]; 
         } 
-        if(!isset($_GET[$url_getResult]) || trim($_GET[$url_getResult]) === ""){$limit = $limit_deflt;}
-        // echo $limit;
-        // return;
+        if (!isset($_GET[$url_getResult]) || trim($_GET[$url_getResult]) === "") {
+            $limit = $limit_deflt;
+        }
+
         $page = (isset($_GET[$url_getPage])) ? $_GET[$url_getPage] : 1;
         $limit_start = ($page - 1) * $limit;
-        $table_fetchAll = $Api->select($limit_start, $n_results_get);
+        $table_fetchAll = $Api->select($limit_start, $n_results_get, $order_value, $order_by_value);
+        $rowsCount = count($Api->select_all($order_by_value)); 
 
         // return;
-
-        // print_r("<br><br>");
+        // FILTERS
         if (isset($_GET[$filter]) !== '' && isset($_GET[$filter_value]) !== '' ) { 
             if (!empty($_GET[$filter]) && !empty($_GET[$filter_value]) ) {
                 $col = $_GET[$filter];
                 $value = $_GET[$filter_value];
+                // restful
                 // $url_form = $this->url."/api/".$this->table."/search/".$f."/".$f_value."";
                 // $url = $this->url."/testApi/".$this->table;
                 // $table_fetchAll = $Api->select_filter_restful($url_form, $url, $limit_start, $n_results_get);
-                $table_fetchAll = $Api->select_filter($col, $value, $limit_start, $n_results_get);
-                $rowsCount = count($Api->select_filter_all($col, $value)); 
+                // classical crud select to use DESC ASC ORDER simply
+                $table_fetchAll = $Api->select_filter($col, $value, $limit_start, $n_results_get, $order_value, $order_by_value);
+                $rowsCount = count($Api->select_filter_countAll($col, $value)); 
             }
         }
 
-
-        // $array_fake = array('nom','email');
-        // $array_cols = array();
-        // $array_check = array();
-        // $check_fake = 'FALSE'; // check if cols in table
-  
-        // foreach ($table_fetchAll as $key => $value) {
-        //     array_push($array_cols, $key);
-        // }
-
-        // foreach ($array_fake as $value) {
-        //     if (!in_array($value, $array_cols)) {
-        //         array_push($array_check, 'FALSE');
-        //     }
-        // }
-
-        // if (count($array_check)==0) {
-        //     $check_fake = 'TRUE'; // check if cols in table
-        // }
-
-        // return;
-
-        // table pagination vars
+        // vars table pagination
         $pgn_dfltLimit  = $limit; 
         $pgn_rCount     = $rowsCount;
         $pgn_paramPage  = $url_getPage; 
@@ -267,11 +226,10 @@ final class TestApiAction
 
         // vars for twig templates
         $viewData = [
-            // tests vars
-            'now' => date('Y-m-d H:i:s'),
+            // vars tests
+            'now' => $date_now,
             'res_test'=> $testConnectApi,
-            // table vars
-            // 'fake' => $check_fake,
+            // vars table, form
             'table_fetchAll' => $table_fetchAll,
             'tableColsNames' => $tableColsNames,
             'tableColsNames_all' => $tableColsNames_all,
@@ -288,18 +246,20 @@ final class TestApiAction
             'filter' => $filter,
             'filter_value' => $filter_value,
             'message' => $message,
+            'order' => $order,
+            'order_value' => $order_value,
+            'order_by' => $order_by,
+            'order_by_value' => $order_by_value,
+
             // 'url_form' => $url_form,
             // 'url_form_update' => $url_form_update,
             'rowsCount' => $rowsCount,
-            // pagination
+            // vars pagination
             'pagination' => $pagination,
         ];
 
         $this->view->render($response, 'testApi.twig', $viewData);
         return $response;
     }
-
-
-
 
 }

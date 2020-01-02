@@ -26,12 +26,59 @@
                 {% set color_res_api = "red" %}
             {% endif %}
             <font color=silver>Connect to API : </font><font color={{color_res_api}}>{{ res_test }}</font>&nbsp; 
-            <button type="button" class="btn btn-default" onClick="window.location.reload();">
+            <button type="button" id="reset" name="reset" class="btn btn-default" onClick="window.location.reload();">
                 <i class="fa fa-refresh"></i>
-                Refresh
+                Reset
             </button>
         </div>
       </div><!-- /.navbar-collapse -->
 
     </div><!-- /.container-fluid -->
 </nav>
+
+<script scoped>
+    function removeParam(key, url) {
+        var rtn = url.split("?")[0],
+            param,
+            params_arr = [],
+            queryString = (url.indexOf("?") !== -1) ? url.split("?")[1] : "";
+        if (queryString !== "") {
+            params_arr = queryString.split("&");
+            for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+                param = params_arr[i].split("=")[0];
+                if (param === key) {
+                    params_arr.splice(i, 1);
+                }
+            }
+            rtn = rtn + "?" + params_arr.join("&");
+        }
+        rtn = rtn.replace("??", "?");
+        rtn = rtn.replace("?&", "?");
+        return rtn;
+    }
+
+    $("#reset").click(function(){
+
+        url = window.location.href;
+
+        var sep = '?';
+        var params = url.split('?')[1];
+        try {
+            count = params.length;
+            sep = '&';
+        }
+        catch(err) {
+            var count = 0;
+            sep = '?';
+        }
+        var url = removeParam("{{message}}", url) ;
+        var url = removeParam("{{order}}", url) ;
+        var url = removeParam("{{order_by}}", url) ;
+        var url = removeParam("{{filter}}", url) ;
+        var url = removeParam("{{filter_value}}", url) ;
+        // url = url+sep+'{{order}}={{order_ascDesc}}&{{order_by}}='+col+'';
+        window.location.href = url;
+        // console.log(url);
+
+});
+</script>

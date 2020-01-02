@@ -171,7 +171,47 @@ $(document).ready(function(){
     }
 
     $(".th_sort").click(function(){
-        console.log(this.getAttribute('data-col'));
+
+        url = window.location.href;
+
+        col = this.getAttribute('data-col');
+        // console.log(col);
+        
+
+        var sep = '?';
+        var params = url.split('?')[1];
+        try {
+            count = params.length;
+            sep = '&';
+        }
+        catch(err) {
+            var count = 0;
+            sep = '?';
+        }
+
+        
+        var url = removeParam("{{message}}", url) ;
+        var url = removeParam("{{order}}", url) ;
+        var url = removeParam("{{order_by}}", url) ;
+
+        var order_value = "DESC";
+        if("{{order_value}}"=="ASC"){
+            var order_value = "DESC";
+        }else{
+            var order_value = "ASC";
+        }
+
+        console.log("----");
+        console.log("{{order_value}}");
+        console.log("----");
+        console.log("{{order_by_value}}");
+        console.log(order_value);
+
+        // url = url+sep+'{{order}}={{order_value}}&{{order_by}}='+col+'';
+        url = url+sep+'{{order}}='+order_value+'&{{order_by}}='+col+'';
+        window.location.href = url;
+        console.log(url);
+        
     });
     
     $("#btn_add_form_open").click(function(){

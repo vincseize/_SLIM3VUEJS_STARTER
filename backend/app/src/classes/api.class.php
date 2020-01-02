@@ -324,16 +324,18 @@ class Api{
     // Read
     // -----------------------------------------------------------------------------
 
-    public function select($start,$end=100) {
-        $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT $start,$end";
+    public function select($start, $end, $order_value, $order_by_value) {
+        $sql = "SELECT * FROM $this->table ORDER by $order_by_value $order_value LIMIT $start, $end";
+        print_r($sql);
+        // return;
         $sth = $this->db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function select_all() {
-        $sql = "SELECT * FROM $this->table ORDER by id DESC";
+    public function select_all($order_by_value) {
+        $sql = "SELECT * FROM $this->table ORDER by $order_by_value";
         $sth = $this->db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_NUM); 
@@ -344,7 +346,7 @@ class Api{
     // Filters
     // -----------------------------------------------------------------------------
 
-    public function select_filter_all($col, $value) {
+    public function select_filter_countAll($col, $value) {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col."";
         $sth = $this->db->prepare($sql);
         $query = "%".$value."%";
@@ -354,8 +356,8 @@ class Api{
         return $result;
     }
 
-    public function select_filter($col, $value, $start, $end) {
-        $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col." DESC LIMIT $start, $end";
+    public function select_filter($col, $value, $start, $end, $order_value, $order_by_value) {
+        $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col." $order_value LIMIT $start, $end";
         $sth = $this->db->prepare($sql);
         $query = "%".$value."%";
         $sth->bindParam('value', $query);
@@ -364,7 +366,7 @@ class Api{
         return $result;
     }
 
-    public function select_filter_restful($url_form, $url, $start, $end=100) {
+    public function select_filter_restful($url_form) {
         $ch = curl_init($url_form);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);       
         $response = curl_exec($ch);
