@@ -5,10 +5,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
-# Slim 3 Starter WIP
+# Slim 3 Starter Backend, Frontend VueJs ... WIP
 
 - Restful API
-- Crud API
 - Dynamic Routes
 - includes Twig, Flash messages, Monolog, Faker, Libraries
 - includes Bootstrap 3.0.2, own styles.css
@@ -19,6 +18,7 @@ Backend :
 - Auto-tables
 - Pagination
 - Search by filters
+- Crud for sure
 
 Frontend : 
 
@@ -43,12 +43,14 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 ## Key directories
 
 * `app`: Application code
-* `app/src`: All class files within the `App` namespace
-* `app/templates`: Twig template files
+* `app/src`: ...
+* `app/src/templates`: Twig template files
 * `cache/twig`: Twig's Autocreated cache files
 * `log`: Log files
 * `public`: Webserver root
 * `vendor`: Composer dependencies
+
+## BACKEND
 
 ## Key files
 
@@ -57,8 +59,8 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 * `app/dependencies.php`: Services for Pimple
 * `app/middleware.php`: Application middleware
 * `app/routes.php`: All application routes are here
-* `app/src/Action/HomeAction.php`: Action class for the home page
-* `app/templates/home.twig`: Twig template file for the home page
+* `app/src/Action/ApiAction.php`: Action class for the backend page
+<!-- * `app/templates/home.twig`: Twig template file for the home page -->
 
 ## Routes
 
@@ -70,7 +72,7 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 * `sql`: booking_vuejs.sql
 
 ## Usages
-* `tests`: to write...
+* `tests`: to do...
 
 ## Restful
 update
@@ -78,11 +80,13 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto
 
 ## Todo
 
-* `twig`: send data
-* `crud`: update
-* `restful`: delete update
+* `col`: check
+* `col`: list 
+* `col`: list from other table
+* `col`: upload image
+* `col`: date calendar
 
 ## Changelog
 
-* `npm by`: npm install -g auto-changelog / https://github.com/CookPete/auto-changelog#what-you-might-do-if-youre-clever
+* `npm by`: npm install -g auto-changelog / https://github.com/todo
 

@@ -76,12 +76,27 @@
         </div>
     </div>
     <br>
+    {{ order_value }}
+    <br>
+    {{ order_by }}
+    <br>
+    {{ order_by_value }}
+    <br>
+    {{n_results}}
     <table id="table_results" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th width="1%">#</th>
                 {% for key, value in tableColsNames_all %}
-                    <th class="th_sort" data-col="{{ key }}"><i class="fa fa-fw fa-sort"></i>{{ key }}</th>
+                    {% set faSort = 'fa-sort-desc' %}
+                    {% if (order_value == "ASC" and key == order_by_value) %}
+                        {% set faSort = 'fa-sort-asc' %}
+                    {% endif %}
+                    {% if (order_value == "DESC" and key == order_by_value) %}
+                        {% set faSort = 'fa-sort-desc' %}
+                    {% endif %}                 
+
+                    <th class="th_sort" data-col="{{ key }}"><i class="fa fa-fw {{faSort}}"></i>{{ key }}</th>
                 {% endfor %}  
                 <th class="text-center">
                     <div align="center">
@@ -105,7 +120,6 @@
                         </td>
                     {% endfor %}
                     <td class="text-center delete-tr">
-                        {# <input type="button" name="bt-update_{{ values.id }}" class="bt-update"> #}
                         <button class="btn-small  btn_update_form_open" id="{{ values.id }}" name="{{ values.id }}"><i class="fa fa-pencil"></i></button>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="checkbox" name="checkbox-delete_{{ values.id }}" class="checkbox-delete" value="{{ values.id }}">
@@ -170,26 +184,77 @@ $(document).ready(function(){
         $('#btn_delete_all').prop('checked', false);
     }
 
+    function checkParemeterExists(parameter)
+        {
+        //Get Query String from url
+        fullQString = window.location.search.substring(1);
+        
+        paramCount = 0;
+        queryStringComplete = "?";
+
+        if(fullQString.length > 0)
+        {
+            //Split Query String into separate parameters
+            paramArray = fullQString.split("&");
+            
+            //Loop through params, check if parameter exists.  
+            for (i=0;i<paramArray.length;i++)
+            {
+                currentParameter = paramArray[i].split("=");
+                if(currentParameter[0] == parameter) //Parameter already exists in current url
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+}
+
     $(".th_sort").click(function(){
 
         url = window.location.href;
+        // if({{n_results}}!=1){
+        //     var url = removeParam("{{pgn_paramPage}}", url) ;
+        //     var url = removeParam("{{pgn_paramRes}}", url) ;  
+        // }
+
+
 
         col = this.getAttribute('data-col');
-        // console.log(col);
+        console.log(url);
         
 
-        var sep = '?';
-        var params = url.split('?')[1];
-        try {
-            count = params.length;
-            sep = '&';
+
+
+
+
+
+        // var params = url.split('?')[1];
+        // try {
+        //     count = params.length;
+        //     sep = '&';
+        // }
+        // catch(err) {
+        //     var count = 0;
+        //     sep = '?';
+        // }
+
+
+        check_pgn_paramPage = checkParemeterExists("{{pgn_paramPage}}");
+        console.log(check_pgn_paramPage);
+        if(check_pgn_paramPage==true){
+            var url = removeParam("{{pgn_paramPage}}", url) ;
         }
-        catch(err) {
-            var count = 0;
-            sep = '?';
+        // console.log(check_pgn_paramPage);
+
+        check_pgn_paramRes = checkParemeterExists("{{pgn_paramRes}}");
+        console.log(check_pgn_paramRes);
+        if(check_pgn_paramRes==true){
+            var url = removeParam("{{pgn_paramRes}}", url) ;
         }
 
-        
+ 
         var url = removeParam("{{message}}", url) ;
         var url = removeParam("{{order}}", url) ;
         var url = removeParam("{{order_by}}", url) ;
@@ -208,7 +273,17 @@ $(document).ready(function(){
         // console.log(order_value);
 
         // url = url+sep+'{{order}}={{order_value}}&{{order_by}}='+col+'';
-        url = url+sep+'{{order}}='+order_value+'&{{order_by}}='+col+'';
+        // http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/testApi/clients&page=3&n_result=10&order=ASC&order_by=email
+
+        var sep = '?';
+        if(url.includes("?")==true){
+            var sep = '&';
+        }
+
+
+        url = url+sep+'{{pgn_paramPage}}={{n_results}}&{{pgn_paramRes}}={{pgn_dfltLimit}}&{{order}}='+order_value+'&{{order_by}}='+col+'';
+
+
         window.location.href = url;
         // console.log(url);
         
