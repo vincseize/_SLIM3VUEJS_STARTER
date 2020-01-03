@@ -16,3 +16,10 @@ h1 {
     font-weight: 200;
     margin-bottom: 0;
 }
+
+.bottom_home{
+    position:absolute;
+    bottom:5px;
+    width:100%;
+}
+

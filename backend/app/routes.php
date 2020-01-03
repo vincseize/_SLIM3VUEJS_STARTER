@@ -8,54 +8,14 @@
 $app->get('/', App\Action\HomeAction::class)
     ->setName('homepage');
 
-$app->get('/time', App\Action\TimeAction::class)
-    ->setName('time');
+// $app->get('/time', App\Action\TimeAction::class)
+//     ->setName('time');
     
-$app->get('/hello', App\Action\HelloAction::class)
-    ->setName('hello');
+// $app->get('/hello', App\Action\HelloAction::class)
+//     ->setName('hello');
 
 $app->get('/testApi/[{table}]', App\Action\TestApiAction::class)
     ->setName('testApi');
-
-// --------------------------------
-
-$app->get('/api/test', function ($request, $response, $args) {
-
-    $table='clients';
-    $api = new Api($this->db,$table);
-    $faker = Faker\Factory::create();
-    
-    // as class
-    // $res_test = Api::test();
-
-    // as instance / object
-    $res_test = $api->testConnectApi();
-
-
-    // ----- SAMPLE FOR DOUBLONS UNAUTHORIZE, 'value' => false
-    // $data = array( 
-    //     'nom' => htmlspecialchars($faker->name), 
-    //     'email' => 'toto' 
-    // );
-    // $doublons = array( 'col' => 'email', 'value' => false );
-    // -------------------------------------
-
-    $data = array( 
-        'nom' => htmlspecialchars($faker->name), 
-        'email' => htmlspecialchars($faker->email) 
-    );
-    $doublons = array( 'col' => 'email', 'value' => true );
-
-    // as class
-    // $res_populate = Api::populate($data,$doublons);
-
-    // as instance / object
-    $res_populate = $api->populate($data,$doublons);
-    echo $res_populate;
-
-    return;
-
-});
 
 // API CRUD RESTFUL
 

@@ -29,29 +29,8 @@ require __DIR__ . '/../app/src/Classes/api.class.php';
 // Register pagination
 require __DIR__ . '/../app/src/Classes/pgn.class.php';
 
-
 // -----------
 $container = $app->getContainer();
-
-// // $faker = Faker\Factory::create();
-// // echo $faker->name;
-// // echo "<br>";
-
-// // $obj = new Api;
-// // $result = $obj->test();
-// $result = Api::test();
-// echo $result;
-// echo "<br>";
-// // $friend = Api->find_one($id);
-// // $result = $obj->test();
-// $table='clients';
-// $column1='nom';
-// $column2='email';
-// $result = Api::populate('clients',$column1,$column2);
-// echo $result;
-
-
-// return;
 
 // Run!
 $app->run();

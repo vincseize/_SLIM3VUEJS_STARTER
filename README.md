@@ -81,14 +81,15 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 
 ## First Issues
 
-* `order`: double ... click
+<!-- * `order`: double ... click -->
+* `login`: login password page
 * `url`: url testApi/... empty -> to first table as default
 * `filter`: with empty values
-* `filters`: all
+* `search`: multi col
 
 ## Todo
 
-* `login`: login password page
+* `doublons accepted true false`: add update
 * `session check`: login password page
 * `rename / delete api routes`: TestapiAction -> ApiAction, delete unused ...
 * `message`: return info
@@ -106,7 +107,6 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 * `path js`: global vars
 * `path php`: to settings
 * `middleware`: to test
-* `search`: multi col
 
 ## Changelog
 

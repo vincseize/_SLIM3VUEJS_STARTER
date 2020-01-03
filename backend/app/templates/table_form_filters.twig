@@ -5,6 +5,8 @@
                 {% for key, value in tableColsNames_all %}
                     <option>{{ key }}</option>
                 {% endfor %}
+                <option disabled>─</option>
+                <option>All Columns</option>
             </select>
             <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;">
             <button type='submit' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
