@@ -1,28 +1,49 @@
 <?php 
-/*
-    Author: Vincseize
-    Post: generic Php API
-*/
-
+/**
+ * Author: Vincseize
+ * Post: generic Php API for slim3
+ */
 class Api{
 
-    private $db; 
+    private $_db; 
 
-    /*  
-        $db is your db/pdo connection
-        $table is your db/pdo table for request
-    */
-    function __construct($db,$table){
-        $this->db = $db;
+    /**
+     * $_db is your _db/pdo connection
+     * $table is your _db/pdo table for request
+     */
+    function __construct($_db,$table){
+        $this->_db = $_db;
         $this->table = $table;
         // $faker = Faker\Factory::create();
         // $this->faker = $faker;
     }
 
+    /**
+     * @desc Do a DELETE request with cURL
+     *
+     * @param  string  $path path that goes after the URL fx. "/user/login"
+     * @param  array  $json If you need to send some json with your request.
+     *                      For me delete requests are always blank
+     * @return Obj    $result HTTP response from REST interface in JSON decoded.
+     */
+    public function curl_restful($path, $json = '', $request="DELETE")
+    {
+        $url = $this->__url.$path;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        $result = json_decode($result);
+        curl_close($ch);
+        return $result;
+    }
+
     public function tableColsName_all() {
         $tableColsName_all = array();
         $tableToDescribe = $this->table;
-        $statement = $this->db->query('DESCRIBE ' . $tableToDescribe);
+        $statement = $this->_db->query('DESCRIBE ' . $tableToDescribe);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         foreach($result as $col){
             $tableColsName_all[$col['Field']] = $col['Type'];
@@ -34,7 +55,7 @@ class Api{
         $tableColsNames = array();
         $tableColsNames_false = ["id", "created", "created_by", "updated", "updated_by"];
         $tableToDescribe = $this->table;
-        $statement = $this->db->query('DESCRIBE ' . $tableToDescribe);
+        $statement = $this->_db->query('DESCRIBE ' . $tableToDescribe);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($result);
         foreach($result as $col){
@@ -54,7 +75,7 @@ class Api{
         // print_r($col);
         // print_r('<br>--$value--<br>');
         // print_r($value);
-        $sth = $this->db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
+        $sth = $this->_db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -81,7 +102,7 @@ class Api{
         // print_r($col);
         // print_r('<br>--$value--<br>');
         // print_r($value);
-        $sth = $this->db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
+        $sth = $this->_db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         print_r('<br>--$key_default--<br>');
@@ -91,7 +112,7 @@ class Api{
             $key_founded = $result[$key][$key_default];
             print_r ($key_founded);
             $sql = "UPDATE $this->table SET $col = '$value'  WHERE $key_default = '$key_founded'";
-            $sth = $this->db->prepare($sql);
+            $sth = $this->_db->prepare($sql);
             $sth->execute();
         }
 
@@ -105,7 +126,7 @@ class Api{
 
     public function prepareInsert($fieldsList,$bindsList){
         $sql = "INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)";
-        $result = $this->db->prepare($sql);
+        $result = $this->_db->prepare($sql);
         return $result;
     }
 
@@ -304,7 +325,7 @@ class Api{
 
     public function delete($id){
         $sql = "DELETE FROM $this->table WHERE id = '".$id."'";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         if (!$sth->execute()) {
             return "FALSE";
         }
@@ -314,7 +335,7 @@ class Api{
     //     $this->$app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
     //         $result = 0;
     //         $sql = "DELETE FROM ".$args['table']." WHERE id=:id";
-    //         $sth = $this->db->prepare($sql);
+    //         $sth = $this->_db->prepare($sql);
     //         $sth->bindParam("id", $args['id']);
     //         $sth->execute();
     //         $result = $sth->rowCount();
@@ -330,7 +351,7 @@ class Api{
         $sql = "SELECT * FROM $this->table ORDER by $order_by_value $order_value LIMIT $start, $end";
         // print_r($sql);
         // return;
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         return $result;
@@ -338,7 +359,7 @@ class Api{
 
     public function select_all($order_by_value) {
         $sql = "SELECT * FROM $this->table ORDER by $order_by_value";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_NUM); 
         return $result;
@@ -350,7 +371,7 @@ class Api{
 
     public function select_filter_countAll($col, $value) {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col."";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $query = "%".$value."%";
         $sth->bindParam('value', $query);
         $sth->execute();
@@ -360,7 +381,7 @@ class Api{
 
     public function select_filter($col, $value, $start, $end, $order_value, $order_by_value) {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col." $order_value LIMIT $start, $end";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $query = "%".$value."%";
         $sth->bindParam('value', $query);
         $sth->execute();
@@ -498,7 +519,7 @@ class Api{
 
             if($doublons_value==true){
                 
-                // $sth = $this->db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
+                // $sth = $this->_db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
                 $sth = $this->prepareInsert($fieldsList,$bindsList);
                 if($sth->execute($data)){
                     $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
@@ -554,7 +575,7 @@ class Api{
     public function populateToHtml2($n_results=10) {
         $idToDelete=1;
         $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         print "<table width='100%'>";
@@ -639,7 +660,7 @@ class Api{
     public function populateToHtml($n_results=10) {
         $idToDelete=1;
         $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
-        $sth = $this->db->prepare($sql);
+        $sth = $this->_db->prepare($sql);
         $sth->execute(); 
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
         print "<table width='100%'>";

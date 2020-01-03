@@ -1,6 +1,7 @@
 [![GitHub version](https://img.shields.io/badge/version-dev-green)](version-dev-green)
 [![GitHub releases](https://img.shields.io/badge/release-v0.5.1-blue)](https://img.shields.io/badge/release-v0.5.1-blue)
-[![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues)
+[![GitHub releases](https://img.shields.io/badge/issues-8-green)](https://img.shields.io/badge/issues-8-green)
+<!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
 [![GitHub forks](https://img.shields.io/github/forks/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/network)
 [![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
@@ -13,7 +14,7 @@
 - includes Bootstrap 3.0.2, own styles.css
 - Own classes.php
 
-Backend : 
+### Backend : 
 
 - Auto-tables
 - Pagination
@@ -78,15 +79,20 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 <!-- update
 http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto -->
 
-## Issues
+## First Issues
 
 * `order`: double ... click
-* `url`: url testApi/... empty -> to clients or first table?
+* `url`: url testApi/... empty -> to first table as default
+* `filter`: with empty values
+* `filters`: all
 
 ## Todo
 
+* `login`: login password page
+* `session check`: login password page
+* `rename / delete api routes`: TestapiAction -> ApiAction, delete unused ...
+* `message`: return info
 * `twig`: form one twig
-* `filters`: all
 * `col`: check
 * `col`: list 
 * `col`: list from other table
@@ -96,6 +102,10 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 * `curl`: fct
 * `js`: scoped and minify several
 * `php`: cst check
+* `url`: test with added neutral random var
+* `path js`: global vars
+* `path php`: to settings
+* `middleware`: to test
 
 ## Changelog
 

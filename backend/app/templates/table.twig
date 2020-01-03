@@ -1,81 +1,64 @@
 <div class="container my_container">
     <font color=grey>Current time: </font><font color=silver><i>{{ now }}</i></font>
     <br><br>
-    <div style="vertical-align:top;margin:0;padding:0;">
-        {# <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
-            {% if fake == 'TRUE' %}
-                <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add">ADD Fake Entry</button>
-            {% else %}
-                <button type="button" name="btn_add_fake" id="btn_add_fake" class="btn btn-primary btn_add" disabled>ADD Fake Entry</button>
-            {% endif %} 
-            &nbsp;<font color=silver><i>( nom | email ) see TestApiAction.php, _crud.php</i></font>
-        </div>
-        <br><br> #}
-        <div style="display:inline-block;vertical-align:top;margin:0;padding:0;">
-            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
-            {# <button type="button" name="btn_update_form_open" id="btn_update_form_open" class="btn btn-primary btn_add">UPDATE</button> #}
-            {# {% if fake == 'TRUE' %}
-            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
-            {% else %}
-            <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add" disabled>ADD</button>
-            {% endif %}  #}
-        </div>
-        <br><br>
-        <div>
-            <div class="col-sm-8 col-sm-offset-2">
-                <div class="col-sm-12 form-column">
-                    {% include 'table_form.twig' %}
-                    {# <form id="form_add">
-                        <div class="form-group">
-                            <label for="country">Nom</label>
-                            <input type="text" id="nom" name="nom" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control">
-                        </div>
-                        <button type="button" name="btn_add_form" id="btn_add_form" class="btn btn-primary">Submit</button>
-                    </form> #}
+
+        <style>
+            /* .yellow-background {
+                background: blue;
+            }
+            
+            .pull-left {
+                background: red;
+            } */
+            .pull-right {
+                margin-right:0;
+                padding-right:0;
+            }
+            .pull {
+                vertical-align:top;
+                margin:0;
+                padding:0;
+                width:100% important;
+            }
+        </style>
+
+            <div class="row" style="vertical-align:top;margin:0;padding:0;width:100% important;">
+                <div class="container my_container pull" styleX="vertical-align:top;margin:0;padding:0;width:100% important;">
+                    <div class="col-md-4" style="margin-left:0;padding-left:0;">
+                        <button type="button" name="btn_add_form_open" id="btn_add_form_open" class="btn btn-primary btn_add">ADD</button>
+                    </div>
+                    <div class="col-md-4 col-md-offset-4"style="margin-right:0;padding-right:0;">
+                        <div class="pull-right" styleX="margin-right:0;padding-right:0;">
+                            <div class="pull-right" styleX="margin-right:0;padding-right:0;">{% include 'table_form_filters.twig' %}</div>  
+                        </div>    
+                    </div>
                 </div>
             </div>
+
+            <div class="col-sm-8 col-sm-offset-2">
+                <div>
+                    <br>
+                    {% include 'table_form_addUpdate.twig' %}
+                </div>
+            </div>
+
+</div>
+
+<div class="row"  style="vertical-align:top;margin:0;padding:0;width:100% important;">
+    <div class="container my_container pull"  styleX="vertical-align:top;margin:0;padding:0;width:100% important;">
+        <div class="col-md-4" style="vertical-align:top;margin:0;padding:0;width:100% important;">
+            {% include 'table_pgn_top.twig' %}
         </div>
-        {# ------------ SEARCH #}
-        {# <div class="input-group"> 
-            <span class="input-group-btn">
-                <button type='button' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
-                <i class="fa fa-search"></i>&nbsp;&nbsp;RESTFUL Search by</span>
-                </button>      
-                <select name='search_select_col_restful' id='search_select_col_restful' class="form-control" style="width:auto;">
-                    {% for key, value in table_fetchAll[0] %}
-                        <option>{{ key }}</option>
-                    {% endfor %}
-                </select>
-                <input name='search_input_restful' id='search_input_restful' class="form-control" type='text' value='Miss' style="width:auto;">    
-            </span>
-        </div> #}
-        <div class="input-group"> 
-            <span class="input-group-btn">
-                {# <form> #}
-                    <select name='search_select_col' id='search_select_col' class="form-control" style="width:auto;">
-                        {% for key, value in tableColsNames_all %}
-                            <option>{{ key }}</option>
-                        {% endfor %}
-                    </select>
-                    <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;">
-                    <button type='submit' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
-                        <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
-                    </button>   
-                    &nbsp;&nbsp;
-                    <button type='button' name="btn_filter_by_json" id="btn_filter_by_json" class="btn btn-default">
-                        Json</span>
-                    </button>    
-                    &nbsp;&nbsp;
-                    <button type='submit' name="btn_filter_clear" id="btn_filter_clear" class="btn btn-default">Clear</button>
-                {# </form>   #}
-            </span>
+        <div class="col-md-4 col-md-offset-4" styleX="vertical-align:top;margin:0;padding:0;width:100% important;">
+            <div class="pull-right" styleX="vertical-align:top;margin:0;padding:0;width:100% important;">
+                <div class="pull-right"></div>  
+            </div>
         </div>
     </div>
-    <br>
+</div>
+
+<div style="margin-left:14px;margin-right:14px;">
+
     <table id="table_results" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -121,8 +104,11 @@
             {% endfor %}
         </tbody>
     </table>
-    {% include 'table_pgn.twig' %}
+
 </div>
+
+    {% include 'table_pgn_bottom.twig' %}
+{# </div> #}
 
 <script scoped>
 $(document).ready(function(){
@@ -130,7 +116,7 @@ $(document).ready(function(){
     conform_ui();
 
     function conform_ui() {
-        $("#nResult_select").val("{{ n_result }}");
+        $(".nResult_select").val("{{ n_result }}");
         let searchParams = new URLSearchParams(window.location.search);
         if(searchParams.has('{{filter}}') == true){
             $("#search_select_col").val(searchParams.get('{{filter}}'));
@@ -215,7 +201,7 @@ $(document).ready(function(){
 
 
         col = this.getAttribute('data-col');
-        console.log(url);
+        // console.log(url);
         
 
 
@@ -235,14 +221,14 @@ $(document).ready(function(){
 
 
         check_pgn_paramPage = checkParemeterExists("{{pgn_paramPage}}");
-        console.log(check_pgn_paramPage);
+        // console.log(check_pgn_paramPage);
         if(check_pgn_paramPage==true){
             var url = removeParam("{{pgn_paramPage}}", url) ;
         }
         // console.log(check_pgn_paramPage);
 
         check_pgn_paramRes = checkParemeterExists("{{pgn_paramRes}}");
-        console.log(check_pgn_paramRes);
+        // console.log(check_pgn_paramRes);
         if(check_pgn_paramRes==true){
             var url = removeParam("{{pgn_paramRes}}", url) ;
         }

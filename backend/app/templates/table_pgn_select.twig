@@ -1,0 +1,9 @@
+<div class="input-group"> 
+    <select data-pgnPage="{{pgn_paramPage}}" data-pgnRes="{{pgn_paramRes}}" name='nResult_select' id='nResult_select' class="{{pgn_paramRes}} nResult_select" style="width:auto;" data-table="{{ table[0] }}">
+        {% for value in n_results_array %}
+            <option>{{ value }}</option>
+        {% endfor %}
+    </select>
+    &nbsp;<font color='grey'><i>total : {{rowsCount}}</i></font>
+</div>
+

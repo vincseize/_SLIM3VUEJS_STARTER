@@ -1,8 +1,6 @@
 {# ------------ ADD #}
 <div id="div_form_add" name="div_form_add" style="display:none;" class="col-sm-12 well">
     <form id="form_add" name="form_add" method="GET">
-    {# <form name="form_add" method="get" action="{{url_form}}" > #}
-
         <input type="text" name="{{pgn_paramPage}}" value="1" style="display:none">
         <input type="text" name="{{pgn_paramRes}}" value="{{pgn_dfltLimit}}" style="display:none">
 
@@ -41,13 +39,9 @@
     </form>
 </div>
 
-{# {{url_form_update}} #}
 <script scoped>
 
     $(document).ready(function(){
-
-        // $("#div_form_add>nom").val("toto");
-        
 
         $("#chck_fake").click(function(){
             if( $(this).is(':checked') ){

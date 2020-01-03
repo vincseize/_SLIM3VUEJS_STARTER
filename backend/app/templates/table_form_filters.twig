@@ -1,0 +1,22 @@
+<div class="input-group"style="margin-right:0;padding-right:0;"> 
+    <span class="input-group-btn" style="margin-right:0;padding-right:0;">
+      
+            <select name='search_select_col' id='search_select_col' class="form-control" style="width:auto;">
+                {% for key, value in tableColsNames_all %}
+                    <option>{{ key }}</option>
+                {% endfor %}
+            </select>
+            <input name='search_input' id='search_input' class="form-control" type='text' value='' style="width:auto;">
+            <button type='submit' name="btn_filter_by" id="btn_filter_by" class="btn btn-default">
+                <i class="fa fa-search"></i>&nbsp;&nbsp;Filter by</span>
+            </button>   
+            &nbsp;&nbsp;
+            <button type='button' name="btn_filter_by_json" id="btn_filter_by_json" class="btn btn-default">
+                Json</span>
+            </button>    
+            &nbsp;&nbsp;
+            <button type='submit' name="btn_filter_clear" id="btn_filter_clear" class="btn btn-default">Clear</button>
+        
+    </span>
+</div>
+
