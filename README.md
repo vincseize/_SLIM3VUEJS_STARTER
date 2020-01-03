@@ -78,6 +78,11 @@ https://getcomposer.org/doc/04-schema.md#psr-4
 update
 http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto
 
+## Issues
+
+* `order`: double ... click
+* `url`: url testApi/... empty -> to clients or first table?
+
 ## Todo
 
 * `col`: check
