@@ -1,10 +1,10 @@
 [![GitHub version](https://img.shields.io/badge/version-dev-green)](version-dev-green)
 [![GitHub releases](https://img.shields.io/badge/release-v0.5.1-blue)](https://img.shields.io/badge/release-v0.5.1-blue)
-[![GitHub releases](https://img.shields.io/badge/issues-8-green)](https://img.shields.io/badge/issues-8-green)
-<!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
+[![GitHub releases](https://img.shields.io/badge/issues-9-green)](https://img.shields.io/badge/issues-9-green)
 [![GitHub forks](https://img.shields.io/github/forks/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/network)
 [![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
+<!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
 
 # Slim 3 Starter Backend, Frontend VueJs ... WIP
 
@@ -21,17 +21,17 @@
 - Search by filters
 - Crud for sure
 
-Frontend : 
+## Frontend : 
 
 - VueJs
 
 ## Create your project:
 
-$ composer create-project --no-interaction --stability=dev akrabat/slim3-skeleton my-app
+<!-- $ composer create-project --no-interaction --stability=dev akrabat/slim3-skeleton my-app
 
 composer dump-autoload
 
-https://getcomposer.org/doc/04-schema.md#psr-4
+https://getcomposer.org/doc/04-schema.md#psr-4 -->
 
 ### Run it:
 
@@ -106,6 +106,7 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 * `path js`: global vars
 * `path php`: to settings
 * `middleware`: to test
+* `search`: multi col
 
 ## Changelog
 
