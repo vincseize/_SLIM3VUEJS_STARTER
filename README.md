@@ -1,5 +1,5 @@
 [![GitHub version](https://img.shields.io/badge/version-build-green)](version-build-green)
-[![GitHub releases](https://img.shields.io/badge/release-v0.5.1-blue)](https://img.shields.io/badge/release-v0.5.1-blue)
+[![GitHub releases](https://img.shields.io/badge/release-v0.8.1-blue)](https://img.shields.io/badge/release-v0.5.1-blue)
 [![GitHub releases](https://img.shields.io/badge/issues-9-green)](https://img.shields.io/badge/issues-9-green)
 [![GitHub forks](https://img.shields.io/github/forks/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/network)
 [![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
@@ -45,7 +45,7 @@ $ cd /your-project-folder-name
 ### 1-SQL
 
 * `dbname`: booking_vuejs
-* `sql`: booking_vuejs.sql
+* `sql`: _sql/booking_vuejs.sql
 
 ### 2-BACKEND
 

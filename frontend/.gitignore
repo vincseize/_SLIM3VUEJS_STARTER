@@ -48,7 +48,7 @@ node_modules/*
 log/*
 cache/*
 dist/*
-src/routes/customers.php*
+src/routes/customers*
 
 *Copie*/
 _frontend*
