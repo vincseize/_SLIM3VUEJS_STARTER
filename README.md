@@ -3,9 +3,11 @@
 [![GitHub releases](https://img.shields.io/badge/issues-9-green)](https://img.shields.io/badge/issues-9-green)
 [![GitHub forks](https://img.shields.io/github/forks/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/network)
 [![GitHub stars](https://img.shields.io/github/stars/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/stargazers)
-[![GitHub releases](https://img.shields.io/badge/zipped-726ko-yellow)](https://img.shields.io/badge/zipped-726ko-yellow)
+[![GitHub releases](https://img.shields.io/badge/zipped-770ko-yellow)](https://img.shields.io/badge/zipped-770ko-yellow)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 <!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
+
+[ Demo ](http://51.38.186.165/_SLIM3VUEJS_STARTER-master/)
 
 # Slim 3.0 - Vue.Js 2.0 | Starter 
 
