@@ -85,7 +85,6 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 * `login`: login password page
 * `url`: url testApi/... empty -> to first table as default
 * `filter`: with empty values
-* `search`: multi col
 
 ## Todo
 
@@ -99,6 +98,7 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 * `col`: list from other table
 * `col`: upload image
 * `col`: date calendar
+* `filter`: multi col , different choices possible
 * `ajax`: table
 * `curl`: fct
 * `js`: scoped and minify several

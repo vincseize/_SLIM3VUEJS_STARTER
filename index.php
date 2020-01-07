@@ -18,17 +18,17 @@
     <h1>Slim3</h1>
     <div>a microframework for PHP</div>
     <p>&nbsp;</p>
-    <div><b>Starter Sample</b>  : restful API, CRUD, twig, Bootstrap3, Vuejs</div>
+    <div><b>Starter Sample</b> : Restful API, Vuejs, twig, bootstrap3</div>
     <p>&nbsp;</p>
     <input type="button" id="go_frontend" name="go_frontend"  
         class="btn btn-primary" 
-        value="Slim3 VueJs[frontend]" 
+        value="Slim3 VueJs [frontend]" 
         style="width:180px;" 
     >
     <p>&nbsp;</p>
     <input type="button" id="go_backend" name="go_backend"  
         class="btn btn-primary" 
-        value="Slim3 [backend]" 
+        value="Slim3 twig [backend]" 
         style="width:180px;" 
     >
     <p>&nbsp;</p>
@@ -42,7 +42,8 @@
 <script>
 $(document).ready(function(){
     $('#go_frontend').click(function(){
-        url = 'frontend/public/';
+        // url = 'frontend/public/';
+        url = 'frontend/dist/';
         window.open(''+url+'','_blank');
     });
     $('#go_backend').click(function(){
