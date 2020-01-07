@@ -7,7 +7,7 @@
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 <!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
 
-[ Demo ](http://51.38.186.165/_SLIM3VUEJS_STARTER-master/){:target="_blank"}
+[Demo](http://51.38.186.165/_SLIM3VUEJS_STARTER-master/){target="_blank"}
 
 # Slim 3.0 - Vue.Js 2.0 | Starter 
 
