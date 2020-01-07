@@ -4,6 +4,8 @@ This is a SlimPHP framework and uses MySQL for storage.
 
 ### Installation
 
+- Edit app/settings.php DB params
+
 - Install Slim 3. and dependencies
 
 ```sh

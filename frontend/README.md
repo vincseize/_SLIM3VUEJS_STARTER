@@ -4,14 +4,12 @@ This is a VueJs built with the SlimPHP framework and uses MySQL for storage.
 
 ### Installation
 
-- Edit src/config/db.php params
+- Edit src/config/db.php DB params
 
 - Edit src/main.js params
-//global variables
-window.base_url : 'your-project-folder-name', (eg: _SLIM3VUEJS_STARTER-master)
 
-- Edit config/index.js params
-assetsPublicPath:  : 'your-project-folder-name', (eg: _SLIM3VUEJS_STARTER-master)
+//global variables
+window.project_name : 'your-project-folder-name', (eg: _SLIM3VUEJS_STARTER-master)
 
 - Install VueJs and dependencies
 
@@ -31,7 +29,7 @@ $ npm run dev
 # http://127.0.0.1/[your-project-folder-name]/frontend/dist/
 $ npm run build
 ```
-- favicon : copy a icon into -> dist/assets/favicon.png
+- favicon : copy a icon into public/assets/favicon.png -> dist/assets/favicon.png
 
 ## Key directories
 
