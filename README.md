@@ -56,10 +56,10 @@ $ cd /your-project-folder-name
 
 ## First Issues
 
-* `url rewriting`: dist server
-* `login`: login password page
-* `url`: url testApi/... empty -> to first table as default
-* `filter`: with empty values
+* `url rewriting`: .htaccess and rewrite rules, for Slim backend on remote server
+* `login`: backend login password page
+* `url`: backend route /... empty -> to first table find in db as default
+* `filters`: with empty values
 
 ## Todo
 

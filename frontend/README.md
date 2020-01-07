@@ -22,42 +22,32 @@ $ composer (composer install)
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:8000
+# serve with hot reload at localhost:8080
 $ npm run dev
 
 # build for production with minification, 
 # http://127.0.0.1/[your-project-folder-name]/frontend/dist/
 $ npm run build
 ```
+- favicon : copy a icon into -> dist/assets/favicon.png
 
-### API Endpints
-```sh
-$ GET /api/customers
-$ GET /api/customer/{id}
-$ POST /api/customer/add
-$ PUT /api/customer/update/{id}
-$ DELETE /api/customer/delete/{id}
-```
+## Config
+
+
 
 ## Key directories
 
-* `app`: Application code
-* `app/src`: ...
-* `app/src/templates`: Twig template files
-* `cache/twig`: Twig's Autocreated cache files
-* `log`: Log files
-* `public`: Webserver root
+* `src`: Application code
+* `src/routes`: routes directory
+* `src/routes/clients.php`: sample table api
+* `dist`: builded files
+* `public`: Webserver root, entry point
 * `vendor`: Composer dependencies
 
 ## Key files
 
-* `public/index.php`: Entry point to application
-* `app/settings.php`: Configuration
-* `app/dependencies.php`: Services for Pimple
-* `app/middleware.php`: Application middleware
-* `app/routes.php`: All application routes are here
-* `app/src/Action/ApiAction.php`: Action class for the backend page
-<!-- * `app/templates/home.twig`: Twig template file for the home page -->
+* `routes`: define, add route: public/index.php
+* `src/routes/clients.php`: Api Crud for Table Clients
 
 ## Routes
 
@@ -69,6 +59,7 @@ $ DELETE /api/customer/delete/{id}
 
 ## Todo
 
+* `favicon`: path for buil or auto copy
 * `url root`: js glob var
 
 ## Changelog
