@@ -7,6 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Slim3 VueJs Starter</title>
+        <link rel="shortcut icon" href=favicon.png>
         <script src="https://code.jquery.com/jquery-3.1.1.js"
                 integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
                 crossorigin="anonymous"></script>
@@ -53,7 +54,7 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <div style="position:absolute;bottom:0;width:100%;">
+    <div style="position:absolute;bottom:0;width:100%;font-size:14px;color:silver;">
         <div>Author: Vincseize 2019</div>
         <div>Backend based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
     </div>
