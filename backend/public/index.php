@@ -31,7 +31,7 @@ require __DIR__ . '/../app/middleware.php';
 require __DIR__ . '/../app/routes.php';
 
 // Register api
-require __DIR__ . '/../app/src/Classes/api.class.php';
+// require __DIR__ . '/../app/src/Classes/api.class.php';
 
 // Register pagination
 require __DIR__ . '/../app/src/Classes/pgn.class.php';
