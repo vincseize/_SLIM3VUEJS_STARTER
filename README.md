@@ -37,8 +37,7 @@
 ## Create your project:
 
 clone or download in your root web server
-
-# (default name: _SLIM3VUEJS_STARTER-master)
+(default name: _SLIM3VUEJS_STARTER-master)
 ```sh
 $ cd /your-project-folder-name
 ```
