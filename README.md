@@ -21,29 +21,38 @@
 - Auto-tables
 - Pagination
 - Search by filters
-- Slim 3.0
+- Slim 3.
 
 ### Frontend : 
 
-- Vue.Js 2.0
-- Slim3 Restful routes
+- Vue.js 2.
+- Slim 3. Restful routes
+
+### Require : 
+
+- npm
+- Composer
+- Webpack
 
 ## Create your project:
 
+clone or download in your root web server
+
+# (default name: _SLIM3VUEJS_STARTER-master)
 ```sh
-$ create dir '_SLIM3VUEJS_STARTER' in your root web server
+$ cd /your-project-folder-name
 ```
 
-### SQL
+### 1-SQL
 
 * `dbname`: booking_vuejs
 * `sql`: booking_vuejs.sql
 
-### BACKEND
+### 2-BACKEND
 
 * `Readme`: /backend/README.md
 
-### FRONTEND
+### 3-FRONTEND
 * `Readme`: /backend/README.md
 
 ## First Issues
