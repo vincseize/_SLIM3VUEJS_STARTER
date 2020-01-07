@@ -61,5 +61,6 @@ frontend/dist/*
 
 *Copie*/
 _frontend*
+CHANGELOG_sample*
 
 # .gitignore

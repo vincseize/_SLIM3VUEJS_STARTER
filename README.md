@@ -39,6 +39,7 @@
 
 clone or download in your root web server
 (default name: _SLIM3VUEJS_STARTER-master)
+
 ```sh
 $ cd /your-project-folder-name
 ```
@@ -53,7 +54,8 @@ $ cd /your-project-folder-name
 * `Readme`: /backend/README.md
 
 ### 3-FRONTEND
-* `Readme`: /backend/README.md
+
+* `Readme`: /frontend/README.md
 
 ## First Issues
 
@@ -64,7 +66,8 @@ $ cd /your-project-folder-name
 
 ## Todo
 
-* `docs`: backend, frontend (favicon)
+* `demo`: url online demo
+* `docs`: backend
 * `doublons accepted true false`: add update
 * `session check`: login password page
 * `rename / delete api routes`: TestapiAction -> ApiAction, delete unused ...
@@ -85,7 +88,7 @@ $ cd /your-project-folder-name
 * `path php`: to settings
 * `middleware`: to test
 
-## Changelog
+<!-- ## Changelog
 
-* `npm by`: npm install -g auto-changelog / https://github.com/todo
+* `npm by`: npm install -g auto-changelog / https://github.com/todo -->
 

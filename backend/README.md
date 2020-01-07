@@ -1,6 +1,6 @@
-# VueJs.2. Starter
+# Slim.3. Starter
 
-This is a VueJs built with the SlimPHP framework and uses MySQL for storage.
+This is a SlimPHP framework and uses MySQL for storage.
 
 ### Installation
 
@@ -13,10 +13,10 @@ window.base_url : 'your-project-folder-name', (eg: _SLIM3VUEJS_STARTER-master)
 - Edit config/index.js params
 assetsPublicPath:  : 'your-project-folder-name', (eg: _SLIM3VUEJS_STARTER-master)
 
-- Install VueJs and dependencies
+- Install Slim 3. and dependencies
 
 ```sh
-$ cd your-project-folder-name/frontend
+$ cd your-project-folder-name/backend
 
 # install vendor
 $ composer install
