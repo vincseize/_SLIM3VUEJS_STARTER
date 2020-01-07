@@ -16,8 +16,9 @@ Vue.use(vueResource)
 Vue.use(VueRouter)
 
 //global variables
-window.base_url = "_SLIM3VUEJS_STARTER/frontend/dist"
-window.api_url  = "http://localhost/_SLIM3VUEJS_STARTER/frontend/public/api"
+window.project_name = "_SLIM3VUEJS_STARTER"
+window.base_url     = window.project_name+"/frontend/dist"
+window.api_url    = "http://localhost/"+window.project_name+"/frontend/public/api"
 
 const router = new VueRouter({
   mode: 'history',
