@@ -81,13 +81,14 @@ http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto 
 
 ## First Issues
 
-<!-- * `order`: double ... click -->
+* `url rewriting`: dist server
 * `login`: login password page
 * `url`: url testApi/... empty -> to first table as default
 * `filter`: with empty values
 
 ## Todo
 
+* `docs`: backend, frontend (favicon)
 * `doublons accepted true false`: add update
 * `session check`: login password page
 * `rename / delete api routes`: TestapiAction -> ApiAction, delete unused ...
