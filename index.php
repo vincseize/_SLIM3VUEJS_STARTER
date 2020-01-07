@@ -6,19 +6,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-        <!-- first -->
-        <link href='frontend/public/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-        <!-- second -->
-        <link href='frontend/public/css/styles_home.css' rel='stylesheet' type='text/css'>
-        <link rel="shortcut icon" href="frontend/public/img/favicon.png">
-        <script src='frontend/public/js/jquery.min.js'></script>
-        <title>Slim3 Starter</title>
+        <title>Slim3 VueJs Starter</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"
+                integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+        </style>
     </head>
-<body>
-    <h1>Slim3</h1>
+<body style="margin-bottom:5px;">
+    <h1>Slim3 Vuejs2</h1>
     <div>a microframework for PHP</div>
     <p>&nbsp;</p>
-    <div><b>Starter Sample</b> : Restful API, Vuejs, twig, bootstrap3</div>
+    <div><b>Starter Sample</b> : Restful API, twig, bootstrap3</div>
     <p>&nbsp;</p>
     <input type="button" id="go_frontend" name="go_frontend"  
         class="btn btn-primary" 
@@ -34,8 +53,10 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <div>Author: Vincseize 2019</div>
-    <div>Based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
+    <div style="position:absolute;bottom:0;width:100%;">
+        <div>Author: Vincseize 2019</div>
+        <div>Backend based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
+    </div>
 </body>
 </html>
 

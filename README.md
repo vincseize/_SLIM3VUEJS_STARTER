@@ -6,7 +6,7 @@
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 <!-- [![GitHub issues](https://img.shields.io/github/issues/vincseize/_PAGINATION)](https://github.com/vincseize/_PAGINATION/issues) -->
 
-# Slim3-VueJs2 Starter 
+# Slim 3.0 - Vue.Js 2.0 | Starter 
 
 - Restful API
 - Dynamic Routes
@@ -21,63 +21,30 @@
 - Auto-tables
 - Pagination
 - Search by filters
-- Slim 3
+- Slim 3.0
 
-## Frontend : 
+### Frontend : 
 
-- VueJs2
+- Vue.Js 2.0
 - Slim3 Restful routes
 
 ## Create your project:
 
-<!-- $ composer create-project --no-interaction --stability=dev akrabat/slim3-skeleton my-app
+```sh
+$ create dir '_SLIM3VUEJS_STARTER' in your root web server
+```
 
-composer dump-autoload
-
-https://getcomposer.org/doc/04-schema.md#psr-4 -->
-
-## BACKEND
-
-## Key directories
-
-* `app`: Application code
-* `app/src`: ...
-* `app/src/templates`: Twig template files
-* `cache/twig`: Twig's Autocreated cache files
-* `log`: Log files
-* `public`: Webserver root
-* `vendor`: Composer dependencies
-
-## Key files
-
-* `public/index.php`: Entry point to application
-* `app/settings.php`: Configuration
-* `app/dependencies.php`: Services for Pimple
-* `app/middleware.php`: Application middleware
-* `app/routes.php`: All application routes are here
-* `app/src/Action/ApiAction.php`: Action class for the backend page
-<!-- * `app/templates/home.twig`: Twig template file for the home page -->
-
-## Routes
-
-* `public/api/test`: Api test with Faker data
-
-## SQL
+### SQL
 
 * `dbname`: booking_vuejs
 * `sql`: booking_vuejs.sql
 
-### Run it:
+### BACKEND
 
-1. `$ 127.0.0.1/my-app/public/index.php`
-2. `or`
-3. `$ cd my-app`
-4. `$ php -S 0.0.0.0:8888 -t public public/index.php`
-5. Browse to http://localhost:8888
+* `Readme`: /backend/README.md
 
-## Restful
-<!-- update
-http://127.0.0.1/_SLIM3VUEJS_STARTER/backend/public/api/clients/update/984/toto -->
+### FRONTEND
+* `Readme`: /backend/README.md
 
 ## First Issues
 
