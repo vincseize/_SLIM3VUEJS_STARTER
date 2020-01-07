@@ -1,18 +1,18 @@
 {
-    "name": "akrabat/slim3-skeleton",
-    "description": "Simple Slim Framework 3 skeleton with Twig & Monolog.",
-    "license": "BSD-3-Clause",
+    "name": "vincseize/slim3-starter",
+    "description": "Slim Framework 3 skeleton with Twig & Monolog.",
+    "license": "MIT",
     "type": "project",
     "keywords": ["slim-framework", "skeleton"],
     "authors": [
         {
-            "name": "Rob Allen",
-            "email": "rob@akrabat.com",
-            "homepage": "http://akrabat.com"
+            "name": "Charles POTTIER",
+            "email": "vincseize@gmail.com",
+            "homepage": "http://51.38.186.165/_WEBVINCSEIZE2/"
         }
     ],
     "autoload": {
-        "files": ["app/src/Classes/api.classes.php"],
+        "files": ["app/src/Classes/api.class.php"],
         "OurOwnNamespace\\": "src/Classes",
         "psr-4": {
             "App\\": "app/src"

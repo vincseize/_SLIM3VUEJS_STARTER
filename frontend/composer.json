@@ -1,4 +1,16 @@
 {
+    "name": "vincseize/vueJs2-slim3-starter",
+    "description": "VueJs starter for Slim 3.",
+    "license": "MIT",
+    "type": "project",
+    "keywords": ["VueJs", "slim-framework"],
+    "authors": [
+        {
+            "name": "Charles POTTIER",
+            "email": "vincseize@gmail.com",
+            "homepage": "http://51.38.186.165/_WEBVINCSEIZE2/"
+        }
+    ],
     "require": {
         "slim/slim": "^3.0"
     }
