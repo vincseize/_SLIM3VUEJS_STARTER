@@ -49,8 +49,9 @@
 ## Usage:
 
 - Clone repo
-(default name: _SLIM3VUEJS_STARTER-master)
+
 ```sh
+# default name: _SLIM3VUEJS_STARTER-master
 $ cd /path/to/repo 
 ```
 
