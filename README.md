@@ -46,7 +46,7 @@
 - Composer
 - Webpack
 
-## Usage:
+# Usage:
 
 - Clone repo
 
@@ -55,37 +55,37 @@
 $ cd /path/to/repo 
 ```
 
-### 1-SQL
+### 1-Sql
 
 * `dbname`: booking_vuejs
 * `sql`: _sql/booking_vuejs.sql
 
-### 2-BACKEND
+### 2-Backend
 
 * `Readme`: /backend/[README.md](https://github.com/vincseize/_SLIM3VUEJS_STARTER/tree/master/backend)
 
-### 3-FRONTEND
+### 3-Frontend
 
 * `Readme`: /frontend/[README.md](https://github.com/vincseize/_SLIM3VUEJS_STARTER/tree/master/frontend)
 
-## Issues
-* `On remote Server`: check your chmod -R 755, 644 
+# Issues
+
+* `Remote Deploy`: check your chmod -R 755, 644 
 
 ## First Issues
 
-* `login`: backend login password page
+* `login`: backOffice login password page
 * `url`: backend route /... empty -> to first table find in db as default
 * `filters`: with empty values
 
 ## Todo
 
-* `demo`: url online demo
+* `login`: backOffice login password page
 * `docs wip`: backend
 * `doublons accepted true false`: add update
 * `session check`: login password page
 * `rename / delete api routes`: TestapiAction -> ApiAction, delete unused ...
 * `message`: return info
-* `twig`: form one twig
 * `col`: check
 * `col`: list 
 * `col`: list from other table
