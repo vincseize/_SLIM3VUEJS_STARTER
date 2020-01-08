@@ -9,7 +9,7 @@
 
 [Demo](http://51.38.186.165/_SLIM3VUEJS_STARTER-master/)
 
-# Slim 3.0 - Vue.Js 2.0 | Starter 
+# Slim 3.0 - Vue.Js 2.0 - Mysql | Starter 
 
 - Restful API
 - Dynamic Routes
@@ -19,32 +19,39 @@
 - Jquery 3
 - Some ES6 
 
-### Backend : 
-
-- Auto-tables
-- Pagination
-- Search by filters
-- Slim 3.
-
 ### Frontend : 
 
 - Vue.js 2.
-- Slim 3. Restful routes
+- Sample Crud on Client Table
 
-### Require : 
+### Backend : 
+
+- Slim 3.
+- Restful API
+- Auto-tables
+- Pagination
+- Search by filters
+
+### BackOffice : 
+
+- Slim 3.
+- Auto-tables
+- Pagination
+- Search by filters
+
+### Requirements : 
 
 - npm
 - nodejs
 - Composer
 - Webpack
 
-## Create your project:
+## Usage:
 
-clone or download in your root web server
+- Clone repo
 (default name: _SLIM3VUEJS_STARTER-master)
-
 ```sh
-$ cd /your-project-folder-name
+$ cd /path/to/repo 
 ```
 
 ### 1-SQL
@@ -54,11 +61,11 @@ $ cd /your-project-folder-name
 
 ### 2-BACKEND
 
-* `Readme`: /backend/README.md
+* `Readme`: /backend/[README.md](https://github.com/vincseize/_SLIM3VUEJS_STARTER/tree/master/backend)
 
 ### 3-FRONTEND
 
-* `Readme`: /frontend/README.md
+* `Readme`: /frontend/[README.md](https://github.com/vincseize/_SLIM3VUEJS_STARTER/tree/master/frontend)
 
 ## Issues
 * `On remote Server`: check your chmod -R 755, 644 
