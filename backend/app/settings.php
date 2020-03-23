@@ -8,9 +8,9 @@ return [
 
         // View settings
         'view' => [
-            'template_path' => __DIR__ . '/templates',
+            'template_path' => APP_DIR . '/templates',
             'twig' => [
-                'cache' => __DIR__ . '/../cache/twig',
+                'cache' => ROOT_DIR . '/cache/twig',
                 'debug' => true,
                 'auto_reload' => true,
             ],
@@ -19,7 +19,7 @@ return [
         // monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/../log/app.log',
+            'path' => ROOT_DIR . '/log/app.log',
             'level' => \Monolog\Logger::ERROR,
         ],
 
@@ -27,11 +27,11 @@ return [
         'db' => [
             'driver' => 'mysql',
             'host' => 'localhost',
-            'user' => 'root',
-            'dbname' => 'booking_vuejs',
-            'passwd' => '',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'user' => 'polo',
+            'dbname' => 'slim3vue-starter',
+            'passwd' => 'poiazemlkqsd',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'flags' => [
                 PDO::ATTR_PERSISTENT => false,
                 // Enable exceptions
@@ -46,12 +46,5 @@ return [
             'n_results_default' => '10',
             'n_results_array' => ['5','10','25','50','100'],
         ],
-
     ],
 ];
-
-
-// // Path settings
-// // $settings['root'] = dirname(__DIR__);
-// // $settings['temp'] = $settings['root'] . '/tmp';
-// // $settings['public'] = $settings['root'] . '/public';

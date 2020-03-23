@@ -1,19 +1,20 @@
-<?php 
-/**
- * Author: Vincseize
- * Post: generic Php API for slim3
- */
-class Api{
+<?php
 
-    private $_db; 
+namespace App\Classes;
+
+class Api
+{
+    private $_db;
 
     /**
      * $_db is your _db/pdo connection
      * $table is your _db/pdo table for request
      */
-    function __construct($_db,$table){
+    public function __construct($_db, $table)
+    {
         $this->_db = $_db;
         $this->table = $table;
+
         // $faker = Faker\Factory::create();
         // $this->faker = $faker;
     }
@@ -26,7 +27,7 @@ class Api{
      *                      For me delete requests are always blank
      * @return Obj    $result HTTP response from REST interface in JSON decoded.
      */
-    public function curl_restful($path, $json = '', $request="DELETE")
+    public function curl_restful($path, $json = '', $request = "DELETE")
     {
         $url = $this->__url.$path;
         $ch = curl_init();
@@ -40,27 +41,29 @@ class Api{
         return $result;
     }
 
-    public function tableColsName_all() {
-        $tableColsName_all = array();
+    public function tableColsName_all()
+    {
+        $tableColsName_all = [];
         $tableToDescribe = $this->table;
         $statement = $this->_db->query('DESCRIBE ' . $tableToDescribe);
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach($result as $col){
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($result as $col) {
             $tableColsName_all[$col['Field']] = $col['Type'];
         }
         return $tableColsName_all;
     }
 
-    public function tableColsName() {
-        $tableColsNames = array();
+    public function tableColsName()
+    {
+        $tableColsNames = [];
         $tableColsNames_false = ["id", "created", "created_by", "updated", "updated_by"];
         $tableToDescribe = $this->table;
         $statement = $this->_db->query('DESCRIBE ' . $tableToDescribe);
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach($result as $col){
-            if(!in_array($col['Field'],$tableColsNames_false)){
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($result as $col) {
+            if (!in_array($col['Field'], $tableColsNames_false)) {
                 $tableColsNames[$col['Field']] = $col['Type'];
-            }  
+            }
         }
         return $tableColsNames;
     }
@@ -68,11 +71,11 @@ class Api{
     /**
      * Search by column name, and value
      */
-    
+
     // public function searchValue( $col, $value ) {
     //     $sth = $this->_db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
     //     $sth->execute();
-    //     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    //     $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
     //     return $result;
     // }
 
@@ -80,68 +83,45 @@ class Api{
         To map keys for values
         nom=>,email=>,... ----> :nom=>,:email=>,:...
     */
-    public function renameKey( $array, $old_key, $new_key ) {
+    public function renameKey($array, $old_key, $new_key)
+    {
         $array[$new_key] = $array[$old_key];
         unset($array[$old_key]);
         return $array;
     }
 
-    /*
-        Update by $id ( default)
-        The function will update an existing $col, $value
-        from the database 
-    */
-    // public function update($col, $value, $key_default='id'){
-    //     // print_r('<br>--$update--');
-    //     // print_r('<br>--$col--<br>');
-    //     // print_r($col);
-    //     // print_r('<br>--$value--<br>');
-    //     // print_r($value);
-    //     $sth = $this->_db->prepare("SELECT * FROM $this->table WHERE $col = '$value'");
-    //     $sth->execute();
-    //     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    //     print_r('<br>--$key_default--<br>');
-    //     print_r ($key_default);
-    //     foreach($result as $key => $key_value){
-    //         print_r('<br>--$key_founded--<br>');
-    //         $key_founded = $result[$key][$key_default];
-    //         print_r ($key_founded);
-    //         $sql = "UPDATE $this->table SET $col = '$value'  WHERE $key_default = '$key_founded'";
-    //         $sth = $this->_db->prepare($sql);
-    //         $sth->execute();
-    //     }
-
-    // }
-
-    public function testConnectApi(){
+    public function testConnectApi()
+    {
         // $result = '<br>-- api CONNECT [<font color=green>OK</font>]<br>';
         // echo $result;
         return 'TRUE';
     }
 
-    public function prepareInsert($fieldsList,$bindsList){
+    public function prepareInsert($fieldsList, $bindsList)
+    {
         $sql = "INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)";
         $result = $this->_db->prepare($sql);
         return $result;
     }
 
-    /**  
+    /**
      * The function will bind params
      * nom=>,email=>,... ----> :nom=>,:email=>,:...
      */
-    public function getBinds($data){
-        $result = array();
+    public function getBinds($data)
+    {
+        $result = [];
 
         $dataBindsList = $data;
-        foreach($dataBindsList as $key => $value){
+        foreach ($dataBindsList as $key => $value) {
             $new_key = ':'.$key;
-            $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
+            $dataBindsList = $this->renameKey($dataBindsList, $key, $new_key);
         }
 
-        $binds = array_keys($dataBindsList); 
-        $bindsList = implode(',',$binds); 
+        $binds = array_keys($dataBindsList);
+        $bindsList = implode(',', $binds);
         $fields = array_keys($data);
-        $fieldsList = implode(',',$fields); 
+        $fieldsList = implode(',', $fields);
         array_push($result, $fieldsList, $bindsList);
         return $result;
     }
@@ -150,141 +130,109 @@ class Api{
     // Create
     // -----------------------------------------------------------------------------
 
-    public function add_restful($url,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
-        // try {
+    public function add_restful($url, $url_form, $doublons, $get, $url_getPage, $url_getResult, $n_results_get, $get_false)
+    {
+        $doublons_value = $doublons['value'];
+        $doublons_col = $doublons['col'];
 
-            $doublons_value = $doublons['value'];
-            $doublons_col = $doublons['col'];
+        if (!$doublons_value) {
+            return;
+        }
 
-            if($doublons_value==true){
-                
-                $post = array();
-                foreach ( $get as $key => $value ) 
-                {
-                    if(!in_array($key,$get_false)){
-                        $post[$key] = $get[$key];
-                    }
-                }
-        
-                $fieldsList = $this->getBinds($post)[0];
-                $bindsList = $this->getBinds($post)[1];
-    
-                // Order Important, post_data at least
-                $post["post_data"] = $post;
-                $post["bindsList"] = $fieldsList;
-                $post["fieldsList"] = $bindsList;
-        
-                $data = json_encode($post);
-                $ch = curl_init($url_form);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-                $response = curl_exec($ch);
-                curl_close($ch);          
-                $data = json_decode($response,true);
-                $location = $url."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."&message=".$data['message']."";       
-                header("Location: $location"); 
-                exit();
-
+        $post = [];
+        foreach ($get as $key => $value) {
+            if (!in_array($key, $get_false)) {
+                $post[$key] = $get[$key];
             }
-            
-            // else{
+        }
 
-            //     $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
-            //     print_r('<br>--$doublons_result--<br>');
-            //     print_r ($doublons_result);
-            //     print_r ( count($doublons_result));
+        $fieldsList = $this->getBinds($post)[0];
+        $bindsList = $this->getBinds($post)[1];
 
-            //     if(count($doublons_result)>0){
-            //         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
-            //         $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
-            //         print_r($title_result);
-            //     }
+        // Order Important, post_data at least
+        $post["post_data"] = $post;
+        $post["bindsList"] = $fieldsList;
+        $post["fieldsList"] = $bindsList;
 
-            // }
+        $data = json_encode($post);
+        $ch = curl_init($url_form);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-            // $n_results = 16;
-            // $result = $this->populateToHtml($n_results);
-
-        // } catch (Exception $e) {
-        //     // $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
-        //     $result = $error.$e->getMessage();
-        //     return $result;
-        // }
-        
-        return;
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response, true);
+        $location = $url."?".$url_getPage."=1&".$url_getResult."=".$n_results_get."&message=".$data['message']."";
+        header("Location: $location");
+        exit();
     }
 
-    
+
     // -----------------------------------------------------------------------------
     // Update
     // -----------------------------------------------------------------------------
 
-    public function update_restful($url_reload,$url,$curPage,$url_form,$doublons,$get,$url_getPage, $url_getResult, $n_results_get, $get_false){
-        // try {
+    public function update_restful($url_reload, $url, $curPage, $url_form, $doublons, $get, $url_getPage, $url_getResult, $n_results_get, $get_false)
+    {
+        $doublons_value = $doublons['value'];
+        $doublons_col = $doublons['col'];
 
-            $doublons_value = $doublons['value'];
-            $doublons_col = $doublons['col'];
-
-            if($doublons_value==true){
-                
-                $post = array();
-                foreach ( $get as $key => $value ) 
-                {
-                    if(!in_array($key,$get_false)){
-                        $post[$key] = $get[$key];
-                    }
+        if ($doublons_value == true) {
+            $post = [];
+            foreach ($get as $key => $value) {
+                if (!in_array($key, $get_false)) {
+                    $post[$key] = $get[$key];
                 }
-        
-                $fieldsList = $this->getBinds($post)[0];
-                $bindsList = $this->getBinds($post)[1];
-    
-                // Order Important, post_data at least
-                $post["post_data"] = $post;
-                $post["bindsList"] = $fieldsList;
-                $post["fieldsList"] = $bindsList;
-        
-                $data = json_encode($post);
-
-                $ch = curl_init($url_form);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                $response = curl_exec($ch);
-                curl_close($ch);   
-
-                $data = json_decode($response, true);
-  
-                header("Location: $url_reload"); 
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
-                exit();
-
             }
-            
-            // else{
 
-            //     $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
-            //     print_r('<br>--$doublons_result--<br>');
-            //     print_r ($doublons_result);
-            //     print_r ( count($doublons_result));
+            $fieldsList = $this->getBinds($post)[0];
+            $bindsList = $this->getBinds($post)[1];
 
-            //     if(count($doublons_result)>0){
-            //         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
-            //         $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
-            //         print_r($title_result);
-            //     }
+            // Order Important, post_data at least
+            $post["post_data"] = $post;
+            $post["bindsList"] = $fieldsList;
+            $post["fieldsList"] = $bindsList;
 
-            // }
+            $data = json_encode($post);
 
-            // $n_results = 16;
-            // $result = $this->populateToHtml($n_results);
+            $ch = curl_init($url_form);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $data = json_decode($response, true);
+
+            header("Location: $url_reload");
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit();
+        }
+
+        // else{
+
+        //     $doublons_result = $this->searchValue( $doublons_col, $data[$doublons_col] );
+        //     print_r('<br>--$doublons_result--<br>');
+        //     print_r ($doublons_result);
+        //     print_r ( count($doublons_result));
+
+        //     if(count($doublons_result)>0){
+        //         $result = $this->update($doublons_col, $data[$doublons_col], $key_default='id');
+        //         $title_result = '<br>-- data REPLACE [<font color=green>OK</font>]<br><br>';
+        //         print_r($title_result);
+        //     }
+
+        // }
+
+        // $n_results = 16;
+        // $result = $this->populateToHtml($n_results);
 
         // } catch (Exception $e) {
         //     // $error = '-- ERROR in <font color=red>' . basename(__FILE__) . '</font><br>';
         //     $result = $error.$e->getMessage();
         //     return $result;
         // }
-        
+
         return;
     }
 
@@ -292,7 +240,8 @@ class Api{
     // Delete
     // -----------------------------------------------------------------------------
 
-    public function delete($id){
+    public function delete($id)
+    {
         $sql = "DELETE FROM $this->table WHERE id = '".$id."'";
         $sth = $this->_db->prepare($sql);
         if (!$sth->execute()) {
@@ -316,21 +265,23 @@ class Api{
     // Read
     // -----------------------------------------------------------------------------
 
-    public function select($start, $end, $order_value, $order_by_value) {
+    public function select($start, $end, $order_value, $order_by_value)
+    {
         $sql = "SELECT * FROM $this->table ORDER by $order_by_value $order_value LIMIT $start, $end";
         // print_r($sql);
         // return;
         $sth = $this->_db->prepare($sql);
-        $sth->execute(); 
-        $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $sth->execute();
+        $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function select_all($order_by_value) {
+    public function select_all($order_by_value)
+    {
         $sql = "SELECT * FROM $this->table ORDER by $order_by_value";
         $sth = $this->_db->prepare($sql);
-        $sth->execute(); 
-        $result = $sth->fetchAll(PDO::FETCH_NUM); 
+        $sth->execute();
+        $result = $sth->fetchAll(\PDO::FETCH_NUM);
         return $result;
     }
 
@@ -338,7 +289,8 @@ class Api{
     // Filters
     // -----------------------------------------------------------------------------
 
-    public function select_filter_countAll($col, $value) {
+    public function select_filter_countAll($col, $value)
+    {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col."";
         $sth = $this->_db->prepare($sql);
         $query = "%".$value."%";
@@ -348,7 +300,8 @@ class Api{
         return $result;
     }
 
-    public function select_filter($col, $value, $start, $end, $order_value) {
+    public function select_filter($col, $value, $start, $end, $order_value)
+    {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col." $order_value LIMIT $start, $end";
         $sth = $this->_db->prepare($sql);
         $query = "%".$value."%";
@@ -358,7 +311,8 @@ class Api{
         return $result;
     }
 
-    public function select_filter_allDES($col, $value, $start, $end, $order_value) {
+    public function select_filter_allDES($col, $value, $start, $end, $order_value)
+    {
         $sql = "SELECT * FROM $this->table WHERE ".$col." LIKE :value ORDER BY ".$col." $order_value LIMIT $start, $end";
         $sth = $this->_db->prepare($sql);
         $query = "%".$value."%";
@@ -370,13 +324,13 @@ class Api{
 
     public function select_filter_all($value, $start, $end)
     {
-        $results = array();
+        $results = [];
         $sql_search = "SELECT * FROM " . $this->table . " WHERE ";
-        $sql_search_fields = Array();
+        $sql_search_fields = [];
         $sql = "SHOW COLUMNS FROM " . $this->table;
         $sth = $this->_db->prepare($sql);
         $sth->execute();
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
             $colum = $row['Field'];
             $sql_search_fields[] = $colum . " LIKE('%" . $value . "%')";
@@ -385,7 +339,7 @@ class Api{
         $sql_search .= " LIMIT $start, $end";
         $sth = $this->_db->prepare($sql_search);
         $sth->execute();
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
             array_push($results, $row);
         }
@@ -394,13 +348,13 @@ class Api{
 
     public function select_filter_all_countAll($value)
     {
-        $results = array();
+        $results = [];
         $sql_search = "SELECT * FROM " . $this->table . " WHERE ";
-        $sql_search_fields = Array();
+        $sql_search_fields = [];
         $sql = "SHOW COLUMNS FROM " . $this->table;
         $sth = $this->_db->prepare($sql);
         $sth->execute();
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
             $colum = $row['Field'];
             $sql_search_fields[] = $colum . " LIKE('%" . $value . "%')";
@@ -408,18 +362,19 @@ class Api{
         $sql_search .= implode(" OR ", $sql_search_fields);
         $sth = $this->_db->prepare($sql_search);
         $sth->execute();
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
             array_push($results, $row);
         }
         return $results;
     }
 
-    public function select_filter_restful($url_form) {
+    public function select_filter_restful($url_form)
+    {
         $ch = curl_init($url_form);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);       
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
-        curl_close($ch);   
+        curl_close($ch);
         $data = json_decode($response, true);
         return $data;
     }
@@ -447,7 +402,7 @@ class Api{
 
 
 
-    
+
     // /*  For Tests
     //     The function will populate table with fake values
     // */
@@ -467,7 +422,7 @@ class Api{
     //         print_r('<br><br>');
 
     //         if($doublons_value==true){
-                
+
     //             $sth = $this->prepareInsert($fieldsList,$bindsList);
     //             if($sth->execute($data)){
     //                 $title_result = '<br>-- data INSERT [<font color=green>OK</font>]<br>';
@@ -502,7 +457,7 @@ class Api{
     //         $result = $error.$e->getMessage();
     //         return $result;
     //     }
-        
+
     // }
 
 
@@ -529,10 +484,10 @@ class Api{
     //         //     $dataBindsList = $this->renameKey( $dataBindsList, $key, $new_key );
     //         // }
 
-    //         // $binds = array_keys($dataBindsList); 
-    //         // $bindsList = implode(',',$binds); 
+    //         // $binds = array_keys($dataBindsList);
+    //         // $bindsList = implode(',',$binds);
     //         // $fields = array_keys($data);
-    //         // $fieldsList = implode(',',$fields); 
+    //         // $fieldsList = implode(',',$fields);
 
     //         $fieldsList = $this->getBinds($data)[0];
     //         $bindsList = $this->getBinds($data)[1];
@@ -544,7 +499,7 @@ class Api{
     //         // print_r('<br><br>');
 
     //         if($doublons_value==true){
-                
+
     //             // $sth = $this->_db->prepare("INSERT INTO $this->table ($fieldsList) VALUES ($bindsList)");
     //             $sth = $this->prepareInsert($fieldsList,$bindsList);
     //             if($sth->execute($data)){
@@ -580,7 +535,7 @@ class Api{
     //         $result = $error.$e->getMessage();
     //         return $result;
     //     }
-        
+
     // }
 
 
@@ -603,14 +558,14 @@ class Api{
     //     $idToDelete=1;
     //     $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
     //     $sth = $this->_db->prepare($sql);
-    //     $sth->execute(); 
-    //     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    //     $sth->execute();
+    //     $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
     //     print "<table width='100%'>";
     //     print "<tr>";
     //     foreach ($result[0] as $row => $v){
-    //         print "<th style='background-color:grey;'>$row</th>";   
+    //         print "<th style='background-color:grey;'>$row</th>";
     //     }
-    //     print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>"; 
+    //     print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>";
     //     print "</tr>";
     //     $i = 0;
     //     foreach ($result as $row){
@@ -634,11 +589,11 @@ class Api{
     //     echo "<br>";
     //     echo "<br>";
 
-    //     echo "<input type='button' value='SEARCH' style='width:200px'"; 
+    //     echo "<input type='button' value='SEARCH' style='width:200px'";
     //     echo " onClick=\"";
     //     echo " c = document.getElementById('search_select_col');";
     //     echo " var col = c.options[c.selectedIndex].value;";
-    //     echo " var search = document.getElementById('search_input').value;"; 
+    //     echo " var search = document.getElementById('search_input').value;";
     //     // echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
     //     echo " window.open('".$this->table."/search/'+col+'/'+search+'','_blank');\">";
 
@@ -646,7 +601,7 @@ class Api{
     //     foreach ($result[0] as $row => $v){
     //         $selected = "";
     //         if($row == "nom"){$selected = " selected";}
-    //         echo "<option $selected>$row</option>";  
+    //         echo "<option $selected>$row</option>";
     //     }
     //     echo "</select>";
 
@@ -655,7 +610,7 @@ class Api{
     //     echo "<br>";
     //     echo "<br>";
     //     echo "<form action='http://127.0.0.1/_SLIM3VUEJS_STARTER/frontend/public/api/clients/delete/673' target='_blank' method='DELETE' if-match='*' enctype='multipart/form-data'>";
-    //     echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
+    //     echo "<input type='button' value='DELETE Entry by id' style='width:200px'";
     //     echo "onClick=\"";
     //     echo " var id = document.getElementById('delete_input').value;";
     //     echo " window.open('".$this->table."/delete/'+id+'','_blank');\">";
@@ -689,14 +644,14 @@ class Api{
     //     $idToDelete=1;
     //     $sql = "SELECT * FROM $this->table ORDER by id DESC LIMIT 0,$n_results";
     //     $sth = $this->_db->prepare($sql);
-    //     $sth->execute(); 
-    //     $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    //     $sth->execute();
+    //     $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
     //     print "<table width='100%'>";
     //     print "<tr>";
     //     foreach ($result[0] as $row => $v){
-    //         print "<th style='background-color:grey;'>$row</th>";   
+    //         print "<th style='background-color:grey;'>$row</th>";
     //     }
-    //     print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>"; 
+    //     print "<th style='background-color:grey;' align='center'><font color=red><b>Delete(all)</b></font></th>";
     //     print "</tr>";
     //     $i = 0;
     //     foreach ($result as $row){
@@ -720,11 +675,11 @@ class Api{
     //     echo "<br>";
     //     echo "<br>";
 
-    //     echo "<input type='button' value='SEARCH' style='width:200px'"; 
+    //     echo "<input type='button' value='SEARCH' style='width:200px'";
     //     echo " onClick=\"";
     //     echo " c = document.getElementById('search_select_col');";
     //     echo " var col = c.options[c.selectedIndex].value;";
-    //     echo " var search = document.getElementById('search_input').value;"; 
+    //     echo " var search = document.getElementById('search_input').value;";
     //     // echo " window.open('../api/".$this->table."/search/'+col+'/'+search+'','_blank');\">";
     //     echo " window.open('".$this->table."/search/'+col+'/'+search+'','_blank');\">";
 
@@ -732,7 +687,7 @@ class Api{
     //     foreach ($result[0] as $row => $v){
     //         $selected = "";
     //         if($row == "nom"){$selected = " selected";}
-    //         echo "<option $selected>$row</option>";  
+    //         echo "<option $selected>$row</option>";
     //     }
     //     echo "</select>";
 
@@ -741,7 +696,7 @@ class Api{
     //     echo "<br>";
     //     echo "<br>";
     //     echo "<form action='http://127.0.0.1/_SLIM3VUEJS_STARTER/frontend/public/api/clients/delete/673' target='_blank' method='DELETE' if-match='*' enctype='multipart/form-data'>";
-    //     echo "<input type='button' value='DELETE Entry by id' style='width:200px'"; 
+    //     echo "<input type='button' value='DELETE Entry by id' style='width:200px'";
     //     echo "onClick=\"";
     //     echo " var id = document.getElementById('delete_input').value;";
     //     echo " window.open('".$this->table."/delete/'+id+'','_blank');\">";
@@ -755,7 +710,7 @@ class Api{
 
 
 
-    // /*  The Create Operation 
+    // /*  The Create Operation
     //     The function will insert a new user in our database
     // */
     // public function createUser($email, $password, $name, $school){
@@ -763,12 +718,12 @@ class Api{
     //         $sth = $this->con->prepare("INSERT INTO users (email, password, name, school) VALUES (?, ?, ?, ?)");
     //         $sth->bind_param("ssss", $email, $password, $name, $school);
     //         if($sth->execute()){
-    //             return USER_CREATED; 
+    //             return USER_CREATED;
     //         }else{
     //             return USER_FAILURE;
     //         }
     //    }
-    //    return USER_EXISTS; 
+    //    return USER_EXISTS;
     // }
 
     // /*
@@ -779,40 +734,40 @@ class Api{
     //     $sth = $this->con->prepare("DELETE FROM users WHERE id = ?");
     //     $sth->bind_param("i", $id);
     //     if($sth->execute())
-    //         return true; 
-    //     return false; 
+    //         return true;
+    //     return false;
     // }
 
-    // /* 
-    //     The Read Operation 
+    // /*
+    //     The Read Operation
     //     The function will check if we have the user in database
-    //     and the password matches with the given or not 
-    //     to authenticate the user accordingly    
+    //     and the password matches with the given or not
+    //     to authenticate the user accordingly
     // */
     // public function userLogin($email, $password){
     //     if($this->isEmailExist($email)){
-    //         $hashed_password = $this->getUsersPasswordByEmail($email); 
+    //         $hashed_password = $this->getUsersPasswordByEmail($email);
     //         if(password_verify($password, $hashed_password)){
     //             return USER_AUTHENTICATED;
     //         }else{
-    //             return USER_PASSWORD_DO_NOT_MATCH; 
+    //             return USER_PASSWORD_DO_NOT_MATCH;
     //         }
     //     }else{
-    //         return USER_NOT_FOUND; 
+    //         return USER_NOT_FOUND;
     //     }
     // }
 
-    // /*  
+    // /*
     //     The method is returning the password of a given user
     //     to verify the given password is correct or not
     // */
     // private function getUsersPasswordByEmail($email){
     //     $sth = $this->con->prepare("SELECT password FROM users WHERE email = ?");
     //     $sth->bind_param("s", $email);
-    //     $sth->execute(); 
+    //     $sth->execute();
     //     $sth->bind_result($password);
-    //     $sth->fetch(); 
-    //     return $password; 
+    //     $sth->fetch();
+    //     return $password;
     // }
 
     // /*
@@ -821,18 +776,18 @@ class Api{
     // */
     // public function getAllUsers(){
     //     $sth = $this->con->prepare("SELECT id, email, name, school FROM users;");
-    //     $sth->execute(); 
+    //     $sth->execute();
     //     $sth->bind_result($id, $email, $name, $school);
-    //     $users = array(); 
-    //     while($sth->fetch()){ 
-    //         $user = array(); 
-    //         $user['id'] = $id; 
-    //         $user['email']=$email; 
-    //         $user['name'] = $name; 
-    //         $user['school'] = $school; 
+    //     $users = [];
+    //     while($sth->fetch()){
+    //         $user = [];
+    //         $user['id'] = $id;
+    //         $user['email']=$email;
+    //         $user['name'] = $name;
+    //         $user['school'] = $school;
     //         array_push($users, $user);
-    //     }             
-    //     return $users; 
+    //     }
+    //     return $users;
     // }
 
     // /*
@@ -842,29 +797,29 @@ class Api{
     // public function getUserByEmail($email){
     //     $sth = $this->con->prepare("SELECT id, email, name, school FROM users WHERE email = ?");
     //     $sth->bind_param("s", $email);
-    //     $sth->execute(); 
+    //     $sth->execute();
     //     $sth->bind_result($id, $email, $name, $school);
-    //     $sth->fetch(); 
-    //     $user = array(); 
-    //     $user['id'] = $id; 
-    //     $user['email']=$email; 
-    //     $user['name'] = $name; 
-    //     $user['school'] = $school; 
-    //     return $user; 
+    //     $sth->fetch();
+    //     $user = [];
+    //     $user['id'] = $id;
+    //     $user['email']=$email;
+    //     $user['name'] = $name;
+    //     $user['school'] = $school;
+    //     return $user;
     // }
 
 
     // /*
     //     The Update Operation
     //     The function will update an existing user
-    //     from the database 
+    //     from the database
     // */
     // public function updateUser($email, $name, $school, $id){
     //     $sth = $this->con->prepare("UPDATE users SET email = ?, name = ?, school = ? WHERE id = ?");
     //     $sth->bind_param("sssi", $email, $name, $school, $id);
     //     if($sth->execute())
-    //         return true; 
-    //     return false; 
+    //         return true;
+    //     return false;
     // }
 
     // /*
@@ -873,9 +828,9 @@ class Api{
     // */
     // public function updatePassword($currentpassword, $newpassword, $email){
     //     $hashed_password = $this->getUsersPasswordByEmail($email);
-        
+
     //     if(password_verify($currentpassword, $hashed_password)){
-            
+
     //         $hash_password = password_hash($newpassword, PASSWORD_DEFAULT);
     //         $sth = $this->con->prepare("UPDATE users SET password = ? WHERE email = ?");
     //         $sth->bind_param("ss",$hash_password, $email);
@@ -883,7 +838,7 @@ class Api{
     //             return PASSWORD_CHANGED;
     //         return PASSWORD_NOT_CHANGED;
     //     }else{
-    //         return PASSWORD_DO_NOT_MATCH; 
+    //         return PASSWORD_DO_NOT_MATCH;
     //     }
     // }
 
@@ -895,8 +850,8 @@ class Api{
     //     $sth = $this->con->prepare("DELETE FROM users WHERE id = ?");
     //     $sth->bind_param("i", $id);
     //     if($sth->execute())
-    //         return true; 
-    //     return false; 
+    //         return true;
+    //     return false;
     // }
 
     // /*
@@ -906,14 +861,8 @@ class Api{
     // private function isEmailExist($email){
     //     $sth = $this->con->prepare("SELECT id FROM users WHERE email = ?");
     //     $sth->bind_param("s", $email);
-    //     $sth->execute(); 
-    //     $sth->store_result(); 
-    //     return $sth->num_rows > 0;  
+    //     $sth->execute();
+    //     $sth->store_result();
+    //     return $sth->num_rows > 0;
     // }
-
-
-
-
-
-    
-    }
+}

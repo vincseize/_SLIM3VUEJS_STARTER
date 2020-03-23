@@ -12,10 +12,9 @@
         }
     ],
     "autoload": {
-        "files": ["app/src/Classes/api.class.php"],
-        "OurOwnNamespace\\": "src/Classes",
         "psr-4": {
-            "App\\": "app/src"
+            "App\\Action\\": "app/src/Action",
+            "App\\Classes\\": "app/src/Classes"
         }
     },
     "require": {
@@ -23,7 +22,6 @@
         "slim/twig-view": "^2.5",
         "slim/flash": "^0.1.0",
         "monolog/monolog": "^2.0",
-        "twitter/bootstrap": "^4.3",
         "fzaninotto/faker": "^1.9"
     }
 }

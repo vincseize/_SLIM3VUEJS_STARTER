@@ -1,55 +1,28 @@
 {% include 'head.twig' %}
-
-        <link href='{{ base_url() }}/css/styles_home.css' rel='stylesheet' type='text/css'>
-
-        <title>Slim3 {{ text0 }} Sample</title>
-
-    </head>
-    <body>
-        <h1>Slim3 {{ text0 }}</h1>
-        <div>a microframework for PHP</div>
-        <p>&nbsp;</p>
-        <div><b>{{ text0 }}</b> Starter Sample : Restful API, CRUD, twig, Bootstrap3</div>
-        <p>&nbsp;</p>
-        <div>{{ text1 }}</div>
-        <div>{{ text2 }}</div>
-        <p>&nbsp;</p>
-        <div class="navbar-collapse collapse">
-            <form class="navbar-center form-inline" role="form" action="" method="post">
-                <div class="form-group">
-                    <input type="text" placeholder="login" class="form-control" value="demo" id="login">  
-                </div>
-                <div class="form-group">
-                    <input type="text" placeholder="login" class="form-control" value="demo" id="password"> 
-                </div>
-                <div class="form-group">
-                    <input type="button" id="go" name="go"  
-                    class="btn btn-primary" 
-                    value="Sign in"
-                    >          
-                </div>         
-            </form>
-        </div> 
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div class="bottom_home">
-            <div>Author: Vincseize 2019</div>
-            <div>Based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
+    <link href='{{ base_url() }}/css/styles_home.css' rel='stylesheet' type='text/css'>
+    <title>Slim3 Sample</title>
+</head>
+<body>
+    <h1>Slim3</h1>
+    <p><strong>Starter Sample</strong>: Restful API, CRUD, Twig, Bootstrap3</p>
+    <p>{{ text1 }}</p>
+    <p>{{ text2|raw }}</p>
+    <p>&nbsp;</p>
+    <form class="form-inline" role="form" action="./testApi/clients" method="GET">
+        <div class="form-group">
+            <input type="text" placeholder="login" class="form-control" value="demo" id="login" />
         </div>
-    </body>
+        <div class="form-group">
+            <input type="text" placeholder="login" class="form-control" value="demo" id="password" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Sign in" />
+        </div>
+    </form>
+    <div class="bottom_home">
+        <div>Author: Vincseize 2019</div>
+        <div>Based on: https://github.com/sarfraznawaz2005/slim3-skeleton</div>
+    </div>
+</body>
 </html>
 
-<script>
-    $(document).ready(function(){
-        $('#go').click(function(){
-            url = '{{ base_url() }}/testApi/clients';
-            window.open(''+url+'','_blank');
-        });
-        $('#go_old').click(function(){
-            url = '{{ base_url() }}/api/test';
-            window.open(''+url+'','_blank');
-        });
-    });
-</script>
-        

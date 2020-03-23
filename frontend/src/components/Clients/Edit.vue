@@ -1,8 +1,8 @@
 <template>
-  <div class="add container">
-    <Alert v-if="alert" v-bind:message="alert" />
-    <h1 class="page-header">Add Client</h1>
-    <form v-on:submit="add">
+  <div class="edit container">
+    <h1 class="page-header">Edit Client</h1>
+    <Alert v-if="alert" :message="alert" />
+    <form v-on:submit="updateClient">
         <div class="well">
             <h4>Client Info</h4>
             <div class="form-group">
@@ -25,8 +25,8 @@
                 <input type="text" class="form-control" placeholder="Phone" v-model="client.phone">
             </div>
         </div> -->
-
-        <!-- <div class="well">
+<!--
+        <div class="well">
             <h4>Client Location</h4>
             <div class="form-group">
                 <label>Address</label>
@@ -47,42 +47,48 @@
 </template>
 
 <script>
-    import Alert from './Alert'
-    export default {
+import Alert from '../Alert'
+export default {
     name: 'add',
-    data () {
+    components:{
+        Alert
+    },
+    data() {
         return {
-        client: {},
-        alert:''
-        }
+            client: {},
+            alert:''
+        };
+    },
+    created() {
+        this.fetchTable(this.$route.params.id);
     },
     methods: {
-        add(e){
-            if(!this.client.nom){
-                // if(!this.client.nom || !this.client.email){
-                this.alert = 'Please fill in all required fields';
-            } else {
-                let newClient = {
-                    nom: this.client.nom,
-                    email: this.client.email
+        fetchTable(id) {
+            this.$http.get(`${api_url}/clients/${id}`).then(
+                (response) => {
+                    this.client = response.body;
                 }
-                this.$http.post(`${api_url}/clients/add`, newClient)
-                    .then(function(response){
-                        this.$router.push({path: '/', query: {alert: 'Client Added'}});
-                    });
+            );
+        },
 
-                e.preventDefault();
-            }
+        updateClient(e) {
             e.preventDefault();
+            if (!this.client.nom){
+                this.alert = 'Please fill in all required fields';
+                return;
+            }
+
+            const updClient = {
+                nom: this.client.nom,
+                email: this.client.email
+            }
+
+            this.$http.put(`${api_url}/clients/update/${this.$route.params.id}`, updClient).then(
+                (response) => {
+                    this.$router.push({path: '/', query: { alert: 'Client Updated' }});
+                }
+            );
         }
-    },
-    components: {
-        Alert
     }
-    }
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
