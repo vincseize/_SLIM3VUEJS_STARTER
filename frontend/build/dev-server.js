@@ -9,7 +9,7 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 
 // default port where dev server listens for incoming traffic
-var port = 8000
+var port = config.dev.port
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable

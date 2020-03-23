@@ -43,12 +43,11 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/windows,visualstudiocode
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-vendor*
+vendor/*
 node_modules/*
 log/*
 cache/*
-dist/*
-src/routes/customers*
+**/bundle/*
 
 *Copie*/
 _frontend*

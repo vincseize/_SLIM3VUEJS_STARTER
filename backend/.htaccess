@@ -3,7 +3,7 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /backend/
+    # RewriteBase /backend/
 
     ## Restrict access to `vendor/` folder & `composer` files
     RewriteRule ^vendor/(.*)?$ / [F,L]

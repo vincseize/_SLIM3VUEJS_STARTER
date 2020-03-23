@@ -47,12 +47,12 @@
         <strong>Starter Sample</strong>: Restful API, Twig, Bootstrap 3
     </p>
     <p>
-        <a class="btn btn-primary" href="/frontend/dist" target="_blank">
+        <a class="btn btn-primary" href="./frontend/" target="_blank">
             Slim3 + Vue.js [Front Office]
         </a>
     </p>
     <p>
-        <a class="btn btn-primary" href="/backend/" target="_blank">
+        <a class="btn btn-primary" href="./backend/" target="_blank">
             Slim3 + Twig [Back Office]
         </a>
     </p>

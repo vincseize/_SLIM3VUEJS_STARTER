@@ -1,0 +1,9 @@
+{
+    "apiUrl": "http://slim3vuestarter.etoilenoire/frontend/api/",
+    "db": {
+        "host": "localhost",
+        "user": "root",
+        "pass": "",
+        "base": "booking_vuejs"
+    }
+}

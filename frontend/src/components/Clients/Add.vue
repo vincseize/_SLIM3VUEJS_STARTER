@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import Alert from '../Alert';
+    import Alert from 'components/Alert';
 
     export default {
         name: 'add',

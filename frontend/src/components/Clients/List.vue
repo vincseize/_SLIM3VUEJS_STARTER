@@ -18,7 +18,11 @@
             <td>{{client.id}}</td>
             <td>{{client.nom}}</td>
             <td>{{client.email}}</td>
-            <td><router-link class="btn btn-default" :to="'/client/'+client.id">View</router-link></td>
+            <td>
+                <router-link class="btn btn-default" :to="`/client/${client.id}`">
+                    <i class="fa fa-eye" /> View
+                </router-link>
+            </td>
           </tr>
         </tbody>
     </table>
@@ -26,7 +30,7 @@
 </template>
 
 <script>
-import Alert from '../Alert';
+import Alert from 'components/Alert';
 
 export default {
     name: 'clients',
@@ -41,14 +45,11 @@ export default {
         };
     },
     created() {
+        this.fetchTable();
+
         if (this.$route.query.alert){
             this.alert = this.$route.query.alert;
         }
-
-        this.fetchTable();
-    },
-    updated() {
-        this.fetchTable();
     },
     methods: {
         fetchTable() {

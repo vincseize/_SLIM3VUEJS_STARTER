@@ -1,0 +1,19 @@
+## Prohibit autoindex
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # RewriteBase /frontend/
+
+    ## Restrict access to source code files
+    RewriteRule ^config/(.*)?$ / [F,L]
+    RewriteRule ^src/(.*)?$ / [F,L]
+    RewriteRule ^vendor/(.*)?$ / [F,L]
+    RewriteRule ^composer\.(lock|json)$ / [F,L]
+    RewriteRule ^package\.json$ / [F,L]
+    RewriteRule ^package-lock\.json$ / [F,L]
+
+    ## Redirect all requests to `/frontend/public/` folder
+    RewriteRule ^$ public/ [QSA,NC,L]
+    RewriteRule ^(.*)$ public/$1 [QSA,NC,L]
+</IfModule>

@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /backend
+    # RewriteBase /backend
 
     ## Redirect all requests to index.php
     RewriteCond %{REQUEST_FILENAME} !-f

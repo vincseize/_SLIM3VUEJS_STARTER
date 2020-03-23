@@ -1,5 +1,5 @@
 {
-    "name": "vincseize/vueJs2-slim3-starter",
+    "name": "vincseize/vue-js2-slim3-starter",
     "description": "VueJs starter for Slim 3.",
     "license": "MIT",
     "type": "project",
@@ -13,5 +13,10 @@
     ],
     "require": {
         "slim/slim": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Api\\Config\\": "src/Api/config"
+        }
     }
 }

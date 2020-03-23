@@ -24,7 +24,7 @@
                         <li><router-link to="/about">About</router-link></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><router-link to="/add">Add Clients</router-link></li>
+                        <li><router-link to="/add"><i class="fa fa-plus" /> Add Clients</router-link></li>
                     </ul>
                 </div>
             </div>

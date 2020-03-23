@@ -1,5 +1,12 @@
 <?php
 
+$appSettingsFile = ROOT_DIR . '/../app_settings.json';
+if (!file_exists($appSettingsFile)) {
+    throw new \RuntimeException("Missing ROOT config file `app_settings.json`");
+}
+
+$appSettings = json_decode(file_get_contents($appSettingsFile), true);
+
 return [
     'settings' => [
         // Slim Settings
@@ -26,10 +33,10 @@ return [
         // db settings
         'db' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'user' => 'polo',
-            'dbname' => 'slim3vue-starter',
-            'passwd' => 'poiazemlkqsd',
+            'host' => $appSettings['db']['host'],
+            'user' => $appSettings['db']['user'],
+            'passwd' => $appSettings['db']['pass'],
+            'dbname' => $appSettings['db']['base'],
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'flags' => [
