@@ -3,6 +3,7 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    # A activer dans le cas d'un déploiement distant ou utilisation d'un vhost
     # RewriteBase /backend/
 
     ## Restrict access to `vendor/` folder & `composer` files

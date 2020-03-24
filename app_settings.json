@@ -1,5 +1,4 @@
 {
-    "apiUrl": "http://slim3vuestarter.etoilenoire/frontend/api/",
     "db": {
         "host": "localhost",
         "user": "root",

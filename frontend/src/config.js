@@ -4,5 +4,5 @@
 export default {
     appVersion: `0.1.0`,
     serverRoot: `http://localhost`,
-    baseUrl: `/Slim3VueStarter/frontend`
+    baseUrl: `/_SLIM3VUEJS_STARTER/frontend`
 };

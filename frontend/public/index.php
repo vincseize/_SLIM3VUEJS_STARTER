@@ -31,6 +31,9 @@ $app->get('/', function ($request, $response) {
     return $response;
 });
 
+// Auth JWT token routes
+require SRC_DIR . '/Api/routes/token.php';
+
 // Customer Routes
 require SRC_DIR . '/Api/routes/clients.php';
 

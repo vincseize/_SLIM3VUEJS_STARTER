@@ -1,12 +1,12 @@
 <?php
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Api\Config\DB;
 
 $table = 'clients';
 
-$app->options('/{routes:.+}', function ($request, $response, $args) {
+$app->options('/{routes:.+}', function ($request, $response) {
     return $response;
 });
 
