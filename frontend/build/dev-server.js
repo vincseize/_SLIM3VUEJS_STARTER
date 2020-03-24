@@ -62,11 +62,12 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port + '/_SLIM3VUEJS_STARTER/frontend/'
-  console.log('Listening at ' + uri + '\n')
+
+  var uri = 'http://localhost:' + port
+  console.log('Listening at:', uri, '\n')
 
   // when env is testing, don't need open it
-  if (process.env.NODE_ENV !== 'testing') {
+  if (process.env.NODE_ENV !== 'testing' && config.dev.openBrowser) {
     opn(uri)
   }
 })

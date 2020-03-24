@@ -9,7 +9,7 @@ import App from 'components/App';
 
 // Global variables
 window.app_version = config.appVersion;
-window.api_url = `${config.serverRoot}${config.baseUrl}/api`;
+window.api_url = config.apiUrl;
 
 Vue.use(vueResource);
 
