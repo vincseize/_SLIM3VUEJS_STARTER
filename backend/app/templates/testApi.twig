@@ -1,22 +1,19 @@
 {% include 'head.twig' %}
     <title>Slim3 backend</title>
-
 </head>
 <body>
-
     <!--Header-->
     <header>
         {% include 'navbar_top.twig' %}
     </header>
-    <!--Main-->   
+    <!--Main-->
     <main>
-        <div class="sidebar" id="sidebar" name="sidebar" data-minWidth="50" data-maxWidth="200">     
-            {% include 'navbar_left.twig' %}      
-        </div> 
+        <div class="sidebar" id="sidebar" name="sidebar" data-minWidth="50" data-maxWidth="200">
+            {% include 'navbar_left.twig' %}
+        </div>
         <div class="content">
-        {% include 'table.twig' %}
-        </div>    
+            {% include 'table.twig' %}
+        </div>
     </main>
-  
 </body>
 </html>

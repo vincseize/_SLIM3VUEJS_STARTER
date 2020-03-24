@@ -1,5 +1,12 @@
 <?php
 
+$appSettingsFile = ROOT_DIR . '/../app_settings.json';
+if (!file_exists($appSettingsFile)) {
+    throw new \RuntimeException("Missing ROOT config file `app_settings.json`");
+}
+
+$appSettings = json_decode(file_get_contents($appSettingsFile), true);
+
 return [
     'settings' => [
         // Slim Settings
@@ -8,9 +15,9 @@ return [
 
         // View settings
         'view' => [
-            'template_path' => __DIR__ . '/templates',
+            'template_path' => APP_DIR . '/templates',
             'twig' => [
-                'cache' => __DIR__ . '/../cache/twig',
+                'cache' => ROOT_DIR . '/cache/twig',
                 'debug' => true,
                 'auto_reload' => true,
             ],
@@ -19,19 +26,19 @@ return [
         // monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/../log/app.log',
+            'path' => ROOT_DIR . '/log/app.log',
             'level' => \Monolog\Logger::ERROR,
         ],
 
         // db settings
         'db' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'user' => 'root',
-            'dbname' => 'booking_vuejs',
-            'passwd' => '',
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'host' => $appSettings['db']['host'],
+            'user' => $appSettings['db']['user'],
+            'passwd' => $appSettings['db']['pass'],
+            'dbname' => $appSettings['db']['base'],
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'flags' => [
                 PDO::ATTR_PERSISTENT => false,
                 // Enable exceptions
@@ -46,12 +53,5 @@ return [
             'n_results_default' => '10',
             'n_results_array' => ['5','10','25','50','100'],
         ],
-
     ],
 ];
-
-
-// // Path settings
-// // $settings['root'] = dirname(__DIR__);
-// // $settings['temp'] = $settings['root'] . '/tmp';
-// // $settings['public'] = $settings['root'] . '/public';

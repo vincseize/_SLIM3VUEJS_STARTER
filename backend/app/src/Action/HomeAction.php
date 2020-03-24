@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Action;
 
 use Slim\Views\Twig;
@@ -21,18 +22,14 @@ final class HomeAction
     {
         $this->logger->info("Home page action dispatched");
 
-        $path = explode('/',$_SERVER['REQUEST_URI']);
-        $dir = $path[count($path)-3];
-        
+        $dir = APP_DIR . 'src/Action/';
+
         $viewData = [
-            'text0' => $dir,
-            'text1' => 'page processing : by twig',
-            'text2' => 'this text is a variable too from /'.$dir.'/app/src/action/'. basename(__FILE__)
+            'text1' => 'Page processing by Twig',
+            'text2' => 'This text is a variable too, from <code>' . $dir . basename(__FILE__) . '</code>'
         ];
 
         $this->view->render($response, 'home.twig', $viewData);
         return $response;
     }
 }
-
-

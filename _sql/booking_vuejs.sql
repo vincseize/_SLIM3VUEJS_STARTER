@@ -29,14 +29,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `chambres` (
-  `id` int(6) UNSIGNED NOT NULL,
-  `numero` varchar(65) NOT NULL,
+  `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `numero` varchar(65) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_hotel` int(6) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(3) NOT NULL,
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updated_by` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `chambres`
@@ -73,14 +74,15 @@ INSERT INTO `chambres` (`id`, `numero`, `id_hotel`, `created`, `created_by`, `up
 --
 
 CREATE TABLE `clients` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(3) NOT NULL,
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updated_by` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `clients`
@@ -343,37 +345,6 @@ INSERT INTO `clients` (`id`, `nom`, `email`, `created`, `created_by`, `updated`,
 (1009, 'Roxanne Jacobs II', 'ewell66@hotmail.com', '2020-01-03 16:36:06', 0, '2020-01-03 17:36:06', 0),
 (1010, 'Miss Verdie Hansen', 'elijah.schaden@kris.com', '2020-01-03 16:55:04', 0, '2020-01-03 17:55:04', 0);
 
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `chambres`
---
-ALTER TABLE `chambres`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `clients`
---
-ALTER TABLE `clients`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `chambres`
---
-ALTER TABLE `chambres`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT pour la table `clients`
---
-ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1011;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

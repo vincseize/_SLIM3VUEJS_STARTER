@@ -1,18 +1,14 @@
 <?php
-
-// ROUTES
-
-// use Slim\Views\Twig;
-// IMPORTANT : In relation with dependencies.php
+// ------------------------------------------------------
+// -
+// -    ALL ROUTES
+// -
+// -    IMPORTANT: In relation with dependencies.php
+// -
+// ------------------------------------------------------
 
 $app->get('/', App\Action\HomeAction::class)
     ->setName('homepage');
-
-// $app->get('/time', App\Action\TimeAction::class)
-//     ->setName('time');
-    
-// $app->get('/hello', App\Action\HelloAction::class)
-//     ->setName('hello');
 
 $app->get('/testApi/[{table}]', App\Action\TestApiAction::class)
     ->setName('testApi');
@@ -39,7 +35,7 @@ $app->get('/api/{table}/[{id}]', function ($request, $response, $args) {
     $result = $sth->fetchObject();
     return $this->response->withJson($result);
 });
-	
+
 // Get with given search term
 $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, $args) {
     $sql = "SELECT * FROM ".$args['table']." WHERE ".$args['col']." LIKE :value ORDER BY ".$args['col']."";
@@ -66,19 +62,18 @@ $app->get('/api/{table}/search/{col}/[{value}]', function ($request, $response, 
 
 // Add
 $app->post('/api/[{table}]', function ($request, $response, $args) {
-    $data = json_decode($request->getBody(),true);
+    $data = json_decode($request->getBody(), true);
     $sql = "INSERT INTO ".$args['table']." (".$data['bindsList'].") VALUES (".$data['fieldsList'].")";
     $sth = $this->db->prepare($sql);
-    if($sth->execute($data["post_data"])){
+    if ($sth->execute($data["post_data"])) {
         $array['message'] = 'true';
-    }else{
+    } else {
         $array['message'] = 'false';
     }
     return $response->withStatus(200)
-    ->withHeader("Content-Type","application/json")
-    ->write(json_encode($array));  
+        ->withHeader("Content-Type", "application/json")
+        ->write(json_encode($array));
 });
-    
 
 // ------------------ UPDATE put
 // Update restful basic
@@ -98,31 +93,29 @@ $app->post('/api/[{table}]', function ($request, $response, $args) {
 $app->put('/api/{table}/update/[{id}]', function ($request, $response, $args) {
     $data = json_decode($request->getBody(), true);
     $set_values = "";
-    $exec_array = array();
-    foreach ( $data["post_data"] as $key => $value ) {
+    $exec_array = [];
+    foreach ($data["post_data"] as $key => $value) {
         $set_values .= $set_values." ".$key."=".":".$key.", ";
-        $exec_array[":".$key] = $value;   
+        $exec_array[":".$key] = $value;
     }
     $set_values = rtrim($set_values, ", ");
     $exec_array[":id"] = $args['id'];
     $sql = "UPDATE ".$args['table']." SET $set_values WHERE id= :id";
     $sth = $this->db->prepare($sql);
-    if($sth->execute($exec_array)){
+    if ($sth->execute($exec_array)) {
         $array['message'] = 'true';
-    }else{
+    } else {
         $array['message'] = 'false';
     }
     return $response->withStatus(200)
-    ->withHeader("Content-Type","application/json")
-    ->write(json_encode($array)); 
+        ->withHeader("Content-Type", "application/json")
+        ->write(json_encode($array));
 });
-
-
 
 // ------------------------------------ Others Samples
 
 // ------------------ DELETE delete
-	
+
 // Delete restful basic by id
 // $app->delete('/api/{table}/delete/[{id}]', function ($request, $response, $args) {
 //     $result = 0;
@@ -137,10 +130,10 @@ $app->put('/api/{table}/update/[{id}]', function ($request, $response, $args) {
 //     }
 //     return $response->withStatus(200)
 //     ->withHeader("Content-Type","application/json")
-//     ->write(json_encode($array)); 
+//     ->write(json_encode($array));
 // });
 
-// ------------------ Add create json file 
+// ------------------ Add create json file
 
 // $app->post('/api/clients', function($request, $response){
 //     $datajson = array();
@@ -149,7 +142,7 @@ $app->put('/api/{table}/update/[{id}]', function ($request, $response, $args) {
 //     $fp = fopen('data.json', 'w');
 //     fwrite($fp, json_encode($datajson));
 //     fclose($fp);
-    
+
 //     $array['status'] = '200';
 //     $array['message'] = 'register success';
 //     $array['data']= array("islogin"=>false);

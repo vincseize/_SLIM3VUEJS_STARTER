@@ -1,47 +1,25 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './templates/App'
-import VueRouter from 'vue-router'
-import vueResource from 'vue-resource'
+import Vue from 'vue';
+import vueResource from 'vue-resource';
 
-import About from './components/About'
+import config from 'src/config';
+import router from 'src/router';
+import Auth from 'src/auth';
+import store from 'src/store';
+import App from 'components/App';
 
-import Clients from './components/Clients'
-import Clients_Add from './components/Clients_Add'
-import Clients_Edit from './components/Clients_Edit'
-import Clients_Details from './components/Clients_Details'
+// Global variables
+window.app_version = config.appVersion;
+window.api_url = config.apiUrl;
 
-Vue.use(vueResource)
-Vue.use(VueRouter)
+Vue.use(vueResource);
 
-//global variables
-window.project_name = "_SLIM3VUEJS_STARTER"
-window.base_url     = window.project_name+"/frontend/dist"
-window.api_url    = "http://localhost/"+window.project_name+"/frontend/public/api"
+// Authorization
+Auth.checkAuth();
 
-const router = new VueRouter({
-  mode: 'history',
-  // base: __dirname,
-  base: window.base_url,
-  routes: [
-
-    {path: '/', component: Clients},
-    {path: '/add', component: Clients_Add},
-    {path: '/client/:id', component: Clients_Details},
-    {path: '/edit/:id', component: Clients_Edit},
-    {path: '/about', component: About},
-
-  ]
-})
-
-/* eslint-disable no-new */
 new Vue({
-  router,
-  delimiters: ['${', '}'],
-  components: {
-    App
-  },
-  template: '<App/>'
-
-}).$mount('#app')
+    router,
+    store,
+    delimiters: ['${', '}'],
+    components: { App },
+    template: '<App/>'
+}).$mount('#app');

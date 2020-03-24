@@ -54,10 +54,7 @@ backend/cache/*
 backend/public/faker.php
 
 frontend/vendor/
-frontend/log/*
-frontend/cache/*
-frontend/node_module*
-frontend/dist/*
+frontend/node_modules/
 
 *Copie*/
 _frontend*
